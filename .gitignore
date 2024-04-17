@@ -29,6 +29,9 @@ TestResults.xml
 /Project/Data/.DS_Store
 /Project/Data/GAP/.DS_Store
 
+/lib/firebase_options.*
+/Runner/GoogleService-Info.*
+
 
 ### Eclipse ###
 .metadata
