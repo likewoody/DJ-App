@@ -36,6 +36,25 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
 
+  # Firebase
+  firebase_core: ^2.30.0
+  cloud_firestore: ^4.16.0
+  firebase_analytics: ^10.10.0
+  firebase_database: ^10.5.0
+  firebase_storage: ^11.7.0
+
+  # Image Picker
+  image_picker: ^1.0.7
+
+  # Get
+  get: ^4.6.6
+
+  # GPS
+  geocoding: ^3.0.0
+  geolocator: ^11.0.0
+  flutter_map: ^6.1.0
+  latlong2: ^0.9.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
