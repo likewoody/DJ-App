@@ -43,9 +43,39 @@ class Home extends StatelessWidget {
       ),
     );
   }
+
+  Widget _drawDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                onPressed: () {}, 
+                icon: const Icon(Icons.arrow_back)
+              ),
+              const Text(
+                '설정',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold
+                ),
+              )
+            ],
+          )
+          
+        ],
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Drawer List Test"),
+      ),
+      drawer: _drawDrawer(),
       body: Center(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
