@@ -1,4 +1,5 @@
 import 'package:dj_app/component/drawer.dart';
+import 'package:dj_app/view/main_view_page.dart';
 import 'package:flutter/material.dart';
 
 import '../component/appbar.dart';
@@ -42,7 +43,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
         child: TabBarView(
           controller: tabController,
           children: [
-            Text('1111'),
+            MainViewPage(),
             Text('2222'),
             Text('3333'),
             Text('4444'),
