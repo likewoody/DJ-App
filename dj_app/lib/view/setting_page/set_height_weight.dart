@@ -2,13 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/vm/vm_provider_height.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SetHeightWeight extends StatelessWidget {
   final provider = VMProviderHeightWeight();
   SetHeightWeight({super.key, provider});
 
+  // Property
+  String id = '';
+
   // ---- StreamBuilder ----
-  Widget _streamBuilder(){
+  Widget _bodyView(){
     return Center(
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -21,14 +25,30 @@ class SetHeightWeight extends StatelessWidget {
               child: CircularProgressIndicator(),);
           }
           final documents = snapshot.data!.docs; // data 가져오기
-          return _view();
+          // print(documents[0].data());
+          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
+          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
+          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
+          id = documents[0].id;
+          // provider.selectedHeight = documents[0].get('height');
+          // provider.selectedWeight = documents[0].get('weight');
+          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
+          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
+          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
+          
+          //   print(doc.id); // 문서의 ID 출력
+          //   print(doc.get('height')); // 특정 필드의 값 출력
+          //   print(doc.get('weight')); // 특정 필드의 값 출력
+          return _bodySecondView(documents);
         }
       )
     );
   }
 
   // ---- View ----
-  Widget _view(){
+  Widget _bodySecondView(document){
+    print(id);
+    print(document[0]['height']);
     return Column(
       children: [
         Padding(
@@ -56,7 +76,8 @@ class SetHeightWeight extends StatelessWidget {
                       itemExtent: 30,
                       scrollController: FixedExtentScrollController(initialItem: 0),
                       onSelectedItemChanged: (value) {
-                        provider.selectedHeight = value;
+                        provider.selectedHeight = value + 130;
+                        print(provider.selectedHeight);
                       }, 
                       children: List.generate(
                         provider.heightList.length, 
@@ -86,7 +107,8 @@ class SetHeightWeight extends StatelessWidget {
                       itemExtent: 30,
                       scrollController: FixedExtentScrollController(initialItem: 0),
                       onSelectedItemChanged: (value) {
-                        provider.selectedWeight = value;
+                        provider.selectedWeight = value + 30;
+                        print(provider.selectedWeight);
                       }, 
                       children: List.generate(
                         provider.weightList.length, 
@@ -102,8 +124,24 @@ class SetHeightWeight extends StatelessWidget {
             ],
           ),
         ),
+
+        // 키/몸무게 Update 설정
         ElevatedButton(
-          onPressed: () {}, 
+          onPressed: () {
+            print(id);
+            print(provider.selectedHeight);
+            print(provider.selectedWeight);
+            FirebaseFirestore.instance
+            .collection('user')
+            .doc(id)
+            .update(
+              {
+                'height' : provider.selectedHeight,
+                'weight' : provider.selectedWeight,
+              }
+            );
+            Get.back();
+          }, 
           child: const Text('키/몸무게 설정')
         ) 
       ],
@@ -116,7 +154,39 @@ class SetHeightWeight extends StatelessWidget {
       appBar: AppBar(
         title: const Text('키/몸무게 설정'),
       ),
-      body: _streamBuilder(),
+      body: _bodyView(),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.tertiaryContainer,
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
+        ),
+        height: 100,
+        child: TextButton(
+          onPressed: () {
+            print(id);
+            print(provider.selectedHeight);
+            print(provider.selectedWeight);
+            FirebaseFirestore.instance
+            .collection('user')
+            .doc(id)
+            .update(
+              {
+                'height' : provider.selectedHeight,
+                'weight' : provider.selectedWeight,
+              }
+            );
+            Get.back();
+          }, 
+          child: Text(
+            '키/몸무게 설정',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.tertiary
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
