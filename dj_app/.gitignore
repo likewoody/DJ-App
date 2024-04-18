@@ -43,5 +43,5 @@ app.*.map.json
 /android/app/release
 
 # Google Api Ignore
-./ios/Runner/AppDelegate.swift
-./android/app/src/main/AndroidManifest.xml
+/ios/Runner/AppDelegate.swift
+/android/app/src/main/AndroidManifest.xml
