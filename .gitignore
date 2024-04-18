@@ -25,9 +25,6 @@ rad.json
 #Test results file
 TestResults.xml
 .DS_Store
-/Project/.DS_Store
-/Project/Data/.DS_Store
-/Project/Data/GAP/.DS_Store
 
 /lib/firebase_options.*
 /Runner/GoogleService-Info.*
