@@ -1,4 +1,4 @@
-import 'package:dj_app/view/signup_1st_page.dart';
+import 'package:dj_app/view/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,8 +6,10 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   // Property
-  final TextEditingController userIdController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final userIdController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  // ---------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -33,84 +35,69 @@ class LoginPage extends StatelessWidget {
                 child: TextField(
                   maxLength: 20,
                   controller: userIdController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     counterText: '', // 화면에 표시되는 maxLength 제거.
-                    labelText: '아이디(이메일)',
-                    hintText: '아이디(이메일)를 입력해주시기 바랍니다.',
-                    hintFadeDuration: Duration(milliseconds: 500),
-                    floatingLabelAlignment: FloatingLabelAlignment.center,
-                    floatingLabelStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                      fontSize: 20,
-                      color: Color(0xFF0C0C0C),
-                      backgroundColor: Color(0xFFF9F3E3), // 0xFF는 불투명도(opacity)
+                    hintText: '아이디(이메일)',
+                    hintFadeDuration: const Duration(milliseconds: 500),
+                    suffixIcon: IconButton(
+                      onPressed: () => userIdController.clear(), // Field 초기화
+                      icon: const Icon(
+                        Icons.cancel_outlined,
+                      ),
                     ),
-                    border: OutlineInputBorder(
+                    suffixIconColor: Colors.grey.shade400,
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(0),
                       ),
                     ),
-                    contentPadding: EdgeInsets.all(20.0),
+                    contentPadding: const EdgeInsets.all(20.0),
                   ),
-      
-                  // -----------------------------------------------------------
-      
                   keyboardType: TextInputType.text,
-      
-                  // -----------------------------------------------------------
-      
                   textInputAction: TextInputAction.go,
                   onSubmitted: (value) {
                     //
                   },
                 ),
               ),
-      
+        
               // ---------------------------------------------------------------
-      
+        
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                 child: TextField(
                   maxLength: 20,
                   controller: passwordController,
                   obscureText: true, // 비밀번호 마스킹 처리.
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     counterText: '', // 화면에 표시되는 maxLength 제거.
-                    labelText: '비밀번호',
-                    hintText: '비밀번호를 입력해주시기 바랍니다.',
-                    hintFadeDuration: Duration(milliseconds: 500),
-                    floatingLabelAlignment: FloatingLabelAlignment.center,
-                    floatingLabelStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                      fontSize: 20,
-                      color: Color(0xFF0C0C0C),
-                      backgroundColor: Color(0xFFF9F3E3), // 0xFF는 불투명도(opacity)
+                    hintText: '비밀번호',
+                    hintFadeDuration: const Duration(milliseconds: 500),
+                    suffixIcon: IconButton(
+                      onPressed: () =>
+                          passwordController.clear(), // Field 초기화
+                      icon: const Icon(
+                        Icons.cancel_outlined,
+                      ),
                     ),
-                    border: OutlineInputBorder(
+                    suffixIconColor: Colors.grey.shade400,
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(0),
                       ),
                     ),
-                    contentPadding: EdgeInsets.all(20.0),
+                    contentPadding: const EdgeInsets.all(20.0),
                   ),
-      
-                  // -----------------------------------------------------------
-      
                   keyboardType: TextInputType.text,
-      
-                  // -----------------------------------------------------------
-      
                   textInputAction: TextInputAction.go,
                   onSubmitted: (value) {
                     //
                   },
                 ),
               ),
-      
+        
               // ---------------------------------------------------------------
-      
+        
               SizedBox(
                 width: 390,
                 height: 65,
@@ -135,9 +122,9 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-      
+        
               // ---------------------------------------------------------------
-      
+        
               const Padding(
                 padding: EdgeInsets.fromLTRB(0, 50, 0, 5),
                 child: Text(
@@ -148,53 +135,34 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-      
+        
               // ---------------------------------------------------------------
-      
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      //
-                    },
-                    icon: Image.asset(
-                      'images/naver.png',
-                      width: 40,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      //
-                    },
-                    icon: Image.asset(
-                      'images/kakao.png',
-                      width: 40,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      //
-                    },
-                    icon: Image.asset(
-                      'images/google.png',
-                      width: 40,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      //
-                    },
-                    icon: Image.asset(
-                      'images/apple.png',
-                      width: 40,
-                    ),
-                  ),
-                ],
+        
+              IconButton(
+                onPressed: () {
+                  //
+                },
+                icon: Image.asset(
+                  'images/naverButton.png',
+                  fit: BoxFit.fill,
+                  width: 200,
+                  height: 50,
+                ),
               ),
-      
+              IconButton(
+                onPressed: () {
+                  //
+                },
+                icon: Image.asset(
+                  'images/googleButton.png',
+                  fit: BoxFit.fill,
+                  width: 200,
+                  height: 50,
+                ),
+              ),
+        
               // ---------------------------------------------------------------
-      
+        
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 80, 0, 80),
                 child: SizedBox(
@@ -203,7 +171,7 @@ class LoginPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       Get.to(
-                        () => SignUp1stPage(),
+                        () => const SignUpPage(),
                         transition: Transition.zoom,
                       );
                     },
@@ -221,9 +189,9 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-      
+        
               // ---------------------------------------------------------------
-      
+        
               const Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
                 child: Divider(
@@ -231,9 +199,9 @@ class LoginPage extends StatelessWidget {
                   height: 1,
                 ),
               ),
-      
+        
               // ---------------------------------------------------------------
-      
+        
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -253,9 +221,12 @@ class LoginPage extends StatelessWidget {
                   ),
                   const Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: VerticalDivider(
-                      thickness: 1,
-                      width: 1,
+                    child: SizedBox(
+                      height: 30,
+                      child: VerticalDivider(
+                        thickness: 1,
+                        width: 1,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -274,9 +245,9 @@ class LoginPage extends StatelessWidget {
                   ),
                 ],
               ),
-      
+        
               // ---------------------------------------------------------------
-      
+        
               const Padding(
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: Divider(
