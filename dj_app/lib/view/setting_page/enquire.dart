@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Enquire extends StatelessWidget {
   Enquire({super.key});
 
-  TextEditingController enquireCon = TextEditingController();
+  final TextEditingController enquireCon = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

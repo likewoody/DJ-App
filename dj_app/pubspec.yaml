@@ -58,6 +58,9 @@ dependencies:
   # Provider
   provider: ^6.1.2
 
+  # Google Map
+  google_maps_flutter: ^2.6.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
