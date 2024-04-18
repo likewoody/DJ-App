@@ -58,6 +58,12 @@ dependencies:
   # Provider
   provider: ^6.1.2
 
+  # Google Map
+  google_maps_flutter: ^2.6.0
+
+  # Gauge
+  syncfusion_flutter_gauges: ^25.1.40
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

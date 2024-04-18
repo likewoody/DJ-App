@@ -3,6 +3,8 @@ import 'package:dj_app/view/main_view_page.dart';
 import 'package:flutter/material.dart';
 
 import '../component/appbar.dart';
+import 'hospital_map/hospital_map_page.dart';
+import 'setting_page/setting_page.dart';
 
 class Tabbar extends StatefulWidget {
   const Tabbar({super.key});
@@ -45,8 +47,8 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
           children: [
             MainViewPage(),
             Text('2222'),
-            Text('3333'),
-            Text('4444'),
+            HospitalMap(),
+            SettingPage(),
           ],
         ),
       ),
