@@ -120,7 +120,7 @@ class SettingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
               child: IconButton(
-                onPressed: () => Get.to(SetEmail()), 
+                onPressed: () => Get.to(SetEmail(provider: provider)), 
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
             ),
