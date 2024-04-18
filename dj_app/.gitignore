@@ -42,6 +42,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Google Api Ignore
-./ios/Runner/AppDelegate.swift
-./android/app/src/main/AndroidManifest.xml
+# API Key Ignore
+.env*
+
+# Google Login & Firebase API Key Ignore
+*key.dart

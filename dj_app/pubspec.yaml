@@ -64,6 +64,9 @@ dependencies:
   # Gauge
   syncfusion_flutter_gauges: ^25.1.40
 
+  # API Key 관리
+  flutter_config: ^2.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
