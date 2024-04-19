@@ -2,18 +2,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/vm/vm_provider_email.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class SetEmail extends StatelessWidget {
-  final provider = VMProviderEmail();
-  SetEmail({super.key, provider});
+  // final id;  
+  SetEmail({super.key});
+  // SetEmail({super.key, required this.id});
 
   // Property
   final TextEditingController textCon = TextEditingController();
-  
+  var provider;
   String id = '';
   
+
+  // ---- Functions ----
+  _showSuccessfulAlert() {
+    Get.defaultDialog(
+      title: '변경 완료',
+      middleText: '비밀번호 변경이 완료 되었습니다.',
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+            Get.back();
+          }, 
+          child: const Text('종료')
+        ),
+      ]
+    );
+  }
+
   // View
-  Widget _bodyView(){
+  Widget _bodyView(provider){
     // StreamBuilder
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
@@ -84,7 +104,7 @@ class SetEmail extends StatelessWidget {
                     }
                   );
                   print(provider.email);
-                  Get.back();
+                  _showSuccessfulAlert();
                 }, 
                 child: const Text('이메일 설정')
               ),
@@ -97,11 +117,22 @@ class SetEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final provider = Provider.of<VMProviderEmail>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('이메일 설정'),
       ),
-      body: _bodyView(),
+      body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: ChangeNotifierProvider<VMProviderEmail>(
+            create: (context) => VMProviderEmail(),
+            builder: (context, child) {
+              provider = Provider.of<VMProviderEmail>(context);
+              return _bodyView(provider);
+            },
+          ),
+        ),
+      
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.tertiaryContainer,
@@ -120,7 +151,7 @@ class SetEmail extends StatelessWidget {
               }
             );
             print(provider.email);
-            Get.back();
+            _showSuccessfulAlert();
           }, 
           child: Text(
             '이메일 설정',

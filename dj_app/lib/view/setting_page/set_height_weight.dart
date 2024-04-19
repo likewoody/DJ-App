@@ -3,16 +3,36 @@ import 'package:dj_app/vm/vm_provider_height.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class SetHeightWeight extends StatelessWidget {
-  final provider = VMProviderHeightWeight();
-  SetHeightWeight({super.key, provider});
+  // final id;
+  SetHeightWeight({super.key});
+  // SetHeightWeight({super.key, id});
 
   // Property
   String id = '';
+  var provider;
+
+  // ---- Functions ----
+  _showSuccessfulAlert() {
+    Get.defaultDialog(
+      title: '변경 완료',
+      middleText: '비밀번호 변경이 완료 되었습니다.',
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+            Get.back();
+          }, 
+          child: const Text('종료')
+        ),
+      ]
+    );
+  }
 
   // ---- StreamBuilder ----
-  Widget _bodyView(){
+  Widget _bodyView(provider){
     return Center(
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -140,7 +160,7 @@ class SetHeightWeight extends StatelessWidget {
                 'weight' : provider.selectedWeight,
               }
             );
-            Get.back();
+            _showSuccessfulAlert();
           }, 
           child: const Text('키/몸무게 설정')
         ) 
@@ -154,7 +174,16 @@ class SetHeightWeight extends StatelessWidget {
       appBar: AppBar(
         title: const Text('키/몸무게 설정'),
       ),
-      body: _bodyView(),
+      body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: ChangeNotifierProvider<VMProviderHeightWeight>(
+            create: (context) => VMProviderHeightWeight(),
+            builder: (context, child) {
+              provider = Provider.of<VMProviderHeightWeight>(context);
+              return _bodyView(provider);
+            },
+          ),
+        ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.tertiaryContainer,
@@ -175,7 +204,7 @@ class SetHeightWeight extends StatelessWidget {
                 'weight' : provider.selectedWeight,
               }
             );
-            Get.back();
+            _showSuccessfulAlert();
           }, 
           child: Text(
             '키/몸무게 설정',
