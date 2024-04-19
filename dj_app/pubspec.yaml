@@ -72,6 +72,9 @@ dependencies:
   # API Key 관리
   flutter_config: ^2.0.2
 
+  #
+  shared_preferences: ^2.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

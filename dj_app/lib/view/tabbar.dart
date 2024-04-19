@@ -1,5 +1,6 @@
 import 'package:dj_app/component/drawer.dart';
-import 'package:dj_app/view/main_view_page.dart';
+import 'package:dj_app/view/daignosis_page/diagnosis_test_firstpage.dart';
+import 'package:dj_app/view/main_view_page/main_view_page.dart';
 import 'package:flutter/material.dart';
 
 import '../component/appbar.dart';
@@ -45,7 +46,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
           controller: tabController,
           children: [
             MainViewPage(),
-            Text('2222'),
+            DiagnosisTestFirstPage(),
             HospitalMap(),
             SettingPage(),
           ],

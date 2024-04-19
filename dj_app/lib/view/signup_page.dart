@@ -11,7 +11,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   // --- Property ----
-  int currentStep = 0;
+  int currentStep = 0; // 현재 Step 위치
 
   bool get isFirstStep => currentStep == 0;
   bool get isLastStep => currentStep == steps().length - 1;
@@ -20,24 +20,86 @@ class _SignUpPageState extends State<SignUpPage> {
   final password1Controller = TextEditingController();
   final password2Controller = TextEditingController();
   final nameController = TextEditingController();
+  final birthController = TextEditingController();
   final phoneController = TextEditingController();
 
-  bool isLock = true;
-  bool hidePassword = true;
+  bool _isPasswordVisible = false; // password 표시 여부
+
+  // Clear Button 표시 여부
+  bool _showEmailClearButton = false;
+  bool _showPassword1ClearButton = false;
+  bool _showPassword2ClearButton = false;
+  bool _showNameClearButton = false;
+  bool _showPhoneClearButton = false;
+  bool _showBirthClearButton = false;
+
+  String _selectedGender = "";
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.addListener(_updateEmailClearButton);
+    password1Controller.addListener(_updatePassword1ClearButton);
+    password2Controller.addListener(_updatePassword2ClearButton);
+    nameController.addListener(_updateNameClearButton);
+    phoneController.addListener(_updatePhoneClearButton);
+    birthController.addListener(_updateBirthClearButton);
+  }
+
+  @override
+  void dispose() {
+    emailController.removeListener(_updateEmailClearButton);
+    password1Controller.removeListener(_updatePassword1ClearButton);
+    password2Controller.removeListener(_updatePassword2ClearButton);
+    nameController.removeListener(_updateNameClearButton);
+    phoneController.removeListener(_updatePhoneClearButton);
+    birthController.removeListener(_updateBirthClearButton);
+    super.dispose();
+  }
+
+  void _updateEmailClearButton() {
+    setState(() {
+      _showEmailClearButton = emailController.text.isNotEmpty;
+    });
+  }
+
+  void _updatePassword1ClearButton() {
+    setState(() {
+      _showPassword1ClearButton = password1Controller.text.isNotEmpty;
+    });
+  }
+
+  void _updatePassword2ClearButton() {
+    setState(() {
+      _showPassword2ClearButton = password2Controller.text.isNotEmpty;
+    });
+  }
+
+  void _updateNameClearButton() {
+    setState(() {
+      _showNameClearButton = nameController.text.isNotEmpty;
+    });
+  }
+
+  void _updatePhoneClearButton() {
+    setState(() {
+      _showPhoneClearButton = phoneController.text.isNotEmpty;
+    });
+  }
+
+  void _updateBirthClearButton() {
+    setState(() {
+      _showBirthClearButton = birthController.text.isNotEmpty;
+    });
+  }
+
+  void _setSelectedGender(String gender) {
+    setState(() {
+      _selectedGender = gender;
+    });
+  }
 
   // ---------------------------------------------------------------------------
-
-  // --- Functions ----
-  hiddenPassword() {
-    if (isLock) {
-      hidePassword = false;
-      isLock = false;
-    } else {
-      hidePassword = true;
-      isLock = true;
-    }
-    setState(() {});
-  }
 
   // --- Widget Functions ----
   List<Step> steps() => [
@@ -68,21 +130,32 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   SizedBox(
                     width: 300,
-                    child: TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        hintText: '이메일을 입력해 주세요 :)',
-                        hintFadeDuration: const Duration(milliseconds: 500),
-                        suffixIcon: IconButton(
-                          onPressed: () => emailController.clear(), // Field 초기화
-                          icon: const Icon(
-                            Icons.cancel_outlined,
-                          ),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _showEmailClearButton =
+                              emailController.text.isNotEmpty;
+                        });
+                      },
+                      child: TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          hintText: '이메일을 입력해 주세요 :)',
+                          hintFadeDuration: const Duration(milliseconds: 500),
+                          suffixIcon: _showEmailClearButton
+                              ? GestureDetector(
+                                  onTap: () =>
+                                      emailController.clear(), // Field 초기화
+                                  child: Icon(
+                                    Icons.clear,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                )
+                              : null,
+                          contentPadding: const EdgeInsets.all(10.0),
                         ),
-                        suffixIconColor: Colors.grey.shade400,
-                        contentPadding: const EdgeInsets.all(10.0),
+                        keyboardType: TextInputType.emailAddress,
                       ),
-                      keyboardType: TextInputType.emailAddress,
                     ),
                   ),
                 ],
@@ -120,23 +193,33 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   SizedBox(
                     width: 240,
-                    child: TextFormField(
-                      controller: password1Controller,
-                      obscureText: hidePassword, // 비밀번호 마스킹 처리.
-                      decoration: InputDecoration(
-                        hintText: '비밀번호를 입력해 주세요 :)',
-                        hintFadeDuration: const Duration(milliseconds: 500),
-                        suffixIcon: IconButton(
-                          onPressed: () =>
-                              password1Controller.clear(), // Field 초기화
-                          icon: const Icon(
-                            Icons.cancel_outlined,
-                          ),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _showPassword1ClearButton =
+                              password1Controller.text.isNotEmpty;
+                        });
+                      },
+                      child: TextFormField(
+                        controller: password1Controller,
+                        obscureText: !_isPasswordVisible, // 비밀번호 마스킹 처리.
+                        decoration: InputDecoration(
+                          hintText: '비밀번호를 입력해 주세요 :)',
+                          hintFadeDuration: const Duration(milliseconds: 500),
+                          suffixIcon: _showPassword1ClearButton
+                              ? GestureDetector(
+                                  onTap: () =>
+                                      password1Controller.clear(), // Field 초기화
+                                  child: Icon(
+                                    Icons.clear,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                )
+                              : null,
+                          contentPadding: const EdgeInsets.all(10.0),
                         ),
-                        suffixIconColor: Colors.grey.shade400,
-                        contentPadding: const EdgeInsets.all(10.0),
+                        keyboardType: TextInputType.text,
                       ),
-                      keyboardType: TextInputType.text,
                     ),
                   ),
                   const Padding(
@@ -146,33 +229,50 @@ class _SignUpPageState extends State<SignUpPage> {
                       width: 1,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: IconButton(
-                      onPressed: () => hiddenPassword(),
-                      icon: Icon(isLock ? Icons.lock : Icons.lock_open),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                    child: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
                     ),
-                  )
+                  ),
                 ],
               ),
               SizedBox(
                 width: 300,
-                child: TextFormField(
-                  controller: password2Controller,
-                  obscureText: hidePassword, // 비밀번호 마스킹 처리.
-                  decoration: InputDecoration(
-                    hintText: '다시 한번 더 입력해 주세요 :)',
-                    hintFadeDuration: const Duration(milliseconds: 500),
-                    suffixIcon: IconButton(
-                      onPressed: () => password2Controller.clear(), // Field 초기화
-                      icon: const Icon(
-                        Icons.cancel_outlined,
-                      ),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _showPassword2ClearButton =
+                          password2Controller.text.isNotEmpty;
+                    });
+                  },
+                  child: TextFormField(
+                    controller: password2Controller,
+                    obscureText: !_isPasswordVisible, // 비밀번호 마스킹 처리.
+                    decoration: InputDecoration(
+                      hintText: '다시 한번 더 입력해 주세요 :)',
+                      hintFadeDuration: const Duration(milliseconds: 500),
+                      suffixIcon: _showPassword2ClearButton
+                          ? GestureDetector(
+                              onTap: () =>
+                                  password2Controller.clear(), // Field 초기화
+                              child: Icon(
+                                Icons.clear,
+                                color: Colors.grey.shade400,
+                              ),
+                            )
+                          : null,
+                      contentPadding: const EdgeInsets.all(10.0),
                     ),
-                    suffixIconColor: Colors.grey.shade400,
-                    contentPadding: const EdgeInsets.all(10.0),
+                    keyboardType: TextInputType.text,
                   ),
-                  keyboardType: TextInputType.text,
                 ),
               ),
             ],
@@ -208,21 +308,31 @@ class _SignUpPageState extends State<SignUpPage> {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: SizedBox(
                   width: 300,
-                  child: TextFormField(
-                    obscureText: true, // 비밀번호 마스킹 처리.
-                    decoration: InputDecoration(
-                      hintText: '사용자 이름을 입력해 주세요 :)',
-                      hintFadeDuration: const Duration(milliseconds: 500),
-                      suffixIcon: IconButton(
-                        onPressed: () => emailController.clear(), // Field 초기화
-                        icon: const Icon(
-                          Icons.cancel_outlined,
-                        ),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _showNameClearButton = nameController.text.isNotEmpty;
+                      });
+                    },
+                    child: TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        hintText: '사용자 이름을 입력해 주세요 :)',
+                        hintFadeDuration: const Duration(milliseconds: 500),
+                        suffixIcon: _showNameClearButton
+                            ? GestureDetector(
+                                onTap: () =>
+                                    nameController.clear(), // Field 초기화
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.grey.shade400,
+                                ),
+                              )
+                            : null,
+                        contentPadding: const EdgeInsets.all(10.0),
                       ),
-                      suffixIconColor: Colors.grey.shade400,
-                      contentPadding: const EdgeInsets.all(10.0),
+                      keyboardType: TextInputType.text,
                     ),
-                    keyboardType: TextInputType.text,
                   ),
                 ),
               ),
@@ -250,23 +360,34 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           SizedBox(
                             width: 150,
-                            child: TextFormField(
-                              obscureText: true, // 비밀번호 마스킹 처리.
-                              decoration: InputDecoration(
-                                hintText: '생년월일 :)',
-                                hintFadeDuration:
-                                    const Duration(milliseconds: 500),
-                                suffixIcon: IconButton(
-                                  onPressed: () =>
-                                      emailController.clear(), // Field 초기화
-                                  icon: const Icon(
-                                    Icons.cancel_outlined,
-                                  ),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _showBirthClearButton =
+                                      birthController.text.isNotEmpty;
+                                });
+                              },
+                              child: TextFormField(
+                                controller: birthController,
+                                decoration: InputDecoration(
+                                  hintText: '생년월일 :)',
+                                  hintFadeDuration:
+                                      const Duration(milliseconds: 500),
+                                  suffixIcon: _showBirthClearButton
+                                      ? GestureDetector(
+                                          onTap: () => birthController
+                                              .clear(), // Field 초기화
+                                          child: Icon(
+                                            Icons.clear,
+                                            color: Colors.grey.shade400,
+                                          ),
+                                        )
+                                      : null,
+                                  suffixIconColor: Colors.grey.shade400,
+                                  contentPadding: const EdgeInsets.all(10.0),
                                 ),
-                                suffixIconColor: Colors.grey.shade400,
-                                contentPadding: const EdgeInsets.all(10.0),
+                                keyboardType: TextInputType.text,
                               ),
-                              keyboardType: TextInputType.text,
                             ),
                           ),
                         ],
@@ -293,12 +414,23 @@ class _SignUpPageState extends State<SignUpPage> {
                                 width: 60,
                                 height: 30,
                                 child: ElevatedButton(
-                                  onPressed: () {
-                                    //
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(5),
+                                  onPressed: () => _setSelectedGender(
+                                    "male",
                                   ),
+                                  style: _selectedGender == "male"
+                                      ? ElevatedButton.styleFrom(
+                                          elevation: 8,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer,
+                                          foregroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryContainer,
+                                          padding: const EdgeInsets.all(5),
+                                        )
+                                      : ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.all(5),
+                                        ),
                                   child: const Text(
                                     '남성',
                                   ),
@@ -309,12 +441,23 @@ class _SignUpPageState extends State<SignUpPage> {
                               width: 60,
                               height: 30,
                               child: ElevatedButton(
-                                onPressed: () {
-                                  //
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.all(5),
+                                onPressed: () => _setSelectedGender(
+                                  "female",
                                 ),
+                                style: _selectedGender == "female"
+                                    ? ElevatedButton.styleFrom(
+                                          elevation: 8,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer,
+                                          foregroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryContainer,
+                                          padding: const EdgeInsets.all(5),
+                                        )
+                                    : ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.all(5),
+                                      ),
                                 child: const Text(
                                   '여성',
                                 ),
@@ -344,21 +487,31 @@ class _SignUpPageState extends State<SignUpPage> {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: SizedBox(
                   width: 300,
-                  child: TextFormField(
-                    obscureText: true, // 비밀번호 마스킹 처리.
-                    decoration: InputDecoration(
-                      hintText: '휴대폰 번호를 입력해 주세요 :)',
-                      hintFadeDuration: const Duration(milliseconds: 500),
-                      suffixIcon: IconButton(
-                        onPressed: () => emailController.clear(), // Field 초기화
-                        icon: const Icon(
-                          Icons.cancel_outlined,
-                        ),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _showPhoneClearButton = phoneController.text.isNotEmpty;
+                      });
+                    },
+                    child: TextFormField(
+                      controller: phoneController,
+                      decoration: InputDecoration(
+                        hintText: '휴대폰 번호를 입력해 주세요 :)',
+                        hintFadeDuration: const Duration(milliseconds: 500),
+                        suffixIcon: _showPhoneClearButton
+                            ? GestureDetector(
+                                onTap: () =>
+                                    phoneController.clear(), // Field 초기화
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.grey.shade400,
+                                ),
+                              )
+                            : null,
+                        contentPadding: const EdgeInsets.all(10.0),
                       ),
-                      suffixIconColor: Colors.grey.shade400,
-                      contentPadding: const EdgeInsets.all(10.0),
+                      keyboardType: TextInputType.phone,
                     ),
-                    keyboardType: TextInputType.phone,
                   ),
                 ),
               ),

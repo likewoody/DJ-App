@@ -1,5 +1,7 @@
 
+import 'package:dj_app/view/daignosis_page/diagnosis_test_firstpage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MainViewPage extends StatelessWidget {
   const MainViewPage({super.key});
@@ -42,7 +44,7 @@ class MainViewPage extends StatelessWidget {
                 foregroundColor: Theme.of(context).colorScheme.primary
               ),
               onPressed: () {
-                //
+                Get.to(DiagnosisTestFirstPage());
               },
               icon: const Icon(Icons.add),
               label: const Text('테스트 하러 가기')
