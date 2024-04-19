@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
-  final String appBarTitle;
-  const AppBarComponent({super.key, required this.appBarTitle});
+  const AppBarComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
-        appBarTitle,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-          fontWeight: FontWeight.bold,
-          fontSize: 30,
-        ),
+      toolbarHeight: 80,
+      title: Image.asset(
+        'images/dangjin_Logo.png',
+        width: 150,
+        height: 80,
+        fit: BoxFit.fill,
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
     );

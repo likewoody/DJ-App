@@ -60,6 +60,11 @@ dependencies:
 
   # Google Map
   google_maps_flutter: ^2.6.0
+  # Google Map Location
+  location: ^6.0.1
+
+  # PolyLine Points
+  flutter_polyline_points: ^2.0.0
 
   # Gauge
   syncfusion_flutter_gauges: ^25.1.40
