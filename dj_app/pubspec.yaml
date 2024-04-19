@@ -60,12 +60,20 @@ dependencies:
 
   # Google Map
   google_maps_flutter: ^2.6.0
+  # Google Map Location
+  location: ^6.0.1
+
+  # PolyLine Points
+  flutter_polyline_points: ^2.0.0
 
   # Gauge
   syncfusion_flutter_gauges: ^25.1.40
 
   # API Key 관리
   flutter_config: ^2.0.2
+
+  #
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
