@@ -100,7 +100,7 @@ class SettingPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
               child: IconButton(
                 onPressed: () => Get.to(
-                  SetHeightWeight(provider: provider),
+                  SetHeightWeight(),
                 ), 
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
@@ -120,7 +120,7 @@ class SettingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
               child: IconButton(
-                onPressed: () => Get.to(SetEmail(provider: provider)), 
+                onPressed: () => Get.to(SetEmail()), 
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
             ),
@@ -195,6 +195,23 @@ class SettingPage extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.fromLTRB(20,5,0,5),
               child: Text('문의하기'),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0,5,15,5),
+              child: IconButton(
+                onPressed: () => Get.to(Enquire()), 
+                icon:const  Icon(Icons.arrow_forward_ios)
+              ),
+            ),
+          ],
+        ),
+        // 문의내역
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20,5,0,5),
+              child: Text('문의내역'),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
@@ -285,35 +302,41 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('설정'),
-        // leading: IconButton(
-        //   onPressed: onPressed, 
-        //   icon: icon
-        // ),
-      ),
-      body: Column(
-        children: [
-
-          userInfo(),
-
-          // Divider
-          const Divider(
-            thickness: 1,
-          ),
-
-
-          updateInfo(),
-
-          // Divider
-          const Divider(
-            thickness: 1,
-          ),
-
-          appInfo(),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('설정'),
+          // leading: IconButton(
+          //   onPressed: onPressed, 
+          //   icon: icon
+          // ),
+        ),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
           
-        ],
+              userInfo(),
+          
+              // Divider
+              const Divider(
+                thickness: 1,
+              ),
+          
+          
+              updateInfo(),
+          
+              // Divider
+              const Divider(
+                thickness: 1,
+              ),
+          
+              appInfo(),
+              
+            ],
+          ),
+        ),
       ),
     );
   }
