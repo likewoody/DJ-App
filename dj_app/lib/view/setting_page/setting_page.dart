@@ -3,11 +3,13 @@ import 'package:dj_app/view/setting_page/set_alarm.dart';
 import 'package:dj_app/view/setting_page/set_email.dart';
 import 'package:dj_app/view/setting_page/set_height_weight.dart';
 import 'package:dj_app/view/setting_page/set_password.dart';
+import 'package:dj_app/vm/vm_provider_height.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
+  final provider = VMProviderHeightWeight();
+  SettingPage({super.key, provider});
 
   // Property
   final String id = 'test';
@@ -98,7 +100,7 @@ class SettingPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
               child: IconButton(
                 onPressed: () => Get.to(
-                  SetHeightWeight(height: height, weight: weight,),
+                  SetHeightWeight(provider: provider),
                 ), 
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
@@ -118,7 +120,7 @@ class SettingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
               child: IconButton(
-                onPressed: () => Get.to(SetEmail()), 
+                onPressed: () => Get.to(SetEmail(provider: provider)), 
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
             ),
