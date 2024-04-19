@@ -1,6 +1,8 @@
 import 'package:dj_app/component/drawer.dart';
 import 'package:dj_app/view/main_view_page.dart';
+import 'package:dj_app/vm/vm_provider_height.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../component/appbar.dart';
 import 'hospital_map/hospital_map_page.dart';
@@ -36,6 +38,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   // --- Builder ---
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<VMProviderHeightWeight>(context);
     return Scaffold(
       appBar: AppBarComponent(
         appBarTitle: '진단테스트',
@@ -48,7 +51,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
             MainViewPage(),
             Text('2222'),
             HospitalMap(),
-            SettingPage(),
+            SettingPage(provider: provider),
           ],
         ),
       ),

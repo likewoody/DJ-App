@@ -1,5 +1,5 @@
 import 'package:dj_app/firebase_options.dart';
-import 'package:dj_app/view/home.dart';
+import 'package:dj_app/view/setting_page/setting_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +23,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 239, 74, 63)),
         useMaterial3: true,
       ),
-      home: const Home(),
+      home: SettingPage(),
+        // create: (context) => VMProviderHeightWeight(),
+        // child: SettingPage(),
     );
   }
 }
