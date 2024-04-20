@@ -43,14 +43,15 @@
 
 📦
 <br>
+### State 관리
+provider: ^6.1.2
+get: ^4.6.6
+<br><br>
+
+
 #### Image
 image_picker: ^1.0.7
-<br>
-
-#### Get
-get: ^4.6.6
-
-<br>
+<br><br>
 
 #### GPS
 geocoding: ^3.0.0
@@ -62,13 +63,6 @@ flutter_map: ^6.1.0
 latlong2: ^0.9.1
 <br><br>
 
-#### HTTP
-http: ^1.2.1
-
-<br><br>
-
-dio: ^5.4.2+1
-<br><br>
 
 #### SQLite
 sqflite: ^2.3.3
@@ -84,11 +78,29 @@ firebase_core: ^2.28.0
 firebase_analytics: ^10.10.0
 
 firebase_database: ^10.5.0
+<br><br>
 
+### Google
+#### map
+google_maps_flutter: ^2.6.0
+#### location
+location: ^6.0.1
+#### sign in
+google_sign_in: ^6.2.1
+<br><br>
 
+### PolyLine Points
+flutter_polyline_points: ^2.0.0
 <br><br>
-path: ^1.9.0
+
+### Gauge
+syncfusion_flutter_gauges: ^25.1.40
 <br><br>
-flutter_slidable: ^3.1.0
+
+### API Key 관리
+flutter_config: ^2.0.2
 <br><br>
+
+### Shared_preferences
 shared_preferences: ^2.2.2
+<br><br>
