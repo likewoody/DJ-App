@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/view/setting_page/enquire.dart';
+import 'package:dj_app/view/setting_page/enquire_list.dart';
+import 'package:dj_app/view/setting_page/service_info.dart';
 import 'package:dj_app/view/setting_page/set_alarm.dart';
 import 'package:dj_app/view/setting_page/set_email.dart';
 import 'package:dj_app/view/setting_page/set_height_weight.dart';
 import 'package:dj_app/view/setting_page/set_password.dart';
+import 'package:dj_app/view/tabbar.dart';
 import 'package:dj_app/vm/vm_provider_height.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,21 +15,29 @@ class SettingPage extends StatelessWidget {
   final provider = VMProviderHeightWeight();
   SettingPage({super.key, provider});
 
+  // 이메일 받아야 함
+  // 이메일 받아야 함
+  // 이메일 받아야 함
+  // 이메일 받아야 함
+  // 이메일 받아야 함
+  // 이메일 받아야 함
   // Property
-  final String id = 'test';
+  final String email = 'sdakfdslkf@naver.com';
   final String height = '170';
   final String weight = '70';
+  String joinDate = '';
+  String id = '';
 
 
   // ***************************************
   // *****************View******************
   // ***************************************
   // 이메일, 가입일자, 가입 방법
-  Widget userInfo(){
+  Widget userInfoSetPage(){
     return Column(
       children: [
         const Padding(
-          padding: EdgeInsets.fromLTRB(20,0,0,0),
+          padding: EdgeInsets.fromLTRB(20,20,0,0),
           child: Row(
             children: [
               Text(
@@ -42,22 +54,25 @@ class SettingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // 고객이 SNS를 이용하여 가입했다면 그 SNS 로고 넣기
+            // Padding(
+            //   padding: const EdgeInsets.all(20.0),
+            //   child: Image.asset(
+            //     'images/Kakao_logo.jpg',
+            //     width: 30,
+            //     height: 30,
+            //     fit: BoxFit.fill,
+            //   ),
+            // ),
+
             Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Image.asset(
-                'images/Kakao_logo.jpg',
-                width: 30,
-                height: 30,
-                fit: BoxFit.fill,
-              ),
+              padding: const EdgeInsets.all(15.0),
+              child: Text(email),
             ),
 
-            Text(id),
-
             // 가입일자, 무슨 방법으로 가입했는지
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text('OO.OO.OO 카카오 간편가입'),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text('$joinDate 카카오 간편가입'),
             )
           ],
         ),
@@ -70,7 +85,7 @@ class SettingPage extends StatelessWidget {
 
   // ***************************************
   // 고객 정보 수정하기
-  Widget updateInfo(){
+  Widget updateInfoPage(){
     return Column(
       children: [
         const Row(
@@ -170,10 +185,9 @@ class SettingPage extends StatelessWidget {
 
   // ***************************************
   // 앱 정보
-  Widget appInfo(){
+  Widget appInfoPage(){
     return Column(
       children: [
-
         const Row(
           children: [
             Padding(
@@ -216,7 +230,7 @@ class SettingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
               child: IconButton(
-                onPressed: () => Get.to(Enquire()), 
+                onPressed: () => Get.to(EnquireList()), 
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
             ),
@@ -264,7 +278,7 @@ class SettingPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0,5,15,0),
               child: IconButton(
                 // 구현 기능
-                onPressed: (){}, 
+                onPressed: () => Get.to(const ServiceInfo()), 
                 // 구현 기능
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
@@ -300,42 +314,123 @@ class SettingPage extends StatelessWidget {
   // *****************View******************
   // ***************************************
 
+
+
+  // ---- Function ----
+  Widget deletePage(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15,5,0,5),
+          child: TextButton(
+            onPressed: () {
+              _deleteAlert();
+            }, 
+            child: const Text(
+              '탈퇴하기',
+              style: TextStyle(
+                color: Colors.black
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  _deleteAlert() {
+    Get.defaultDialog(
+      title: '알림',
+      middleText: '탈퇴 하시겠습니까?',
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(), 
+          child: const Text('아니요')
+        ),
+        TextButton(
+          onPressed: () {
+            _executeDelete();
+            Get.off(const Tabbar());
+          },
+          child: const Text('예')
+        ),
+      ]
+    );
+  }
+
+  _executeDelete() async{
+    await FirebaseFirestore.instance
+      .collection('user')
+      .doc(id)
+      .delete();
+
+    print(id);
+    print(email);
+    print('Successful Delete User Info');
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        
         appBar: AppBar(
-          title: const Text('설정'),
-          // leading: IconButton(
-          //   onPressed: onPressed, 
-          //   icon: icon
-          // ),
-        ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-          
-              userInfo(),
-          
-              // Divider
-              const Divider(
-                thickness: 1,
-              ),
-          
-          
-              updateInfo(),
-          
-              // Divider
-              const Divider(
-                thickness: 1,
-              ),
-          
-              appInfo(),
-              
-            ],
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          title: const SizedBox(
+            child: Text('설정'),
           ),
+        ),
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+                  .collection('user')
+                  .where('email', isEqualTo: email)
+                  .snapshots(),
+          builder: (context, snapshot) {
+            if (! snapshot.hasData){
+              return const Center(child: CircularProgressIndicator(),);
+            }
+            var documents = snapshot.data!.docs;
+            if(documents.isNotEmpty) {
+              joinDate = documents[0].get('date');
+              id = documents[0].id;  
+            }
+            print(email);
+            print(id);
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+              
+                  userInfoSetPage(),
+              
+                  // Divider
+                  const Divider(
+                    thickness: 1,
+                  ),
+              
+              
+                  updateInfoPage(),
+              
+                  // Divider
+                  const Divider(
+                    thickness: 1,
+                  ),
+              
+                  appInfoPage(),
+            
+                  // Divider
+                  const Divider(
+                    thickness: 1,
+                  ),
+            
+                  deletePage(),
+                  
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

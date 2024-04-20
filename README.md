@@ -7,11 +7,10 @@
 
 <br><br>
 
-앱 이미지
 
-앱 이미지
 
-앱 이미지
+![Simulator Screenshot - iPhone 15 Pro Max - 2024-04-20 at 08 06 00](https://github.com/likewoody/DJ-App/assets/151493474/81b93a14-608f-431b-b236-1d38ee4a3efa)
+![Simulator Screenshot - iPhone 15 Pro Max - 2024-04-20 at 08 06 04](https://github.com/likewoody/DJ-App/assets/151493474/e18d4a79-4afc-4b84-ad8c-6bb5f36373f5)
 
 
 <br>
@@ -25,14 +24,19 @@
 
 ### DB 사용 내역
 1. SQLite
+- 유저 검사 내용 동의 X
 
 <br>
 
 2. MySQL
+- 병원 정보
 
 <br>
 
 3. Firebase
+- 유저 검사 내용 동의 O
+- 문의내역
+
 
 <br><br>
 
