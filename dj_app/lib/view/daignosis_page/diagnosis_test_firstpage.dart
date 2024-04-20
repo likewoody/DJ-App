@@ -11,7 +11,7 @@ class DiagnosisTestFirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBarComponent(),
+      appBar: AppBarComponent(),
       body: ChangeNotifierProvider(
         create: (context) => VMDiagnosisTest(),
         builder: (context, child) {
