@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/vm/vm_provider_height.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,26 +13,57 @@ class SetHeightWeight extends StatelessWidget {
 
   // Property
   String id = '';
-  var provider;
+  var provider; 
 
-  // ---- Functions ----
-  _showSuccessfulAlert() {
-    Get.defaultDialog(
-      title: '변경 완료',
-      middleText: '비밀번호 변경이 완료 되었습니다.',
-      actions: [
-        TextButton(
-          onPressed: () {
-            Get.back();
-            Get.back();
-          }, 
-          child: const Text('종료')
+  // ---- View 1 -----
+  Widget _streamBuilder(context) {
+  return Scaffold(
+    body: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: ChangeNotifierProvider<VMProviderHeightWeight>(
+        create: (context) => VMProviderHeightWeight(),
+        builder: (context, child) {
+          provider = Provider.of<VMProviderHeightWeight>(context);
+          return _bodyView(provider);
+        },
+      ),
+    ),
+    bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.tertiaryContainer,
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
         ),
-      ]
+        height: 100,
+        child: TextButton(
+          onPressed: () {
+            print(id);
+            print(provider.selectedHeight);
+            print(provider.selectedWeight);
+            FirebaseFirestore.instance
+            .collection('user')
+            .doc(id)
+            .update(
+              {
+                'height' : provider.selectedHeight,
+                'weight' : provider.selectedWeight,
+              }
+            );
+            _showSuccessfulAlert();
+          }, 
+          child: Text(
+            '키/몸무게 설정',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.tertiary
+            ),
+          ),
+        ),
+      ),
     );
   }
 
-  // ---- StreamBuilder ----
+  // ---- View 2 ----
   Widget _bodyView(provider){
     return Center(
       child: StreamBuilder<QuerySnapshot>(
@@ -49,7 +81,7 @@ class SetHeightWeight extends StatelessWidget {
           // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
           // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
           // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
-          id = documents[0].id;
+          // id = documents[0].id;
           // provider.selectedHeight = documents[0].get('height');
           // provider.selectedWeight = documents[0].get('weight');
           // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
@@ -65,10 +97,10 @@ class SetHeightWeight extends StatelessWidget {
     );
   }
 
-  // ---- View ----
+  // ---- View 3 ----
   Widget _bodySecondView(document){
     print(id);
-    print(document[0]['height']);
+    // print(document[0]['height']);
     return Padding(
       padding: const EdgeInsets.fromLTRB(0,180,0,0),
       child: Column(
@@ -170,55 +202,27 @@ class SetHeightWeight extends StatelessWidget {
     );
   }
 
+
+
+  // ---- Functions ----
+  _showSuccessfulAlert() {
+    Get.defaultDialog(
+      title: '변경 완료',
+      middleText: '비밀번호 변경이 완료 되었습니다.',
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+            Get.back();
+          }, 
+          child: const Text('종료')
+        ),
+      ]
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: const Text('키/몸무게 설정'),
-      ),
-      body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: ChangeNotifierProvider<VMProviderHeightWeight>(
-            create: (context) => VMProviderHeightWeight(),
-            builder: (context, child) {
-              provider = Provider.of<VMProviderHeightWeight>(context);
-              return _bodyView(provider);
-            },
-          ),
-        ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.tertiaryContainer,
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
-        ),
-        height: 100,
-        child: TextButton(
-          onPressed: () {
-            print(id);
-            print(provider.selectedHeight);
-            print(provider.selectedWeight);
-            FirebaseFirestore.instance
-            .collection('user')
-            .doc(id)
-            .update(
-              {
-                'height' : provider.selectedHeight,
-                'weight' : provider.selectedWeight,
-              }
-            );
-            _showSuccessfulAlert();
-          }, 
-          child: Text(
-            '키/몸무게 설정',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.tertiary
-            ),
-          ),
-        ),
-      ),
-    );
+    return SettingAppbar(titleName: '키/몸무게 설정', builder: _streamBuilder(context));
   }
 }

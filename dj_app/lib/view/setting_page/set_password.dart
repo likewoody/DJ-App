@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/vm/vm_provider.password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,6 +33,63 @@ class SetPassword extends StatelessWidget {
     );
   }
 
+  // ---- View 1 ----
+  _streamBuidler(context){
+    return Scaffold(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: ChangeNotifierProvider<VMPRoviderPassword>(
+          create: (context) => VMPRoviderPassword(),
+          builder: (context, child) {
+            provider = Provider.of<VMPRoviderPassword>(context);
+            return _bodyView(provider);
+          },
+        ),
+      ),
+    bottomNavigationBar: Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.tertiaryContainer,
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
+      ),
+      height: 100,
+      child: TextButton(
+        onPressed: () {
+          provider.fNewPassword = pwCon2.text;
+          provider.sNewPassword = pwCon3.text;
+          provider.inputCurrentPassword = pwCon1.text;
+          // 현재 비밀번호가 틀렸을 때 에러 스낵바
+          provider.curPasswordCheck();
+          provider.newPasswordCheck();
+
+          if(provider.successfulChanged){
+            provider.password = pwCon2.text;
+            FirebaseFirestore.instance
+            .collection('user')
+            .doc(id)
+            .update(
+              {
+                'password' : pwCon2.text
+              }
+            );
+            print(pwCon2.text);
+            _showSuccessfulAlert();
+          }
+        }, 
+        child: Text(
+          '비밀번호 설정',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.tertiary
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  // ---- View 2 ----
   Widget _bodyView(provider){
     return StreamBuilder(
       stream: FirebaseFirestore.instance
@@ -44,7 +102,7 @@ class SetPassword extends StatelessWidget {
         }
         final documents = snapshot.data!.docs;
         // 현재 비밀번호 확인
-        provider.currentPassword = documents[0].get('password');
+        // provider.currentPassword = documents[0].get('password');
         id = documents[0].id;
 
         return Padding(
@@ -170,64 +228,7 @@ class SetPassword extends StatelessWidget {
     // final provider = Provider.of<VMPRoviderPassword>(context);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          title: const Text('비밀번호 설정'),
-        ),
-      
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: ChangeNotifierProvider<VMPRoviderPassword>(
-            create: (context) => VMPRoviderPassword(),
-            builder: (context, child) {
-              provider = Provider.of<VMPRoviderPassword>(context);
-              return _bodyView(provider);
-            },
-          ),
-        ),
-      
-      
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.tertiaryContainer,
-            borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
-          ),
-          height: 100,
-          child: TextButton(
-            onPressed: () {
-              provider.fNewPassword = pwCon2.text;
-              provider.sNewPassword = pwCon3.text;
-              provider.inputCurrentPassword = pwCon1.text;
-              // 현재 비밀번호가 틀렸을 때 에러 스낵바
-              provider.curPasswordCheck();
-              provider.newPasswordCheck();
-
-              if(provider.successfulChanged){
-                provider.password = pwCon2.text;
-                FirebaseFirestore.instance
-                .collection('user')
-                .doc(id)
-                .update(
-                  {
-                    'password' : pwCon2.text
-                  }
-                );
-                print(pwCon2.text);
-                _showSuccessfulAlert();
-              }
-            }, 
-            child: Text(
-              '비밀번호 설정',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.tertiary
-              ),
-            ),
-          ),
-        ),
-      ),
+      child: SettingAppbar(titleName: '비밀번호 설정', builder: _streamBuidler(context)),
     );
   }
 }
