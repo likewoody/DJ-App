@@ -1,4 +1,8 @@
+import 'package:dj_app/view/drawer_view/diabetes.dart';
+import 'package:dj_app/view/drawer_view/prevent_diabetes.dart';
+import 'package:dj_app/view/drawer_view/symptom_diabetes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DrawerComponent extends StatelessWidget {
   const DrawerComponent({super.key});
@@ -36,9 +40,7 @@ class DrawerComponent extends StatelessWidget {
                 Icons.content_paste_search_outlined,
               ),
               title: TextButton(
-                onPressed: () {
-                  //
-                },
+                onPressed: () => Get.to(const Diabetes()),
                 child: const Text(
                   '당뇨병이란?',
                   style: TextStyle(
@@ -53,9 +55,22 @@ class DrawerComponent extends StatelessWidget {
               Icons.content_paste_search_outlined,
             ),
             title: TextButton(
-              onPressed: () {
-                //
-              },
+              onPressed: () => Get.to(const SymptomDiabetes()),
+              child: const Text(
+                '당뇨병 증상',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+          
+          ListTile(
+            leading: const Icon(
+              Icons.content_paste_search_outlined,
+            ),
+            title: TextButton(
+              onPressed: () => Get.to(const PreventDiabetes()),
               child: const Text(
                 '당뇨병 예방법',
                 style: TextStyle(
