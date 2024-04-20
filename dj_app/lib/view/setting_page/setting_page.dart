@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/view/setting_page/enquire.dart';
 import 'package:dj_app/view/setting_page/enquire_list.dart';
+import 'package:dj_app/view/setting_page/personal_info.dart';
 import 'package:dj_app/view/setting_page/service_info.dart';
 import 'package:dj_app/view/setting_page/set_alarm.dart';
 import 'package:dj_app/view/setting_page/set_email.dart';
@@ -277,9 +278,7 @@ class SettingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(0,5,15,0),
               child: IconButton(
-                // 구현 기능
                 onPressed: () => Get.to(const ServiceInfo()), 
-                // 구현 기능
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
             ),
@@ -299,9 +298,7 @@ class SettingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(0,5,15,0),
               child: IconButton(
-                // 구현 기능
-                onPressed: (){}, 
-                // 구현 기능
+                onPressed: () => Get.to(const PersonalInfo()), 
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
             ),
