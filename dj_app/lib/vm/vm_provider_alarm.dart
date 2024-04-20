@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class VMProviderAlarm with ChangeNotifier{
+class VMProviderAlarm extends ChangeNotifier{
   bool alarmSwitch = false;
 
 

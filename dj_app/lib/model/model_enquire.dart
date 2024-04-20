@@ -1,9 +1,6 @@
 class ModelEnquire{
   String? id;
-  String title = '';
-  String context = '';
-  String date = '';
-  String image = '';
+  String title, context, date, image = '';
 
   ModelEnquire({
     id,
@@ -12,4 +9,11 @@ class ModelEnquire{
     required this.date,
     required this.image
   });
+
+  ModelEnquire.fromMap(Map<String, dynamic> res)
+    : id = res['id'],
+      title = res['title'],
+      context = res['context'],
+      date = res['date'],
+      image = res['image'];
 }

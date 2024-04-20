@@ -12,7 +12,7 @@ class DiagnosisTestSecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(appBarTitle: "진단 테스트"),
+      appBar: AppBarComponent(),
       body: ChangeNotifierProvider(
         create: (context) => VMDiagnosisTest(),
         builder: (context, child) {
