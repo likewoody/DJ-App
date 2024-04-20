@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/view/setting_page/enquire.dart';
 import 'package:dj_app/view/setting_page/enquire_list.dart';
 import 'package:dj_app/view/setting_page/personal_info.dart';
@@ -33,6 +34,58 @@ class SettingPage extends StatelessWidget {
   // ***************************************
   // *****************View******************
   // ***************************************
+  Widget _streamBuidler(){
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+              .collection('user')
+              .where('email', isEqualTo: email)
+              .snapshots(),
+      builder: (context, snapshot) {
+        if (! snapshot.hasData){
+          return const Center(child: CircularProgressIndicator(),);
+        }
+        var documents = snapshot.data!.docs;
+        if(documents.isNotEmpty) {
+          joinDate = documents[0].get('date');
+          id = documents[0].id;  
+        }
+        print(email);
+        print(id);
+        return SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+          
+              userInfoSetPage(),
+          
+              // Divider
+              const Divider(
+                thickness: 1,
+              ),
+          
+          
+              updateInfoPage(),
+          
+              // Divider
+              const Divider(
+                thickness: 1,
+              ),
+          
+              appInfoPage(),
+        
+              // Divider
+              const Divider(
+                thickness: 1,
+              ),
+        
+              deletePage(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   // 이메일, 가입일자, 가입 방법
   Widget userInfoSetPage(){
     return Column(
@@ -371,65 +424,7 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          title: const SizedBox(
-            child: Text('설정'),
-          ),
-        ),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-                  .collection('user')
-                  .where('email', isEqualTo: email)
-                  .snapshots(),
-          builder: (context, snapshot) {
-            if (! snapshot.hasData){
-              return const Center(child: CircularProgressIndicator(),);
-            }
-            var documents = snapshot.data!.docs;
-            if(documents.isNotEmpty) {
-              joinDate = documents[0].get('date');
-              id = documents[0].id;  
-            }
-            print(email);
-            print(id);
-            return SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-              
-                  userInfoSetPage(),
-              
-                  // Divider
-                  const Divider(
-                    thickness: 1,
-                  ),
-              
-              
-                  updateInfoPage(),
-              
-                  // Divider
-                  const Divider(
-                    thickness: 1,
-                  ),
-              
-                  appInfoPage(),
-            
-                  // Divider
-                  const Divider(
-                    thickness: 1,
-                  ),
-            
-                  deletePage(),
-                  
-                ],
-              ),
-            );
-          },
-        ),
-      ),
+      child: SettingAppbar(titleName: '설정', builder: _streamBuidler())
     );
   }
 }

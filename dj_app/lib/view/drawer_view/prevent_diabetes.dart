@@ -1,4 +1,5 @@
 import 'package:dj_app/component/appbar.dart';
+import 'package:dj_app/component/diabetes_compo.dart';
 import 'package:dj_app/view/drawer_view/prevent/check_blood.dart';
 import 'package:dj_app/view/drawer_view/prevent/food.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class PreventDiabetes extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const DiabetesCompo(titleName: '당뇨병 예방법'),
 
 
               SizedBox(

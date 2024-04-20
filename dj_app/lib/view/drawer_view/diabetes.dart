@@ -1,4 +1,5 @@
 import 'package:dj_app/component/appbar.dart';
+import 'package:dj_app/component/diabetes_compo.dart';
 import 'package:flutter/material.dart';
 
 class Diabetes extends StatelessWidget {
@@ -13,17 +14,7 @@ class Diabetes extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                width: MediaQuery.of(context).size.width,
-                child: const Text(
-                  '당뇨병이란?',
-                  style: TextStyle(
-                    fontSize: 23,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              const DiabetesCompo(titleName: '당뇨병이란?'),
 
               // 당뇨병 정의
               const Padding(

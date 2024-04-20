@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/vm/vm_provider_alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,20 +12,47 @@ class SetAlarm extends StatelessWidget {
   var provider;
   String id = '';
 
-  // ---- Functions ----
-  _showSuccessfulAlert() {
-    Get.defaultDialog(
-      title: '변경 완료',
-      middleText: '알림 변경이 완료 되었습니다.',
-      actions: [
-        TextButton(
-          onPressed: () {
-            Get.back();
-            Get.back();
-          }, 
-          child: const Text('종료')
+
+  // ---- View 1 -----
+  Widget _streamBuidler(context){
+    return Scaffold(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: ChangeNotifierProvider<VMProviderAlarm>( 
+          create: (context) => VMProviderAlarm(),
+          builder: (context, child) {
+            provider = Provider.of<VMProviderAlarm>(context);
+            return _bodyView(provider);
+          },
         ),
-      ]
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.tertiaryContainer,
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
+        ),
+        height: 100,
+        child: TextButton(
+          onPressed: () {
+            FirebaseFirestore.instance
+            .collection('user')
+            .doc(id)
+            .update({
+              'alarm' : provider.alarmSwitch
+            });
+            print('successful');
+            _showSuccessfulAlert();
+          }, 
+          child: Text(
+            '이메일 설정',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.tertiary
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -71,56 +99,28 @@ class SetAlarm extends StatelessWidget {
             ),
           ),
         );
-
       },
     );
   }
 
+  // ---- Functions ----
+  _showSuccessfulAlert() {
+    Get.defaultDialog(
+      title: '변경 완료',
+      middleText: '알림 변경이 완료 되었습니다.',
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+            Get.back();
+          }, 
+          child: const Text('종료')
+        ),
+      ]
+    );
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: const Text('알림 설정'),
-
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: ChangeNotifierProvider<VMProviderAlarm>( 
-          create: (context) => VMProviderAlarm(),
-          builder: (context, child) {
-            provider = Provider.of<VMProviderAlarm>(context);
-            return _bodyView(provider);
-          },
-        ),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.tertiaryContainer,
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
-        ),
-        height: 100,
-        child: TextButton(
-          onPressed: () {
-            FirebaseFirestore.instance
-            .collection('user')
-            .doc(id)
-            .update({
-              'alarm' : provider.alarmSwitch
-            });
-            print('successful');
-            _showSuccessfulAlert();
-          }, 
-          child: Text(
-            '이메일 설정',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.tertiary
-            ),
-          ),
-        ),
-      ),
-    );
+    return SettingAppbar(titleName: '알림 설정', builder: _streamBuidler(context));
   }
 }

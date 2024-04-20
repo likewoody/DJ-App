@@ -1,4 +1,5 @@
 import 'package:dj_app/component/appbar.dart';
+import 'package:dj_app/component/diabetes_compo.dart';
 import 'package:flutter/material.dart';
 
 class SymptomDiabetes extends StatelessWidget {
@@ -6,27 +7,19 @@ class SymptomDiabetes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppBarComponent(),
+    return const Scaffold(
+      appBar: AppBarComponent(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Center(
           child: Column(
             children: [
-              Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                width: MediaQuery.of(context).size.width,
-                child: const Text(
-                  '당뇨병 증상',
-                  style: TextStyle(
-                    fontSize: 23,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              DiabetesCompo(titleName: '당뇨병 증상'),
 
+
+              
               // 당뇨병 정의
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,30,0,5),
                 child: Row(
                   children: [
@@ -42,7 +35,7 @@ class SymptomDiabetes extends StatelessWidget {
                 ),
               ),
               
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Text(
                   '혈당이 180mg/dL 정도되면 소변에서 당이 나오게 됩니다. 그러나 이정도의 혈당수치 에서는 자각증상이 나타나지 않습니다. 혈당이 200~250mg/dL 이상을 초과할 경우  당과함께 수분의 배설이 많아지면서 갈증, 다음, 다식, 다뇨, 피로감, 체중감소 등을 느끼게 됩니다. 즉, 모든 당뇨인이 반드시 당뇨병의 증상을 경험하는 것은 아닙니다. 혈당관리를 잘 하면 자각증상도 없고 건강하게 지낼 수 있습니다.\n',
@@ -55,7 +48,7 @@ class SymptomDiabetes extends StatelessWidget {
 
 
               // 당뇨병의 대표 적인 증상
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,30,0,5),
                 child: Row(
                   children: [
@@ -70,7 +63,7 @@ class SymptomDiabetes extends StatelessWidget {
                 ),
               ),
 
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -84,7 +77,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -98,7 +91,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -112,7 +105,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -126,7 +119,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -144,7 +137,7 @@ class SymptomDiabetes extends StatelessWidget {
 
 
               // 기타 다른 증상
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,30,0,5),
                 child: Row(
                   children: [
@@ -159,7 +152,7 @@ class SymptomDiabetes extends StatelessWidget {
                 ),
               ),
 
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -173,7 +166,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -187,7 +180,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -201,7 +194,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -215,7 +208,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -229,7 +222,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -243,7 +236,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -257,7 +250,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -271,7 +264,7 @@ class SymptomDiabetes extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,30,5),
                 child: Row(
                   children: [
@@ -286,7 +279,7 @@ class SymptomDiabetes extends StatelessWidget {
                 ),
               ),
 
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(30,10,0,5),
                 child: Row(
                   children: [
