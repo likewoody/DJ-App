@@ -69,102 +69,104 @@ class SetHeightWeight extends StatelessWidget {
   Widget _bodySecondView(document){
     print(id);
     print(document[0]['height']);
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20,50,20,50),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-          
-          
-              // 키
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    '키',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0,180,0,0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20,50,20,50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+            
+            
+                // 키
+                Column(
+                  children: [
+                    const Text(
+                      '키',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  // Height PickerView
-                  SizedBox(
-                    width: 150,
-                    height: 120,
-                    child: CupertinoPicker(
-                      itemExtent: 30,
-                      scrollController: FixedExtentScrollController(initialItem: 0),
-                      onSelectedItemChanged: (value) {
-                        provider.selectedHeight = value + 130;
-                        print(provider.selectedHeight);
-                      }, 
-                      children: List.generate(
-                        provider.heightList.length, 
-                        (index) => Center(
-                          child: Text(provider.heightList[index].toString()),
+                    // Height PickerView
+                    SizedBox(
+                      width: 150,
+                      height: 120,
+                      child: CupertinoPicker(
+                        itemExtent: 30,
+                        scrollController: FixedExtentScrollController(initialItem: 0),
+                        onSelectedItemChanged: (value) {
+                          provider.selectedHeight = value + 130;
+                          print(provider.selectedHeight);
+                        }, 
+                        children: List.generate(
+                          provider.heightList.length, 
+                          (index) => Center(
+                            child: Text(provider.heightList[index].toString()),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              
-              // 몸무게
-              Column(
-                children: [
-                  const Text(
-                    '몸무게',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  ],
+                ),
+                
+                // 몸무게
+                Column(
+                  children: [
+                    const Text(
+                      '몸무게',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  // Weight PickerView
-                  SizedBox(
-                    width: 150,
-                    height: 120,
-                    child: CupertinoPicker(
-                      itemExtent: 30,
-                      scrollController: FixedExtentScrollController(initialItem: 0),
-                      onSelectedItemChanged: (value) {
-                        provider.selectedWeight = value + 30;
-                        print(provider.selectedWeight);
-                      }, 
-                      children: List.generate(
-                        provider.weightList.length, 
-                        (index) => Center(
-                          child: Text(provider.weightList[index].toString()),
+                    // Weight PickerView
+                    SizedBox(
+                      width: 150,
+                      height: 120,
+                      child: CupertinoPicker(
+                        itemExtent: 30,
+                        scrollController: FixedExtentScrollController(initialItem: 0),
+                        onSelectedItemChanged: (value) {
+                          provider.selectedWeight = value + 30;
+                          print(provider.selectedWeight);
+                        }, 
+                        children: List.generate(
+                          provider.weightList.length, 
+                          (index) => Center(
+                            child: Text(provider.weightList[index].toString()),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  
-                ],
-              ),
-            ],
+                    
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-
-        // 키/몸무게 Update 설정
-        ElevatedButton(
-          onPressed: () {
-            print(id);
-            print(provider.selectedHeight);
-            print(provider.selectedWeight);
-            FirebaseFirestore.instance
-            .collection('user')
-            .doc(id)
-            .update(
-              {
-                'height' : provider.selectedHeight,
-                'weight' : provider.selectedWeight,
-              }
-            );
-            _showSuccessfulAlert();
-          }, 
-          child: const Text('키/몸무게 설정')
-        ) 
-      ],
+      
+          // 키/몸무게 Update 설정
+          ElevatedButton(
+            onPressed: () {
+              print(id);
+              print(provider.selectedHeight);
+              print(provider.selectedWeight);
+              FirebaseFirestore.instance
+              .collection('user')
+              .doc(id)
+              .update(
+                {
+                  'height' : provider.selectedHeight,
+                  'weight' : provider.selectedWeight,
+                }
+              );
+              _showSuccessfulAlert();
+            }, 
+            child: const Text('키/몸무게 설정')
+          ) 
+        ],
+      ),
     );
   }
 
@@ -172,6 +174,7 @@ class SetHeightWeight extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: const Text('키/몸무게 설정'),
       ),
       body: SingleChildScrollView(

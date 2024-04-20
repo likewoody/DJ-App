@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VMPRoviderPassword with ChangeNotifier{
+class VMPRoviderPassword extends ChangeNotifier{
   String currentPassword = '';
   String inputCurrentPassword = '';
   String _currentErrorMsg = '';

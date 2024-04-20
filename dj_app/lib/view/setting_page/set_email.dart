@@ -49,67 +49,71 @@ class SetEmail extends StatelessWidget {
         id = documents[0].id;
 
         // 실제 View 
-        return Column(
-          children: [
-            
-            // 이메일 주소 
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(30,15,0,0),
-                  child: Text(
-                    '이메일 주소',
-                    style: TextStyle(
-                      color: Colors.grey
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(0,180,0,0),
+          child: Column(
+            children: [
+              
+              // 이메일 주소 
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(30,15,0,0),
+                    child: Text(
+                      '이메일 주소',
+                      style: TextStyle(
+                        color: Colors.grey
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            
-
-            // 이메일 변경 입력
-            Padding(
-              padding: const EdgeInsets.fromLTRB(30,10,30,15),
-              child: TextField(
-                controller: textCon,
-                decoration: const InputDecoration(
-                  labelText: '이메일을 입력하세요',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.black
+                ],
+              ),
+              
+          
+              // 이메일 변경 입력
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30,10,30,15),
+                child: TextField(
+                  controller: textCon,
+                  decoration: const InputDecoration(
+                    hintText: '이메일을 입력하세요.',
+                    hintFadeDuration: Duration(milliseconds: 100),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black
+                      )
                     )
-                  )
+                  ),
                 ),
               ),
-            ),
-            const Text(
-              'SNS로 가입한 계정은 수정이 불가능해요!',
-              style: TextStyle(
-                color: Colors.grey,
+              const Text(
+                'SNS로 가입한 계정은 수정이 불가능해요!',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  provider.email = textCon.text;
-                  FirebaseFirestore.instance
-                  .collection('user')
-                  .doc(id)
-                  .update(
-                    {
-                      'email' : provider.email
-                    }
-                  );
-                  print(provider.email);
-                  _showSuccessfulAlert();
-                }, 
-                child: const Text('이메일 설정')
-              ),
-            ) 
-          ],
+              Padding(
+                padding: const EdgeInsets.all(40.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    provider.email = textCon.text;
+                    FirebaseFirestore.instance
+                    .collection('user')
+                    .doc(id)
+                    .update(
+                      {
+                        'email' : provider.email
+                      }
+                    );
+                    print(provider.email);
+                    _showSuccessfulAlert();
+                  }, 
+                  child: const Text('이메일 설정')
+                ),
+              ) 
+            ],
+          ),
         );
       },
     );
@@ -120,6 +124,7 @@ class SetEmail extends StatelessWidget {
     // final provider = Provider.of<VMProviderEmail>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: const Text('이메일 설정'),
       ),
       body: SingleChildScrollView(
