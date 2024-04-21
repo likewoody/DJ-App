@@ -77,7 +77,8 @@ dependencies:
   # Shared_preferences
   shared_preferences: ^2.2.2
 
-  
+  # Http
+  http: ^1.2.1
 
   # GetStorage
   get_storage: ^2.1.1
