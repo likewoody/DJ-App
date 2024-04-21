@@ -5,4 +5,10 @@
 	<select id="hospitalDao" resultType="com.springlec.base.model.HospitalDto">
 		SELECT * FROM hospital1
 	</select>
+	
+	<select id="hospitalLocationDao" resultType="com.springlec.base.model.HospitalDto">
+		SELECT hpid ,dutyName ,wgs84Lat ,wgs84Lon 
+		FROM hospital1
+		WHERE dutyName LIKE #{dutyName};
+	</select>
 </mapper>

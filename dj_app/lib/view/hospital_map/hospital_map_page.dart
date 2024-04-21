@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
+import 'package:dj_app/vm/vm_hospital_map_getx.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
 
 class HospitalMap extends StatefulWidget {
   const HospitalMap({super.key});
@@ -14,6 +14,8 @@ class HospitalMap extends StatefulWidget {
 
 class _HospitalMapState extends State<HospitalMap> {
   // --- Properties ---
+  final HospitalMapGetX hospitalMapGetX = Get.put(HospitalMapGetX());
+
   late TextEditingController _textEditingController;
 
   late Location _locationController;
@@ -21,8 +23,6 @@ class _HospitalMapState extends State<HospitalMap> {
   late Completer<GoogleMapController> _mapContorller;
 
   late LatLng _currentP;
-
-  late List hospitalData;
 
   // initState
   @override
@@ -32,18 +32,8 @@ class _HospitalMapState extends State<HospitalMap> {
     _locationController = Location();
     _mapContorller = Completer<GoogleMapController>();
     _currentP = const LatLng(37.4944858, 127.030066);
-    hospitalData = [];
-    getJSONData();
+    hospitalMapGetX.getHospitalJSONData();
     getLocationUpdates();
-  }
-
-  getJSONData() async {
-    var url = Uri.parse('http://localhost:8080/hospital');
-    var response = await http.get(url);
-    var dataConvertedJSON = json.decode(utf8.decode(response.bodyBytes));
-    List result = dataConvertedJSON;
-    hospitalData.addAll(result);
-    setState(() {});
   }
 
   Future<void> getLocationUpdates() async {
@@ -79,7 +69,7 @@ class _HospitalMapState extends State<HospitalMap> {
   }
 
   Future<void> _cameraToPosition(LatLng pos) async {
-    final GoogleMapController controller = await _mapContorller.future;
+    GoogleMapController controller = await _mapContorller.future;
     CameraPosition newCameraPosition = CameraPosition(
       target: pos,
       zoom: 13,
@@ -87,6 +77,29 @@ class _HospitalMapState extends State<HospitalMap> {
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(newCameraPosition),
     );
+  }
+
+  _cameraToPositionSearch() async {
+    hospitalMapGetX.hospitalName = _textEditingController.text.trim();
+    await hospitalMapGetX.getHospitalLocationData();
+    if (hospitalMapGetX.searchHospitalLocation.isNotEmpty) {
+      GoogleMapController controller = await _mapContorller.future;
+      CameraPosition serchCameraPosition = CameraPosition(
+        target: LatLng(
+          hospitalMapGetX.searchHospitalLocation[0]['wgs84Lat'],
+          hospitalMapGetX.searchHospitalLocation[0]['wgs84Lon'],
+        ),
+        zoom: 13,
+      );
+      await controller.animateCamera(
+        CameraUpdate.newCameraPosition(serchCameraPosition),
+      );
+      await controller.showMarkerInfoWindow(
+        MarkerId(
+          hospitalMapGetX.searchHospitalLocation[0]['hpid'],
+        ),
+      );
+    }
   }
 
   @override
@@ -105,14 +118,14 @@ class _HospitalMapState extends State<HospitalMap> {
           trailing: [
             IconButton(
               onPressed: () {
-                print(_textEditingController.text);
+                _cameraToPositionSearch();
               },
               icon: const Icon(Icons.search),
             ),
           ],
         ),
       ),
-      body: hospitalData.isEmpty
+      body: hospitalMapGetX.hospitalData.isEmpty
           ? const Center(
               child: Text("Loading..."),
             )
@@ -126,18 +139,20 @@ class _HospitalMapState extends State<HospitalMap> {
               myLocationEnabled: true,
               markers: Set.from(
                 List.generate(
-                  hospitalData.length,
+                  hospitalMapGetX.hospitalData.length,
                   (index) {
                     return Marker(
-                      markerId: MarkerId(hospitalData[index]['hpid']),
+                      markerId:
+                          MarkerId(hospitalMapGetX.hospitalData[index]['hpid']),
                       icon: BitmapDescriptor.defaultMarker,
                       position: LatLng(
-                        hospitalData[index]['wgs84Lat'],
-                        hospitalData[index]['wgs84Lon'],
+                        hospitalMapGetX.hospitalData[index]['wgs84Lat'],
+                        hospitalMapGetX.hospitalData[index]['wgs84Lon'],
                       ),
                       infoWindow: InfoWindow(
-                        title: hospitalData[index]['dutyName'],
-                        snippet: '${hospitalData[index]['dutyAddr']}\n${hospitalData[index]['dutyTel1']}',
+                        title: hospitalMapGetX.hospitalData[index]['dutyName'],
+                        snippet:
+                            '${hospitalMapGetX.hospitalData[index]['dutyAddr']}\n${hospitalMapGetX.hospitalData[index]['dutyTel1']}',
                       ),
                     );
                   },

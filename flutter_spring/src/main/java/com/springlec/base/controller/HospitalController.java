@@ -11,6 +11,8 @@ import com.google.gson.Gson;
 import com.springlec.base.model.HospitalDto;
 import com.springlec.base.service.HospitalDaoService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class HospitalController {
 	
@@ -36,12 +38,21 @@ public class HospitalController {
 		return ResponseEntity.ok(hostpitalJson);
 	} // hospital End
 	
-	@GetMapping("/hospitaltest")
-	public ResponseEntity<String> hospitalTest() throws Exception {
+	@GetMapping("/hospital/location")
+	public ResponseEntity<String> hospitalTest(HttpServletRequest request) throws Exception {
+		String dutyName = request.getParameter("dutyName");
 		
-		System.out.println("hospital 접속");
+		List<HospitalDto> hospitalDtos = null;
+		String hostpitalLocationJson = "";
 		
-		return ResponseEntity.ok("hospital 접속");
+		try {
+			hospitalDtos = service.hospitalLocationDaoService(dutyName);
+			hostpitalLocationJson = gson.toJson(hospitalDtos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok(hostpitalLocationJson);
+
 	} // hospitalTest End
 
 

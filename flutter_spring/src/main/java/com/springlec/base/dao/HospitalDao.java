@@ -7,5 +7,7 @@ import com.springlec.base.model.HospitalDto;
 public interface HospitalDao {
 	
 	public List<HospitalDto> hospitalDao() throws Exception;
+	
+	public List<HospitalDto> hospitalLocationDao(String dutyName) throws Exception;
 
 }
