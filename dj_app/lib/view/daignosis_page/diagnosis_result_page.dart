@@ -1,4 +1,7 @@
+import 'package:dj_app/component/appbar.dart';
+import 'package:dj_app/view/tabbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class DiagnosisResultPage extends StatefulWidget {
@@ -14,6 +17,7 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
     return Scaffold(
       body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
                 '당신의 결과는 ??? 입니다.',
@@ -72,9 +76,15 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
                   ],
                 ),
               ],
-                      ),
-            ],
-          ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Get.to(Tabbar());
+              },
+              child: const Text('처음으로')
+              ),
+          ],
+        ),
       ),
     );
   }
