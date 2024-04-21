@@ -19,7 +19,7 @@ class DiagnosisHeartPage extends StatelessWidget {
     print('=======');
     print(box.read("alcohol"));
     return Scaffold(
-      appBar: AppBarComponent(),
+      appBar: const AppBarComponent(titleName: '',),
       body: ChangeNotifierProvider(
         create: (context) => VMDiagnosisTest(),
         builder: (context, child) {

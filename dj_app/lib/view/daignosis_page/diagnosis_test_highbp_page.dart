@@ -31,7 +31,7 @@ class DaignosisHighBPPage extends StatelessWidget {
     print(box.read('genHlth'));
     print('============');
     return Scaffold(
-      appBar: AppBarComponent(),
+      appBar: const AppBarComponent(titleName: '',),
       body: ChangeNotifierProvider(
         create: (context) => VMDiagnosisTest(),
         builder: (context, child) {

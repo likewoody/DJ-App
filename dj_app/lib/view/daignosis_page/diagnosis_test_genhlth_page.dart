@@ -25,7 +25,7 @@ class DiagnosisGenHlthPage extends StatelessWidget {
 
     return Scaffold(
       
-      appBar: AppBarComponent(),
+      appBar: const AppBarComponent(titleName: '',),
       body: ChangeNotifierProvider(
         create: (context) => VMDiagnosisTest(),
         builder: (context, child) {
