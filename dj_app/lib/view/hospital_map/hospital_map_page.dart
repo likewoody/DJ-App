@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 
 class HospitalMap extends StatefulWidget {
   const HospitalMap({super.key});
@@ -18,10 +20,9 @@ class _HospitalMapState extends State<HospitalMap> {
 
   late Completer<GoogleMapController> _mapContorller;
 
-  late LatLng _pAsan;
-  late LatLng _pSamsung;
-
   late LatLng _currentP;
+
+  late List hospitalData;
 
   // initState
   @override
@@ -30,10 +31,19 @@ class _HospitalMapState extends State<HospitalMap> {
     _textEditingController = TextEditingController();
     _locationController = Location();
     _mapContorller = Completer<GoogleMapController>();
-    _pAsan = const LatLng(37.5265455, 127.1081223);
-    _pSamsung = const LatLng(37.4881193, 127.0849885);
-    _currentP = const LatLng(0, 0);
+    _currentP = const LatLng(37.4944858, 127.030066);
+    hospitalData = [];
+    getJSONData();
     getLocationUpdates();
+  }
+
+  getJSONData() async {
+    var url = Uri.parse('http://localhost:8080/hospital');
+    var response = await http.get(url);
+    var dataConvertedJSON = json.decode(utf8.decode(response.bodyBytes));
+    List result = dataConvertedJSON;
+    hospitalData.addAll(result);
+    setState(() {});
   }
 
   Future<void> getLocationUpdates() async {
@@ -102,7 +112,7 @@ class _HospitalMapState extends State<HospitalMap> {
           ],
         ),
       ),
-      body: _currentP == const LatLng(0, 0)
+      body: hospitalData.isEmpty
           ? const Center(
               child: Text("Loading..."),
             )
@@ -114,23 +124,25 @@ class _HospitalMapState extends State<HospitalMap> {
                 zoom: 15,
               ),
               myLocationEnabled: true,
-              markers: {
-                Marker(
-                  markerId: MarkerId("_currentLocation"),
-                  icon: BitmapDescriptor.defaultMarker,
-                  position: _currentP,
+              markers: Set.from(
+                List.generate(
+                  hospitalData.length,
+                  (index) {
+                    return Marker(
+                      markerId: MarkerId(hospitalData[index]['hpid']),
+                      icon: BitmapDescriptor.defaultMarker,
+                      position: LatLng(
+                        hospitalData[index]['wgs84Lat'],
+                        hospitalData[index]['wgs84Lon'],
+                      ),
+                      infoWindow: InfoWindow(
+                        title: hospitalData[index]['dutyName'],
+                        snippet: '${hospitalData[index]['dutyAddr']}\n${hospitalData[index]['dutyTel1']}',
+                      ),
+                    );
+                  },
                 ),
-                Marker(
-                  markerId: MarkerId("_sourceLocation"),
-                  icon: BitmapDescriptor.defaultMarker,
-                  position: _pAsan,
-                ),
-                Marker(
-                  markerId: MarkerId("_destinationLocation"),
-                  icon: BitmapDescriptor.defaultMarker,
-                  position: _pSamsung,
-                ),
-              },
+              ),
             ),
     );
   }
