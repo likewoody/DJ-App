@@ -11,6 +11,7 @@ class HospitalMapGetX extends GetxController {
 
   // --- Method ---
   getHospitalJSONData() async {
+    searchHospitalLocation.clear();
     var url = Uri.parse('http://localhost:8080/hospital');
     var response = await http.get(url);
     var dataConvertedJSON = json.decode(utf8.decode(response.bodyBytes));
