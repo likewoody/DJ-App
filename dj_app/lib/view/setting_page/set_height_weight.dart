@@ -10,8 +10,19 @@ class SetHeightWeight extends StatelessWidget {
   SetHeightWeight({super.key});
   // SetHeightWeight({super.key, id});
 
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
   // Property
-  String id = '';
+  // String userEmail = '';
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
   var provider; 
 
   // ---- View 1 -----
@@ -36,18 +47,10 @@ class SetHeightWeight extends StatelessWidget {
         height: 100,
         child: TextButton(
           onPressed: () {
-            print(id);
+            print(provider.userEmail);
             print(provider.selectedHeight);
             print(provider.selectedWeight);
-            FirebaseFirestore.instance
-            .collection('user')
-            .doc(id)
-            .update(
-              {
-                'height' : provider.selectedHeight,
-                'weight' : provider.selectedWeight,
-              }
-            );
+            provider.updateHeight();
             provider.showSuccessfulAlert();
           }, 
           child: Text(
@@ -77,6 +80,7 @@ class SetHeightWeight extends StatelessWidget {
               child: CircularProgressIndicator(),);
           }
           final documents = snapshot.data!.docs; // data 가져오기
+          provider.userEmail = documents[0].get('email');
           // print(documents[0].data());
           // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
           // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
@@ -99,7 +103,6 @@ class SetHeightWeight extends StatelessWidget {
 
   // ---- View 3 ----
   Widget _bodySecondView(document){
-    print(id);
     // print(document[0]['height']);
     return Padding(
       padding: const EdgeInsets.fromLTRB(0,180,0,0),
@@ -110,7 +113,6 @@ class SetHeightWeight extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-            
             
                 // 키
                 Column(
@@ -179,24 +181,24 @@ class SetHeightWeight extends StatelessWidget {
           ),
       
           // 키/몸무게 Update 설정
-          ElevatedButton(
-            onPressed: () {
-              print(id);
-              print(provider.selectedHeight);
-              print(provider.selectedWeight);
-              FirebaseFirestore.instance
-              .collection('user')
-              .doc(id)
-              .update(
-                {
-                  'height' : provider.selectedHeight,
-                  'weight' : provider.selectedWeight,
-                }
-              );
-              provider.showSuccessfulAlert();
-            }, 
-            child: const Text('키/몸무게 설정')
-          ) 
+          // ElevatedButton(
+          //   onPressed: () {
+              // print(id);
+          //     print(provider.selectedHeight);
+          //     print(provider.selectedWeight);
+          //     FirebaseFirestore.instance
+          //     .collection('user')
+          //     .doc(id)
+          //     .update(
+          //       {
+          //         'height' : provider.selectedHeight,
+          //         'weight' : provider.selectedWeight,
+          //       }
+          //     );
+          //     provider.showSuccessfulAlert();
+          //   }, 
+          //   child: const Text('키/몸무게 설정')
+          // ) 
         ],
       ),
     );

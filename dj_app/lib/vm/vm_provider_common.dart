@@ -7,15 +7,71 @@ class VMProviderCommon extends ChangeNotifier{
   // ======================================
   // ================Email==============
   // Property
-  String email = '';
+  String userEmail = '';
+  String inputEmail = '';
   // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   // // 6 자릿수 이상을 비밀번호로 설정
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   FocusNode passwordFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
+  bool duplicatedCheck = false;
+  bool duplicatedCheck2 = false;
 
   // Common
   String whichOne = '';
+
+  // Function
+  duplicatedEmailFirst() async{
+    print('check get in duplicated function');
+    if(inputEmail.isNotEmpty){
+      print("not empty input email}");
+      await updateEmail();
+    }else {
+      print('empty input email');
+    }
+  }
+
+  updateEmail() async{
+    final querySnapshot = await FirebaseFirestore.instance
+    .collection('user')
+    .get();
+
+    QueryDocumentSnapshot? targetDoc;
+
+    for (var doc in querySnapshot.docs){
+      if (doc.get('email') == userEmail) {
+        if (doc.get('email') == inputEmail) {
+          duplicatedCheck2 = false;
+          failedErrorSnack('중복된 이메일입니다.');
+          break;
+        }else{
+          targetDoc = doc;
+          duplicatedCheck2 = true;
+        }
+        print('check duplicatedCheck2 : $duplicatedCheck2');
+      } 
+    }
+
+    print('inputEmail check : $inputEmail');
+    print('userEmail check : $userEmail');
+    print(duplicatedCheck2);
+    if(duplicatedCheck2) {
+      print('get in duplicatedCheck!');
+      print('targetDoc check! $targetDoc');
+      if (targetDoc != null) {
+        // 문서 업데이트
+        await targetDoc.reference.update({
+          'email': inputEmail
+        }).then((value) => {
+          print('update successful'),
+          duplicatedCheck2 = true,
+        });
+      }
+    }else{
+      print('update failed...');
+    }
+    
+  }
 
   // ================Email=================
   // ======================================
@@ -26,20 +82,31 @@ class VMProviderCommon extends ChangeNotifier{
   // Property
   String currentPassword = '';
   String inputCurrentPassword = '';
-  String _currentErrorMsg = '';
   String fNewPassword = '';
   String sNewPassword = '';
   // 변경 완료 시 true or false
   bool _successfulChanged1 = false;
   bool _successfulChanged2 = false;
 
-  String get currentErrorMsg => _currentErrorMsg;
   bool get successfulChanged1 => _successfulChanged1;
   bool get successfulChanged2 => _successfulChanged2;
 
 
-  // Method
-  updateEmail() async{
+  // Function
+  bool changePassword(){
+    // 현재 비밀번호가 틀렸을 때 에러 스낵바
+    print("1 $successfulChanged1}");
+    print("2 $successfulChanged2}");
+    if(successfulChanged1 && successfulChanged2){
+      updatePassword();
+      print("successfully, changed password to :$sNewPassword}");
+      return true;
+    }
+    return false;
+  }
+
+
+  updatePassword() async{
     final querySnapshot = await FirebaseFirestore.instance
     .collection('user')
     .get();
@@ -47,7 +114,7 @@ class VMProviderCommon extends ChangeNotifier{
     QueryDocumentSnapshot? targetDoc;
 
     for (var doc in querySnapshot.docs){
-      if (doc.get('email') == email) {
+      if (doc.get('email') == userEmail) {
         targetDoc = doc;
         break;
       }
@@ -63,26 +130,25 @@ class VMProviderCommon extends ChangeNotifier{
     }
   }
 
+  
 
   // ----- 현재 비밀번호 체크 ------
   curPasswordCheck() {
     print("현재 비밀번호는 $currentPassword");
     print("입력한 비밀번호는 $inputCurrentPassword");
     if (inputCurrentPassword.isEmpty) {
-      _currentErrorMsg = '비밀번호를 입력해 주세요.';
+      _successfulChanged1 = false;
     } else{
       if(currentPassword != inputCurrentPassword) {
-        _currentErrorMsg = '비밀번호를 확인해 주세요.';
+        _successfulChanged1 = false;
       }else {
-        _currentErrorMsg = '';
         _successfulChanged1 = true;
       }
     }
-    notifyListeners();
 
     Future.microtask(() {
       // 여기에서는 상태가 업데이트된 상황
-      print(currentErrorMsg + " finished line"); 
+      print("finished curPasswordCheck : $_successfulChanged1"); 
     });
 
   }
@@ -97,18 +163,18 @@ class VMProviderCommon extends ChangeNotifier{
   // ----- 새로운 비밀번호 체크 ------
   newPasswordCheck() {
     fNewPassword.isEmpty || sNewPassword.isEmpty
-    ? failedErrorSnack()
+    ? failedErrorSnack('변경할 비밀번호를 정확히 입력하세요')
     : fNewPassword != sNewPassword 
-      ? failedErrorSnack()
+      ? failedErrorSnack('변경할 비밀번호를 정확히 입력하세요')
       : _successfulChanged2 = true;
     
   }
 
   // 새로운 비밀번호들이 틀렸을 때 비밀번호 틀렸을 때 error SnackBar
-  failedErrorSnack() {
+  failedErrorSnack(txt) {
     Get.snackbar(
       '경고', 
-      '변경할 비밀번호를 정확히 입력하세요',
+      '$txt',
       duration: const Duration(seconds: 2),
       backgroundColor: Colors.red,
       colorText: Colors.white
@@ -140,6 +206,44 @@ class VMProviderCommon extends ChangeNotifier{
     _selectedWeight = value;
     notifyListeners(); // 값 변경 시 구독자에게 알림
   }
+
+
+  // duplicatedEmailFirst() async{
+  //   print('check get in duplicated function');
+  //   if(inputEmail.isNotEmpty){
+  //     print("not empty input email}");
+  //     await updateEmail();
+  //   }else {
+  //     print('empty input email');
+  //   }
+  // }
+
+  updateHeight() async{
+    final querySnapshot = await FirebaseFirestore.instance
+    .collection('user')
+    .get();
+
+    QueryDocumentSnapshot? targetDoc;
+
+    for (var doc in querySnapshot.docs){
+      if (doc.get('email') == userEmail) {
+        targetDoc = doc;
+        break;
+        // duplicatedCheck2 = false;
+        // failedErrorSnack('중복된 이메일입니다.');
+      }
+    }
+
+    if (targetDoc != null) {
+      // 문서 업데이트
+      await targetDoc.reference.update({
+        'height': _selectedHeight,
+        'weight': _selectedWeight,
+      });
+      }else {
+        print('해당 이메일의 문서를 찾을 수 없습니다.');
+      }
+  }
   // ==========Height/Wegght==============
   // =====================================
 
@@ -157,21 +261,6 @@ class VMProviderCommon extends ChangeNotifier{
     );
   }
 
-  Widget showOkBtn(buttonText){
-    return ElevatedButton(
-      child: Text(buttonText),
-      onPressed: (){
-        formKey.currentState!.validate();
-        // await _emailCheck();
-    //         // provider.email = textCon.text;
-    //         // FirebaseFirestore.instance
-    //         //     .collection('user')
-    //         //     .doc(id)
-    //         //     .update({'email': provider.email});
-    //         // print(provider.email);
-      },
-    );
-  }
 
   showSuccessfulAlert() {
     Get.defaultDialog(

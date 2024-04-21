@@ -43,30 +43,14 @@ class SetPassword extends StatelessWidget {
         ),
       ),
     bottomNavigationBar: Container(
+      
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.tertiaryContainer,
         borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
       ),
       height: 100,
       child: TextButton(
-        onPressed: () {
-          provider.inputCurrentPassword = pwCon1.text;
-          provider.fNewPassword = pwCon2.text;
-          provider.sNewPassword =  pwCon3.text;
-          print('pwCon1.text : ${pwCon1.text}');
-          print('pwCon2.text : ${pwCon2.text}');
-          print('pwCon3.text : ${pwCon3.text}');
-          // 현재 비밀번호가 틀렸을 때 에러 스낵바
-          provider.curPasswordCheck();
-          provider.newPasswordCheck();
-          print("1 ${provider.successfulChanged1}");
-          print("2 ${provider.successfulChanged2}");
-          if(provider.successfulChanged1 && provider.successfulChanged2){
-            provider.updateEmail();
-            print("successfully, changed password to :${pwCon3.text}");
-            provider.showSuccessfulAlert();
-          }
-        }, 
+        onPressed: () => clickButton(), 
         child: Text(
           '비밀번호 설정',
           style: TextStyle(
@@ -97,7 +81,6 @@ class SetPassword extends StatelessWidget {
         // 현재 비밀번호 확인
         provider.currentPassword = documents[0].get('password');
 
-        // id = documents[0].id;
 
         return Padding(
           padding: const EdgeInsets.fromLTRB(0,110,0,0),
@@ -111,8 +94,13 @@ class SetPassword extends StatelessWidget {
                   child: Column(
                     children: [
                       _showPasswordInput(),
-                      provider.showOkBtn('비밀번호 변경하기'),
-
+                      ElevatedButton(
+                        child: const Text('비밀번호 변경하기'),
+                        onPressed: (){
+                          provider.formKey.currentState!.validate();
+                          clickButton();
+                        },
+                      ),
                     ],
                   ),
                 )
@@ -198,6 +186,21 @@ class SetPassword extends StatelessWidget {
           ),
         ],  
       );
+  }
+
+  // ---- View 4 ----
+  clickButton(){
+    provider.inputCurrentPassword = pwCon1.text;
+    provider.fNewPassword = pwCon2.text;
+    provider.sNewPassword =  pwCon3.text;
+    print('pwCon1.text : ${pwCon1.text}');
+    print('pwCon2.text : ${pwCon2.text}');
+    print('pwCon3.text : ${pwCon3.text}');
+    provider.curPasswordCheck();
+    provider.newPasswordCheck();
+    if(provider.changePassword()){
+      provider.showSuccessfulAlert();
+    };
   }
 
   @override
