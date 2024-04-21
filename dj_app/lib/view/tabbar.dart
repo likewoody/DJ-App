@@ -38,7 +38,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(),
+      appBar: AppBarComponent(titleName: ''),
       drawer: const DrawerComponent(),
       body: Center(
         child: TabBarView(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/vm/vm_provider_enquire.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,8 +24,55 @@ class Enquire extends StatelessWidget {
 // 이메일 넘겨 받아야함
 // 이메일 넘겨 받아야함
 
+  // ---- View 1 ----
+  Widget _builder(context){
+    return Scaffold(
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+                .collection('enquire')
+                // .orderBy(field)
+                .snapshots(),
+        builder: (context, snapshot) {
+          if (! snapshot.hasData){
+            return const Center(child: CircularProgressIndicator());
+          }
+          final documents = snapshot.data!.docs;
+          return ChangeNotifierProvider(
+            create: (context) => VMProviderEnquire(),
+            builder: (context, child) {
+              provider = Provider.of<VMProviderEnquire>(context);
+              return _bodyView(provider, context);
+            },
+          );
+        },
+      ),
+    // bottomNavi
+    bottomNavigationBar: Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.tertiaryContainer,
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
+      ),
+      height: 100,
+      child: TextButton(
+        onPressed: () {
+          provider.title = titleCon.text;
+          provider.context = contextCon.text;
+          provider.insertEnquire(userEmail);
+        }, 
+        child: Text(
+          '문의완료',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.tertiary
+            ),
+          ),
+        ),
+      ),
+    ); 
+  }
 
-
+  // ---- View 2 ----
   Widget _bodyView(provider, context) {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -106,54 +154,7 @@ class Enquire extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('문의하기'),
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        ),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-                  .collection('enquire')
-                  // .orderBy(field)
-                  .snapshots(),
-          builder: (context, snapshot) {
-            if (! snapshot.hasData){
-              return const Center(child: CircularProgressIndicator());
-            }
-            final documents = snapshot.data!.docs;
-            return ChangeNotifierProvider(
-              create: (context) => VMProviderEnquire(),
-              builder: (context, child) {
-                provider = Provider.of<VMProviderEnquire>(context);
-                return _bodyView(provider, context);
-              },
-            );
-          },
-        ),
-        // bottomNavi
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.tertiaryContainer,
-            borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
-          ),
-          height: 100,
-          child: TextButton(
-            onPressed: () {
-              provider.title = titleCon.text;
-              provider.context = contextCon.text;
-              provider.insertEnquire(userEmail);
-            }, 
-            child: Text(
-              '문의완료',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.tertiary
-              ),
-            ),
-          ),
-        ),
-      ),
-    ); 
+      child: SettingAppbar(titleName: '문의하기', builder: _builder(context)),  
+    );
   }
 }

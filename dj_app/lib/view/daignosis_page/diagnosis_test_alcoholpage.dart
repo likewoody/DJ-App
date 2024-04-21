@@ -17,7 +17,7 @@ class DiagnosisTestAlcoholPage extends StatelessWidget {
     print('=======');
     print(box.read("fruit"));
     return Scaffold(
-      appBar: AppBarComponent(),
+      appBar: const AppBarComponent(titleName: ''),
       body: ChangeNotifierProvider(
         create: (context) => VMDiagnosisTest(),
         builder: (context, child) {
