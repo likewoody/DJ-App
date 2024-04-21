@@ -6,13 +6,17 @@ class VMDiagnosisInsert extends ChangeNotifier {
 
   bool _isloading = true;
   
-  insertAction(exercise, smoker) async {
+  insertAction(consent, alcohol, fruit, genhlth, heart, highBp) async {
     notifyListeners();
     _isloading = true;
     _loadingDialog();
     FirebaseFirestore.instance.collection('dangjin').add({
-      'exercise': exercise,
-      'smoker': smoker,
+      'consent': consent,
+      'alcohol': alcohol,
+      'fruit': fruit,
+      'genhlth': genhlth,
+      'heart': heart,
+      'highBp': highBp,
       'initdate': DateTime.now().toString(),
     });
     notifyListeners();
