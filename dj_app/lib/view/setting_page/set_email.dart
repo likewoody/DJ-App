@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/component/setting_appbar.dart';
-import 'package:dj_app/vm/vm_provider_email.dart';
+import 'package:dj_app/vm/checkValidate.dart';
+import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +15,36 @@ class SetEmail extends StatelessWidget {
   final TextEditingController textCon = TextEditingController();
   var provider;
   String id = '';
+  bool emailCheck = false;
+  String userEmail = 'sdakfdslkf@naver.com';
+  
+
 
   // ---- Functions ----
+  _emailCheck() async{
+    var checkEmail = FirebaseFirestore.instance
+      .collection('user')
+      .where('email', isEqualTo: textCon.text)
+      .snapshots();
+
+    print('check1');
+    checkEmail.listen((QuerySnapshot snapshot) { 
+      emailCheck = false;
+      // 쿼리 처리 결과
+      snapshot.docs.forEach((DocumentSnapshot document) { 
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        // data['email'] == userEmail
+        emailCheck = true;
+        // : emailCheck = true;
+        
+        print('Email : ${data['email']}');
+      });
+      print(emailCheck);
+      print('successful accessed');
+    });
+  }
+
+
   _showSuccessfulAlert() {
     Get.defaultDialog(
         title: '변경 완료',
@@ -35,10 +64,11 @@ class SetEmail extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: ChangeNotifierProvider<VMProviderEmail>(
-          create: (context) => VMProviderEmail(),
+        child: ChangeNotifierProvider<VMProviderCommon>(
+          create: (context) => VMProviderCommon(),
           builder: (context, child) {
-            provider = Provider.of<VMProviderEmail>(context);
+            provider = Provider.of<VMProviderCommon>(context);
+            provider.whichOne = '이메일';
             return _bodyView(provider);
           },
         ),
@@ -52,13 +82,15 @@ class SetEmail extends StatelessWidget {
         height: 100,
         child: TextButton(
           onPressed: () {
-            provider.email = textCon.text;
-            FirebaseFirestore.instance
-                .collection('user')
-                .doc(id)
-                .update({'email': provider.email});
-            print(provider.email);
-            _showSuccessfulAlert();
+            // _emailCheck();
+            // provider.email = textCon.text;
+            // FirebaseFirestore.instance
+            //     .collection('user')
+            //     .doc(id)
+            //     .update({'email': provider.email});
+            // print(provider.email);
+            // provider.showSuccessfulAlert();
+            provider.showSuccessfulAlert();
           },
           child: Text(
             '이메일 설정',
@@ -94,56 +126,46 @@ class SetEmail extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(0, 180, 0, 0),
           child: Column(
             children: [
-              // 이메일 주소
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30, 15, 0, 0),
-                    child: Text(
-                      '이메일 주소',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ],
-              ),
 
               // 이메일 변경 입력
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30, 10, 30, 15),
-                child: TextField(
-                  controller: textCon,
-                  decoration: const InputDecoration(
-                      hintText: '이메일을 입력하세요.',
-                      hintFadeDuration: Duration(milliseconds: 100),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black))),
-                ),
+              Form(
+                key: provider.formKey,
+                child: Column(
+                  children: [
+                    _showEmailInput(),
+                    const Text(
+                      'SNS로 가입한 계정은 수정이 불가능해요!',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    provider.showOkBtn('이메일 설정'),
+                  ],
+                )
               ),
-              const Text(
-                'SNS로 가입한 계정은 수정이 불가능해요!',
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(40.0),
-                child: ElevatedButton(
-                    onPressed: () {
-                      provider.email = textCon.text;
-                      FirebaseFirestore.instance
-                          .collection('user')
-                          .doc(id)
-                          .update({'email': provider.email});
-                      print(provider.email);
-                      _showSuccessfulAlert();
-                    },
-                    child: const Text('이메일 설정')),
-              )
             ],
           ),
         );
       },
+    );
+  }
+
+  // ---- View 3 ----
+  Widget _showEmailInput(){
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(30, 80, 30, 15),
+          child: TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            focusNode: provider.emailFocus,
+            decoration: provider.textFormDecoration('Email', '   이메일을 입력해주세요')
+            .copyWith(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+            ),
+            validator: (value) => CheckValidate().validateEmail(provider.emailFocus, value!),
+          )),
+      ],
     );
   }
 

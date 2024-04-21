@@ -42,6 +42,8 @@ dependencies:
   firebase_analytics: ^10.10.0
   firebase_database: ^10.5.0
   firebase_storage: ^11.7.0
+  # firebase 인증
+  firebase_auth: ^4.19.2
 
   # Image Picker
   image_picker: ^1.0.7
@@ -74,6 +76,8 @@ dependencies:
 
   # Shared_preferences
   shared_preferences: ^2.2.2
+
+  
 
 dev_dependencies:
   flutter_test:

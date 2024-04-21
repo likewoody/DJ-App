@@ -9,13 +9,11 @@ import 'package:dj_app/view/setting_page/set_email.dart';
 import 'package:dj_app/view/setting_page/set_height_weight.dart';
 import 'package:dj_app/view/setting_page/set_password.dart';
 import 'package:dj_app/view/tabbar.dart';
-import 'package:dj_app/vm/vm_provider_height.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SettingPage extends StatelessWidget {
-  final provider = VMProviderHeightWeight();
-  SettingPage({super.key, provider});
+  SettingPage({super.key});
 
   // 이메일 받아야 함
   // 이메일 받아야 함
