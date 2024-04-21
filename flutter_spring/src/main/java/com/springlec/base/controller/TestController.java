@@ -1,6 +1,5 @@
 package com.springlec.base.controller;
 
-import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ public class TestController {
 	@Autowired
 	TestDaoService service;
 	
-	@GetMapping("/")
+	@GetMapping("/test")
 	public ResponseEntity<String> test(Model model) throws Exception {
 		
 		List<TestDto> testDtos = null;
@@ -35,15 +34,6 @@ public class TestController {
 		return ResponseEntity.ok(testJson);
 	} // test End
 	
-	@GetMapping("/apitest")
-	public void apiTest() {
-		ApiController apiController = new ApiController();
-		try {
-			apiController.apiTest();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	
-}
+} // TestController End
