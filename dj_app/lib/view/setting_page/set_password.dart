@@ -3,7 +3,6 @@ import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/vm/checkValidate.dart';
 import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class SetPassword extends StatelessWidget {
@@ -15,7 +14,18 @@ class SetPassword extends StatelessWidget {
   final TextEditingController pwCon2 = TextEditingController();
   final TextEditingController pwCon3 = TextEditingController();
   var provider;
-  String id = '';
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함// 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
+  String email = 'sdakfdslkf@naver.com';
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함
+  // 이메일 받아야함// 이메일 받아야함
 
   // ---- View 1 ----
   _streamBuidler(context){
@@ -27,6 +37,7 @@ class SetPassword extends StatelessWidget {
           builder: (context, child) {
             provider = Provider.of<VMProviderCommon>(context);
             provider.whichOne = '비밀번호';
+            provider.email = email;
             return _bodyView(provider);
           },
         ),
@@ -48,20 +59,13 @@ class SetPassword extends StatelessWidget {
           // 현재 비밀번호가 틀렸을 때 에러 스낵바
           provider.curPasswordCheck();
           provider.newPasswordCheck();
-          provider.showSuccessfulAlert();
-
-          // if(provider.successfulChanged){
-          //   provider.password = pwCon2.text;
-          //   FirebaseFirestore.instance
-          //   .collection('user')
-          //   .doc(id)
-          //   .update(
-          //     {
-          //       'password' : pwCon2.text
-          //     }
-          //   );
-            print(pwCon2.text);
-          // }
+          print("1 ${provider.successfulChanged1}");
+          print("2 ${provider.successfulChanged2}");
+          if(provider.successfulChanged1 && provider.successfulChanged2){
+            provider.updateEmail();
+            print("successfully, changed password to :${pwCon3.text}");
+            provider.showSuccessfulAlert();
+          }
         }, 
         child: Text(
           '비밀번호 설정',
@@ -83,6 +87,7 @@ class SetPassword extends StatelessWidget {
       stream: FirebaseFirestore.instance
               .collection('user')
               // .orderBy(field),
+              .where('email', isEqualTo: email)
               .snapshots(),
       builder: (context, snapshot) {
         if (! snapshot.hasData) {
@@ -91,6 +96,7 @@ class SetPassword extends StatelessWidget {
         final documents = snapshot.data!.docs;
         // 현재 비밀번호 확인
         provider.currentPassword = documents[0].get('password');
+
         // id = documents[0].id;
 
         return Padding(

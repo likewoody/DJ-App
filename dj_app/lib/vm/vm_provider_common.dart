@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,23 +7,16 @@ class VMProviderCommon extends ChangeNotifier{
   // ======================================
   // ================Email==============
   // Property
-  String _email = '';
+  String email = '';
   // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   // // 6 자릿수 이상을 비밀번호로 설정
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   FocusNode passwordFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
 
-  String get email => _email;
-
-
   // Common
   String whichOne = '';
 
-  set email(changeEmail){
-    _email = changeEmail;
-    notifyListeners();
-  }
   // ================Email=================
   // ======================================
 
@@ -36,16 +30,44 @@ class VMProviderCommon extends ChangeNotifier{
   String fNewPassword = '';
   String sNewPassword = '';
   // 변경 완료 시 true or false
-  bool _successfulChanged = false;
+  bool _successfulChanged1 = false;
+  bool _successfulChanged2 = false;
 
   String get currentErrorMsg => _currentErrorMsg;
-  bool get successfulChanged => _successfulChanged;
+  bool get successfulChanged1 => _successfulChanged1;
+  bool get successfulChanged2 => _successfulChanged2;
 
 
   // Method
+  updateEmail() async{
+    final querySnapshot = await FirebaseFirestore.instance
+    .collection('user')
+    .get();
+
+    QueryDocumentSnapshot? targetDoc;
+
+    for (var doc in querySnapshot.docs){
+      if (doc.get('email') == email) {
+        targetDoc = doc;
+        break;
+      }
+    }
+
+    if (targetDoc != null) {
+    // 문서 업데이트
+    await targetDoc.reference.update({
+      'password': sNewPassword
+    });
+    } else {
+      print('해당 이메일의 문서를 찾을 수 없습니다.');
+    }
+  }
+
+
   // ----- 현재 비밀번호 체크 ------
   curPasswordCheck() {
-    print("$currentPassword 현재 비밀번호는");
+    print("현재 비밀번호는 $currentPassword");
+    print("입력한 비밀번호는 $inputCurrentPassword");
     if (inputCurrentPassword.isEmpty) {
       _currentErrorMsg = '비밀번호를 입력해 주세요.';
     } else{
@@ -53,7 +75,7 @@ class VMProviderCommon extends ChangeNotifier{
         _currentErrorMsg = '비밀번호를 확인해 주세요.';
       }else {
         _currentErrorMsg = '';
-        _successfulChanged = true;
+        _successfulChanged1 = true;
       }
     }
     notifyListeners();
@@ -78,7 +100,7 @@ class VMProviderCommon extends ChangeNotifier{
     ? failedErrorSnack()
     : fNewPassword != sNewPassword 
       ? failedErrorSnack()
-      : _successfulChanged = true;
+      : _successfulChanged2 = true;
     
   }
 

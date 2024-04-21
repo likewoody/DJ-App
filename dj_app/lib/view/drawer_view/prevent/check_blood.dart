@@ -7,7 +7,7 @@ class BloodCheck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarComponent(),
+      appBar: const AppBarComponent(titleName: '자가혈당측정법'),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Center(
@@ -15,17 +15,17 @@ class BloodCheck extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
-              Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                width: MediaQuery.of(context).size.width,
-                child: const Text(
-                  '자가혈당측정법',
-                  style: TextStyle(
-                    fontSize: 23,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              // Container(
+              //   color: Theme.of(context).colorScheme.primaryContainer,
+              //   width: MediaQuery.of(context).size.width,
+              //   child: const Text(
+              //     '자가혈당측정법',
+              //     style: TextStyle(
+              //       fontSize: 23,
+              //     ),
+              //     textAlign: TextAlign.center,
+              //   ),
+              // ),
 
 
 
