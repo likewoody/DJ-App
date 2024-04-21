@@ -1,5 +1,4 @@
 import 'package:dj_app/component/appbar.dart';
-import 'package:dj_app/component/diabetes_compo.dart';
 import 'package:flutter/material.dart';
 
 class SymptomDiabetes extends StatelessWidget {
@@ -8,14 +7,12 @@ class SymptomDiabetes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: AppBarComponent(),
+      appBar: AppBarComponent(titleName: '당뇨병 증상'),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Center(
           child: Column(
             children: [
-              DiabetesCompo(titleName: '당뇨병 증상'),
-
 
               
               // 당뇨병 정의

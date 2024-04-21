@@ -7,7 +7,7 @@ class FoodDiabetes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarComponent(),
+      appBar: const AppBarComponent(titleName: '식사요법'),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Center(

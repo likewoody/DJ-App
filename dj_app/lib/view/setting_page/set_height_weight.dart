@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/component/setting_appbar.dart';
-import 'package:dj_app/vm/vm_provider_height.dart';
+import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class SetHeightWeight extends StatelessWidget {
@@ -20,10 +19,11 @@ class SetHeightWeight extends StatelessWidget {
   return Scaffold(
     body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      child: ChangeNotifierProvider<VMProviderHeightWeight>(
-        create: (context) => VMProviderHeightWeight(),
+      child: ChangeNotifierProvider<VMProviderCommon>(
+        create: (context) => VMProviderCommon(),
         builder: (context, child) {
-          provider = Provider.of<VMProviderHeightWeight>(context);
+          provider = Provider.of<VMProviderCommon>(context);
+          provider.whichOne = '키/몸무게';
           return _bodyView(provider);
         },
       ),
@@ -48,7 +48,7 @@ class SetHeightWeight extends StatelessWidget {
                 'weight' : provider.selectedWeight,
               }
             );
-            _showSuccessfulAlert();
+            provider.showSuccessfulAlert();
           }, 
           child: Text(
             '키/몸무게 설정',
@@ -193,31 +193,12 @@ class SetHeightWeight extends StatelessWidget {
                   'weight' : provider.selectedWeight,
                 }
               );
-              _showSuccessfulAlert();
+              provider.showSuccessfulAlert();
             }, 
             child: const Text('키/몸무게 설정')
           ) 
         ],
       ),
-    );
-  }
-
-
-
-  // ---- Functions ----
-  _showSuccessfulAlert() {
-    Get.defaultDialog(
-      title: '변경 완료',
-      middleText: '비밀번호 변경이 완료 되었습니다.',
-      actions: [
-        TextButton(
-          onPressed: () {
-            Get.back();
-            Get.back();
-          }, 
-          child: const Text('종료')
-        ),
-      ]
     );
   }
 

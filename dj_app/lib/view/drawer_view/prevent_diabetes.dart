@@ -1,5 +1,4 @@
 import 'package:dj_app/component/appbar.dart';
-import 'package:dj_app/component/diabetes_compo.dart';
 import 'package:dj_app/view/drawer_view/prevent/check_blood.dart';
 import 'package:dj_app/view/drawer_view/prevent/food.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +10,13 @@ class PreventDiabetes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarComponent(),
+      appBar: const AppBarComponent(titleName: '당뇨병 예방법'),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const DiabetesCompo(titleName: '당뇨병 예방법'),
 
 
               SizedBox(
@@ -79,7 +77,7 @@ class PreventDiabetes extends StatelessWidget {
                       ),
                     ),
                     child: const Text(
-                      '식사요법',
+                      '운동방법',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24
