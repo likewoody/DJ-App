@@ -10,13 +10,19 @@ import com.springlec.base.model.HospitalDto;
 
 @Service
 public class HospitalDaoServiceImpl implements HospitalDaoService {
-	
+
 	@Autowired
 	HospitalDao dao;
 
 	@Override
 	public List<HospitalDto> hospitalDaoService() throws Exception {
 		return dao.hospitalDao();
+	}
+
+	@Override
+	public List<HospitalDto> hospitalLocationDaoService(String dutyName) throws Exception {
+		String dutyNameLike = "%" + dutyName + "%";
+		return dao.hospitalLocationDao(dutyNameLike);
 	}
 
 }
