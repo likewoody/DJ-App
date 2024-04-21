@@ -22,7 +22,7 @@ class SettingPage extends StatelessWidget {
   // 이메일 받아야 함
   // 이메일 받아야 함
   // Property
-  final String email = 'sdakfdslkf@naver.com';
+  final String email = '123@naver.com';
   final String height = '170';
   final String weight = '70';
   String joinDate = '';

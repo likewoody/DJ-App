@@ -15,20 +15,6 @@ class BloodCheck extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
-              // Container(
-              //   color: Theme.of(context).colorScheme.primaryContainer,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: const Text(
-              //     '자가혈당측정법',
-              //     style: TextStyle(
-              //       fontSize: 23,
-              //     ),
-              //     textAlign: TextAlign.center,
-              //   ),
-              // ),
-
-
-
               // 왜 측정해야 하는가?????
               const Padding(
                 padding: EdgeInsets.fromLTRB(30,30,0,5),

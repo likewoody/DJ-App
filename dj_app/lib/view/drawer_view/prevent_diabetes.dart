@@ -1,6 +1,9 @@
 import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/view/drawer_view/prevent/check_blood.dart';
+import 'package:dj_app/view/drawer_view/prevent/exercise.dart';
 import 'package:dj_app/view/drawer_view/prevent/food.dart';
+import 'package:dj_app/view/drawer_view/prevent/lowBP.dart';
+import 'package:dj_app/view/drawer_view/prevent/tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -70,14 +73,14 @@ class PreventDiabetes extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0,20,0,20),
                   child: ElevatedButton(
-                    onPressed: (){}, 
+                    onPressed: () => Get.to(const ExerciseDiabetes()), 
                     style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))
                       ),
                     ),
                     child: const Text(
-                      '운동방법',
+                      '운동요법',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24
@@ -93,7 +96,7 @@ class PreventDiabetes extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0,20,0,20),
                   child: ElevatedButton(
-                    onPressed: (){}, 
+                    onPressed: () => Get.to(const TabletDiabetes()), 
                     style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))
@@ -116,7 +119,7 @@ class PreventDiabetes extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0,20,0,20),
                   child: ElevatedButton(
-                    onPressed: (){}, 
+                    onPressed: () => Get.to(const LowBP()), 
                     style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))

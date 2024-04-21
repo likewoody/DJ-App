@@ -3,7 +3,6 @@ import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/vm/checkValidate.dart';
 import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class SetEmail extends StatelessWidget {
@@ -16,48 +15,61 @@ class SetEmail extends StatelessWidget {
   var provider;
   String id = '';
   bool emailCheck = false;
-  String userEmail = 'sdakfdslkf@naver.com';
+  // 이메일 받아야 함
+  //// 이메일 받아야 함
+  ///// 이메일 받아야 함 
+  ///// 이메일 받아야 함
+  ///// 이메일 받아야 함
+  ///// 이메일 받아야 함
+  ///// 이메일 받아야 함
+  // String userEmail = '';
+  // 이메일 받아야 함
+  // 이메일 받아야 함
+  // 이메일 받아야 함
+  // 이메일 받아야 함
+  // 이메일 받아야 함
+
   
 
 
   // ---- Functions ----
-  _emailCheck() async{
-    var checkEmail = FirebaseFirestore.instance
-      .collection('user')
-      .where('email', isEqualTo: textCon.text)
-      .snapshots();
+  // _emailCheck() async{
+  //   var checkEmail = FirebaseFirestore.instance
+  //     .collection('user')
+  //     .where('email', isEqualTo: textCon.text)
+  //     .snapshots();
 
-    print('check1');
-    checkEmail.listen((QuerySnapshot snapshot) { 
-      emailCheck = false;
-      // 쿼리 처리 결과
-      snapshot.docs.forEach((DocumentSnapshot document) { 
-        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-        // data['email'] == userEmail
-        emailCheck = true;
-        // : emailCheck = true;
+  //   print('check1');
+  //   checkEmail.listen((QuerySnapshot snapshot) { 
+  //     emailCheck = false;
+  //     // 쿼리 처리 결과
+  //     snapshot.docs.forEach((DocumentSnapshot document) { 
+  //       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+  //       // data['email'] == userEmail
+  //       emailCheck = true;
+  //       // : emailCheck = true;
         
-        print('Email : ${data['email']}');
-      });
-      print(emailCheck);
-      print('successful accessed');
-    });
-  }
+  //       print('Email : ${data['email']}');
+  //     });
+  //     print(emailCheck);
+  //     print('successful accessed');
+  //   });
+  // }
 
 
-  _showSuccessfulAlert() {
-    Get.defaultDialog(
-        title: '변경 완료',
-        middleText: '비밀번호 변경이 완료 되었습니다.',
-        actions: [
-          TextButton(
-              onPressed: () {
-                Get.back();
-                Get.back();
-              },
-              child: const Text('종료')),
-        ]);
-  }
+  // _showSuccessfulAlert() {
+  //   Get.defaultDialog(
+  //       title: '변경 완료',
+  //       middleText: '비밀번호 변경이 완료 되었습니다.',
+  //       actions: [
+  //         TextButton(
+  //             onPressed: () {
+  //               Get.back();
+  //               Get.back();
+  //             },
+  //             child: const Text('종료')),
+  //       ]);
+  // }
 
   // ---- View 1 ----
   Widget _streamBuidler(context) {
@@ -81,16 +93,14 @@ class SetEmail extends StatelessWidget {
                 topLeft: Radius.circular(15), topRight: Radius.circular(15))),
         height: 100,
         child: TextButton(
-          onPressed: () {
-            // _emailCheck();
-            // provider.email = textCon.text;
-            // FirebaseFirestore.instance
-            //     .collection('user')
-            //     .doc(id)
-            //     .update({'email': provider.email});
-            // print(provider.email);
-            // provider.showSuccessfulAlert();
-            provider.showSuccessfulAlert();
+          onPressed: () async {
+            provider.inputEmail = textCon.text;
+            provider.formKey.currentState!.validate();
+            await provider.duplicatedEmailFirst();
+
+            provider.duplicatedCheck2
+            ? provider.showSuccessfulAlert()
+            : print('failed from duplicated function...');
           },
           child: Text(
             '이메일 설정',
@@ -118,9 +128,9 @@ class SetEmail extends StatelessWidget {
           );
         }
         final documents = snapshot.data!.docs;
-        // id 설정
-        // id = documents[0].id;
-
+        // email 설정
+        provider.userEmail = documents[0].get('email');
+        print('cehck user Email from Firebase : ${provider.userEmail}}');
         // 실제 View
         return Padding(
           padding: const EdgeInsets.fromLTRB(0, 180, 0, 0),
@@ -139,7 +149,18 @@ class SetEmail extends StatelessWidget {
                         color: Colors.grey,
                       ),
                     ),
-                    provider.showOkBtn('이메일 설정'),
+                    ElevatedButton(
+                      onPressed: ()async{
+                        provider.inputEmail = textCon.text;
+                        provider.formKey.currentState!.validate();
+                        await provider.duplicatedEmailFirst();
+                        
+                        provider.duplicatedCheck2
+                        ? provider.showSuccessfulAlert()
+                        : print('failed from duplicated function...');
+                      },
+                      child: const Text('이메일 설정'),
+                    )
                   ],
                 )
               ),
@@ -157,6 +178,7 @@ class SetEmail extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(30, 80, 30, 15),
           child: TextFormField(
+            controller: textCon,
             keyboardType: TextInputType.emailAddress,
             focusNode: provider.emailFocus,
             decoration: provider.textFormDecoration('Email', '   이메일을 입력해주세요')
