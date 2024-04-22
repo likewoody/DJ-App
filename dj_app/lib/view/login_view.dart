@@ -4,6 +4,7 @@ import 'package:dj_app/view/signup_view.dart';
 import 'package:dj_app/vm/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -15,6 +16,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   // * Property
   final LoginViewModel _viewModel = Get.put(LoginViewModel());
+  final box = GetStorage();
 
   bool _isPasswordVisible = false; // password 표시 여부
 
@@ -25,6 +27,9 @@ class _LoginViewState extends State<LoginView> {
   @override
   void initState() {
     super.initState();
+    box.erase();
+    _viewModel.emailController.text = '';
+    _viewModel.passwordController.text = '';
     _viewModel.emailController.addListener(_updateEmailClearButton);
     _viewModel.passwordController.addListener(_updatePasswordClearButton);
   } // initState
@@ -34,8 +39,8 @@ class _LoginViewState extends State<LoginView> {
   void dispose() {
     _viewModel.emailController.removeListener(_updateEmailClearButton);
     _viewModel.passwordController.removeListener(_updatePasswordClearButton);
-    _viewModel.emailController.dispose();
-    _viewModel.passwordController.dispose();
+    // _viewModel.emailController.dispose();
+    // _viewModel.passwordController.dispose();
     super.dispose();
   } // dispose
 
@@ -66,6 +71,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    print("${box.read('email')} test test test ");
     return GestureDetector(
       onTap: () => Get.focusScope!.unfocus(),
       child: Scaffold(
