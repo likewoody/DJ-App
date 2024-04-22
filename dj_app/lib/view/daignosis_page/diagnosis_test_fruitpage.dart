@@ -23,7 +23,7 @@ class DiagnosisTestFruitPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text(
-                  '과일을 섭취 하십니까?',
+                  '하루에 한개 이상 과일을 섭취 하십니까?',
                   style: TextStyle(fontSize: 20),
                 ),
                 Container(

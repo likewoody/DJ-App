@@ -9,7 +9,7 @@ class DatabaseHandler {
       join(path, 'dangjin.db'),
       onCreate: (db, version) async{
         await db.execute(
-          'CREAT TABLE dangjin '
+          'CREATE TABLE dangjin '
           '(seq integer primary key autoincrement,'
           'alcohol numeric(10),'
           'consent numeric(10),'
@@ -17,7 +17,7 @@ class DatabaseHandler {
           'genhlth numeric(10),'
           'heart numeric(10),'
           'highBp numeric(10),'
-          'initdate date'
+          'initdate date)'
         );
       },
       version: 1,

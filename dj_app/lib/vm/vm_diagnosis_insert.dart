@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dj_app/model/model_diagnosis.dart';
+import 'package:dj_app/vm/db_diagnosis_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class VMDiagnosisInsert extends ChangeNotifier {
+  late DatabaseHandler dbhandler = DatabaseHandler();
 
-  bool _isloading = true;
   
   insertAction(consent, alcohol, fruit, genhlth, heart, highBp) async {
     FirebaseFirestore.instance.collection('dangjin').add({
@@ -18,6 +20,20 @@ class VMDiagnosisInsert extends ChangeNotifier {
     });
     notifyListeners();
     Get.back();
+  }
+
+  insertSQLite(consent, alcohol, fruit, genhlth, heart, highBp) async{
+    await dbhandler.insertDiagnosis(
+      Diagnosis(
+        alcohol: alcohol,
+        consent: consent,
+        fruit: fruit,
+        genhlth: genhlth,
+        heart: heart,
+        highBp: highBp,
+        initdate: DateTime.now().toString()
+        )
+    );
   }
 
 }

@@ -10,12 +10,8 @@ import 'package:provider/provider.dart';
 class DaignosisHighBPPage extends StatelessWidget {
   final vmInsert = VMDiagnosisInsert();
   final box = GetStorage();
-  
 
-
-
-  DaignosisHighBPPage(
-      {super.key});
+  DaignosisHighBPPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +27,9 @@ class DaignosisHighBPPage extends StatelessWidget {
     print(box.read('genHlth'));
     print('============');
     return Scaffold(
-      appBar: const AppBarComponent(titleName: '',),
+      appBar: const AppBarComponent(
+        titleName: '',
+      ),
       body: ChangeNotifierProvider(
         create: (context) => VMDiagnosisTest(),
         builder: (context, child) {
@@ -44,7 +42,6 @@ class DaignosisHighBPPage extends StatelessWidget {
                   '고혈압이 있습니까??',
                   style: TextStyle(fontSize: 20),
                 ),
-                
                 Container(
                   width: 300,
                   height: 70,
@@ -80,13 +77,24 @@ class DaignosisHighBPPage extends StatelessWidget {
                 ElevatedButton(
                     onPressed: () {
                       box.write('highBp', vmSelectedValue.highBpradioValue);
-                      vmInsert.insertAction(box.read('consent'),
-                                            box.read('fruit'),
-                                            box.read('alcohol'),
-                                            box.read('heart'),
-                                            box.read('genHlth'),
-                                            box.read('highBp')
-                                            );
+                      if (box.read('consent') == 1) {
+                        vmInsert.insertAction(
+                            box.read('consent'),
+                            box.read('fruit'),
+                            box.read('alcohol'),
+                            box.read('heart'),
+                            box.read('genHlth'),
+                            box.read('highBp'));
+                      } else {
+                        vmInsert.insertSQLite(
+                            box.read('consent'),
+                            box.read('fruit'),
+                            box.read('alcohol'),
+                            box.read('heart'),
+                            box.read('genHlth'),
+                            box.read('highBp'));
+                      }
+                      
                       box.erase();
                       Get.to(DiagnosisResultPage());
                     },
@@ -98,4 +106,5 @@ class DaignosisHighBPPage extends StatelessWidget {
       ),
     );
   }
+  
 }
