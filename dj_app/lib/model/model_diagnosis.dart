@@ -8,11 +8,10 @@ class Diagnosis{
   int? heart;
   int? highBp;
   String initdate;
-  String? result;
+  double result;
 
 Diagnosis ({
   this.seq,
-  this.result,
   required this.email,
   required this.alcohol,
   required this.consent,
@@ -20,8 +19,8 @@ Diagnosis ({
   required this.genhlth,
   required this.heart,
   required this.highBp,
-  required this.initdate
-
+  required this.initdate,
+  required this.result,
 });
 
 Diagnosis.fromMap(Map<String, dynamic> res)
