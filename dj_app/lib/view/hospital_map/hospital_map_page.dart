@@ -79,7 +79,7 @@ class _HospitalMapState extends State<HospitalMap> {
     GoogleMapController controller = await _mapContorller.future;
     CameraPosition newCameraPosition = CameraPosition(
       target: pos,
-      zoom: 13,
+      zoom: 15,
     );
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(newCameraPosition),
@@ -104,7 +104,7 @@ class _HospitalMapState extends State<HospitalMap> {
           hospitalMapGetX.searchHospitalLocation[0]['wgs84Lat'],
           hospitalMapGetX.searchHospitalLocation[0]['wgs84Lon'],
         ),
-        zoom: 13,
+        zoom: 1500,
       );
       await controller.animateCamera(
         CameraUpdate.newCameraPosition(serchCameraPosition),

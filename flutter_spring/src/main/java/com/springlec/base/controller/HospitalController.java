@@ -15,46 +15,38 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class HospitalController {
-	
+
 	@Autowired
 	Gson gson;
 	@Autowired
 	HospitalDaoService service;
-	
+
 	@GetMapping("/hospital")
 	public ResponseEntity<String> hospital() throws Exception {
-		
+
 		System.out.println("hospital 접속");
-		
+
 		List<HospitalDto> hospitalDtos = null;
 		String hostpitalJson = "";
+
+		hospitalDtos = service.hospitalDaoService();
+		hostpitalJson = gson.toJson(hospitalDtos);
 		
-		try {
-			hospitalDtos = service.hospitalDaoService();
-			hostpitalJson = gson.toJson(hospitalDtos);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return ResponseEntity.ok(hostpitalJson);
 	} // hospital End
-	
+
 	@GetMapping("/hospital/location")
 	public ResponseEntity<String> hospitalTest(HttpServletRequest request) throws Exception {
 		String dutyName = request.getParameter("dutyName");
-		
+
 		List<HospitalDto> hospitalDtos = null;
 		String hostpitalLocationJson = "";
-		
-		try {
-			hospitalDtos = service.hospitalLocationDaoService(dutyName);
-			hostpitalLocationJson = gson.toJson(hospitalDtos);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		hospitalDtos = service.hospitalLocationDaoService(dutyName);
+		hostpitalLocationJson = gson.toJson(hospitalDtos);
+
 		return ResponseEntity.ok(hostpitalLocationJson);
 
 	} // hospitalTest End
-
-
 
 } // HospitalController End

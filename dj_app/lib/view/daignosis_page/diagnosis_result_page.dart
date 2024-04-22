@@ -80,7 +80,7 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Get.to(Tabbar());
+                Get.to(const Tabbar());
               },
               child: const Text('처음으로')
               ),
