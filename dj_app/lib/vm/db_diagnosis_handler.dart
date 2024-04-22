@@ -1,4 +1,5 @@
 import 'package:dj_app/model/model_diagnosis.dart';
+import 'package:dj_app/model/model_dignosis_result.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -36,6 +37,15 @@ class DatabaseHandler {
       [diagnosis.email, diagnosis.alcohol, diagnosis.consent, diagnosis.fruit, diagnosis.genhlth, diagnosis.heart, diagnosis.highBp, diagnosis.result, diagnosis.initdate]
     );
     return result;
+  }
+
+  Future<List<DiagnosisResult>> queryDiagnosis(email) async{
+    final Database db = await initalizeDB();
+    final List<Map<String, Object?>> queryResult 
+      = await db.rawQuery('select * from dangjin where email = ?',
+      [email]);
+    // 맵 형식인 result를 List로 변환하여 card로 사용한다.
+    return queryResult.map((e) => DiagnosisResult.fromMap(e)).toList();
   }
 
 

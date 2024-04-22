@@ -3,9 +3,11 @@ import 'package:dj_app/model/model_diagnosis.dart';
 import 'package:dj_app/vm/db_diagnosis_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class VMDiagnosisInsert extends ChangeNotifier {
   late DatabaseHandler dbhandler = DatabaseHandler();
+  final box = GetStorage();
 
   
   insertAction(consent, alcohol, fruit, genhlth, heart, highBp, email, result) async {
