@@ -1,8 +1,6 @@
 import 'package:dj_app/component/appbar.dart';
-import 'package:dj_app/component/custom_dialog.dart';
 import 'package:dj_app/component/custom_snackbar.dart';
 import 'package:dj_app/view/signup_view.dart';
-import 'package:dj_app/view/tabbar.dart';
 import 'package:dj_app/vm/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -55,39 +53,12 @@ class _LoginViewState extends State<LoginView> {
     });
   }
 
-  void _checkIdPassword() {
-    _viewModel.loginAction(_viewModel.emailController.text.trim(),
-        _viewModel.passwordController.text.trim());
-
+  void _checkIdPassword(context) {
     if (_viewModel.emailController.text.trim().isEmpty ||
         _viewModel.passwordController.text.trim().isEmpty) {
       CustomSnackbar.errorSnackbar(context);
     } else {
-      if (_viewModel.emailController.text.trim() == 'admin' &&
-          _viewModel.passwordController.text.trim() == 'qwer1234') {
-        CustomDialog.buttonDialog(
-          "환영합니다.",
-          "신분이 확인되었습니다.",
-          [
-            TextButton(
-              onPressed: () {
-                Get.offAll(
-                  () => const Tabbar(),
-                );
-              },
-              child: const Text(
-                '확인',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        );
-      } else {
-        CustomSnackbar.warnSnackBar(context);
-      }
+      _viewModel.loginAction(context);
     }
   }
 
@@ -264,7 +235,7 @@ class _LoginViewState extends State<LoginView> {
                       width: 390,
                       height: 65,
                       child: ElevatedButton(
-                        onPressed: () => _checkIdPassword(),
+                        onPressed: () => _checkIdPassword(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               Theme.of(context).colorScheme.secondaryContainer,
