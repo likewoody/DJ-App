@@ -83,22 +83,19 @@ dependencies:
   # GetStorage
   get_storage: ^2.1.1
 
-  # # intl (Flutter의 공식 국제화 및 지역화 라이브러리)
-  # intl: ^0.19.0
+  # intl (Flutter의 공식 국제화 및 지역화 라이브러리)
+  intl: ^0.19.0
 
-  # # table_calendar
-  # table_calendar: ^3.1.1
+  # table_calendar
+  table_calendar: ^3.1.1
 
-  # # multi_masked_formatter
-  # multi_masked_formatter: ^1.0.0
-
+  # multi_masked_formatter
+  multi_masked_formatter: ^1.0.0
   # Sqlite
   sqflite: ^2.3.3
 
   # Path (경로 설정을 쉽게)
   path: ^1.9.0
-
-
 
 dev_dependencies:
   flutter_test:

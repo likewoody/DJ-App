@@ -1,4 +1,3 @@
-import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/view/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
