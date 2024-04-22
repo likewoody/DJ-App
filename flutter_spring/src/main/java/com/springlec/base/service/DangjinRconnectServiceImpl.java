@@ -51,8 +51,6 @@ public class DangjinRconnectServiceImpl implements DangjinRconnectService {
 			AgeResult = 13;
 		}
 		
-		System.out.println(AgeResult);
-
 		double BMI = Weight / (Height * Height);
 		int HeartDiseaseorAttack = Integer.parseInt(heart);
 		int Fruits = Integer.parseInt(fruit);
@@ -67,7 +65,7 @@ public class DangjinRconnectServiceImpl implements DangjinRconnectService {
 		// " "안에 있는 코드는 R code
 		conn.voidEval("library(randomForest)"); // library 불러오기
 		// AI 불러오기
-		conn.voidEval("rf <- readRDS('/Users/won/DJ-App/R/project_randomForest_1-2.rds')");
+		conn.voidEval("rf <- readRDS('/Library/Tomcat/webapps/ROOT/Flutter/Rserve/project_randomForest_1-2.rds')");
 		// AI 구동하기
 		conn.voidEval("result <- as.character(predict(rf, (list(" + "Age=" + AgeResult + ", Sex=" + Sex + ", BMI=" + BMI
 				+ ", HeartDiseaseorAttack=" + HeartDiseaseorAttack + ", Fruits=" + Fruits + ", HvyAlcoholConsump="

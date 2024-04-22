@@ -62,10 +62,13 @@ public class Rcontroller {
 		String result = service.DangjinRconnect(age, gender, weight
 				, height, alcohol, fruit, heart, highBp, genHlth);
 		
-		System.out.println(age + gender + weight + height + alcohol + fruit + heart + highBp);
-
 		return ResponseEntity.ok(result);
 		
 	} // dangjinR Method End
+	
+	@GetMapping("/testpath")
+	public void testPath(HttpServletRequest request) throws Exception {
+		System.out.println(request.getServletContext().getRealPath("/"));
+	}
 
 } // Rcontroller Class End
