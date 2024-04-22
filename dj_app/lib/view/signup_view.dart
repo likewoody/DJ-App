@@ -1,6 +1,6 @@
 import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/component/custom_dialog.dart';
-import 'package:dj_app/view/login_view.dart';
+import 'package:dj_app/vm/signup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:multi_masked_formatter/multi_masked_formatter.dart';
@@ -14,17 +14,12 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   // * Property //
+  final SignUpViewModel _viewModel = Get.put(SignUpViewModel());
+
   int currentStep = 0; // 현재 Step 위치
 
   bool get isFirstStep => currentStep == 0; // 첫 번째 Step
   bool get isLastStep => currentStep == steps().length - 1; // 마지막 Step
-
-  final _emailController = TextEditingController();
-  final _password1Controller = TextEditingController();
-  final _password2Controller = TextEditingController();
-  final _nameController = TextEditingController();
-  final _birthdayController = TextEditingController();
-  final _phoneController = TextEditingController();
 
   bool _isPasswordVisible = false; // password 표시 여부
 
@@ -36,12 +31,11 @@ class _SignUpViewState extends State<SignUpView> {
   bool _showPhoneClearButton = false;
 
   DateTime? _selectedDay; // 선택한 생년월일
-  String? _selectedGender; // 선택한 성별
 
   // 정규식
   final _emailRegExp = RegExp(r'^[a-z0-9\.\-_]+@([a-z0-9\-]+\.)+[a-z]{2,4}$');
-  final _passwordRegExp = RegExp(
-      r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[a-zA-Z\d$@$!%*#?&]{8,}$');
+  final _passwordRegExp =
+      RegExp(r'^(?=.[a-zA-Z])(?=.\d)(?=.[$@$!%#?&])[a-zA-Z\d$@$!%*#?&]{8,}$');
   final _nameRegExp = RegExp(r'^[가-힣]{2,4}$');
   final _phoneRegExp = RegExp(r'(^\d{3})-\d{3,4}-\d{4}$');
 
@@ -55,27 +49,27 @@ class _SignUpViewState extends State<SignUpView> {
   @override
   void initState() {
     super.initState();
-    _emailController.addListener(_updateEmailClearButton);
-    _password1Controller.addListener(_updatePassword1ClearButton);
-    _password2Controller.addListener(_updatePassword2ClearButton);
-    _nameController.addListener(_updateNameClearButton);
-    _phoneController.addListener(_updatePhoneClearButton);
+    _viewModel.emailController.addListener(_updateEmailClearButton);
+    _viewModel.password1Controller.addListener(_updatePassword1ClearButton);
+    _viewModel.password2Controller.addListener(_updatePassword2ClearButton);
+    _viewModel.nameController.addListener(_updateNameClearButton);
+    _viewModel.phoneController.addListener(_updatePhoneClearButton);
   }
 
   // * 텍스트 리스너, 스크롤 컨트롤러, 포커스 노드 등의 리소스 사용으로 인한 메모리 누수 방지!
   @override
   void dispose() {
-    _emailController.removeListener(_updateEmailClearButton);
-    _password1Controller.removeListener(_updatePassword1ClearButton);
-    _password2Controller.removeListener(_updatePassword2ClearButton);
-    _nameController.removeListener(_updateNameClearButton);
-    _phoneController.removeListener(_updatePhoneClearButton);
-    _emailController.dispose();
-    _password1Controller.dispose();
-    _password2Controller.dispose();
-    _nameController.dispose();
-    _birthdayController.dispose();
-    _phoneController.dispose();
+    _viewModel.emailController.removeListener(_updateEmailClearButton);
+    _viewModel.password1Controller.removeListener(_updatePassword1ClearButton);
+    _viewModel.password2Controller.removeListener(_updatePassword2ClearButton);
+    _viewModel.nameController.removeListener(_updateNameClearButton);
+    _viewModel.phoneController.removeListener(_updatePhoneClearButton);
+    _viewModel.emailController.dispose();
+    _viewModel.password1Controller.dispose();
+    _viewModel.password2Controller.dispose();
+    _viewModel.nameController.dispose();
+    _viewModel.birthdayController.dispose();
+    _viewModel.phoneController.dispose();
     super.dispose();
   }
 
@@ -84,37 +78,39 @@ class _SignUpViewState extends State<SignUpView> {
   // *** Functions **** //
   void _updateEmailClearButton() {
     setState(() {
-      _showEmailClearButton = _emailController.text.isNotEmpty;
+      _showEmailClearButton = _viewModel.emailController.text.isNotEmpty;
     });
   }
 
   void _updatePassword1ClearButton() {
     setState(() {
-      _showPassword1ClearButton = _password1Controller.text.isNotEmpty;
+      _showPassword1ClearButton =
+          _viewModel.password1Controller.text.isNotEmpty;
     });
   }
 
   void _updatePassword2ClearButton() {
     setState(() {
-      _showPassword2ClearButton = _password2Controller.text.isNotEmpty;
+      _showPassword2ClearButton =
+          _viewModel.password2Controller.text.isNotEmpty;
     });
   }
 
   void _updateNameClearButton() {
     setState(() {
-      _showNameClearButton = _nameController.text.isNotEmpty;
+      _showNameClearButton = _viewModel.nameController.text.isNotEmpty;
     });
   }
 
   void _updatePhoneClearButton() {
     setState(() {
-      _showPhoneClearButton = _phoneController.text.isNotEmpty;
+      _showPhoneClearButton = _viewModel.phoneController.text.isNotEmpty;
     });
   }
 
   void _setSelectedGender(String gender) {
     setState(() {
-      _selectedGender = gender;
+      _viewModel.gender = gender;
     });
   }
 
@@ -142,26 +138,38 @@ class _SignUpViewState extends State<SignUpView> {
               children: <Widget>[
                 const Padding(
                   padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    "E-mail을 입력해 주세요 :)\n"
-                    "@ 앞 부분은 영문, 숫자만 사용할 수 있습니다.\n"
-                    "회원 정보 조회 시 사용됩니다.",
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "E-mail을 입력해 주세요 :)\n"
+                        "회원 정보 조회 시 사용됩니다.",
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        "@ 앞 부분은 영문, 숫자만 사용할 수 있습니다.",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
                   width: 300,
                   child: TextFormField(
-                    controller: _emailController,
+                    controller: _viewModel.emailController,
                     decoration: InputDecoration(
                       hintText: "E-mail을 입력해 주세요 :)",
                       hintFadeDuration: const Duration(milliseconds: 500),
                       suffixIcon: _showEmailClearButton
                           ? GestureDetector(
-                              onTap: () =>
-                                  _emailController.clear(), // Field 초기화
+                              onTap: () => _viewModel.emailController
+                                  .clear(), // Field 초기화
                               child: Icon(
                                 Icons.clear,
                                 color: Colors.grey.shade400,
@@ -202,7 +210,7 @@ class _SignUpViewState extends State<SignUpView> {
                     onChanged: (value) {
                       setState(() {
                         _showEmailClearButton =
-                            _emailController.text.isNotEmpty;
+                            _viewModel.emailController.text.isNotEmpty;
                       });
                     },
                   ),
@@ -231,12 +239,31 @@ class _SignUpViewState extends State<SignUpView> {
               children: <Widget>[
                 const Padding(
                   padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    "영문, 숫자, 특수문자 최소 1개씩 조합하여\n"
-                    "최소 8자리 이상을 입력해 주시기를 바랍니다 :)",
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          "비밀번호는 다음의 기준을 만족해야 합니다 :)",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "- 최소 8자리 이상\n"
+                        "- 최소 1개 이상의 영문자(대,소문자 구분 X) 포함!\n"
+                        "- 최소 1개 이상의 숫자 포함!\n"
+                        "- 최소 1개 이상의 특수문자 포함!",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Row(
@@ -244,15 +271,15 @@ class _SignUpViewState extends State<SignUpView> {
                     SizedBox(
                       width: 270,
                       child: TextFormField(
-                        controller: _password1Controller,
+                        controller: _viewModel.password1Controller,
                         obscureText: !_isPasswordVisible, // 비밀번호 마스킹 처리.
                         decoration: InputDecoration(
                           hintText: "비밀번호를 입력해 주세요 :)",
                           hintFadeDuration: const Duration(milliseconds: 500),
                           suffixIcon: _showPassword1ClearButton
                               ? GestureDetector(
-                                  onTap: () =>
-                                      _password1Controller.clear(), // Field 초기화
+                                  onTap: () => _viewModel.password1Controller
+                                      .clear(), // Field 초기화
                                   child: Icon(
                                     Icons.clear,
                                     color: Colors.grey.shade400,
@@ -293,7 +320,7 @@ class _SignUpViewState extends State<SignUpView> {
                         onChanged: (value) {
                           setState(() {
                             _showPassword1ClearButton =
-                                _password1Controller.text.isNotEmpty;
+                                _viewModel.password1Controller.text.isNotEmpty;
                           });
                         },
                       ),
@@ -326,15 +353,15 @@ class _SignUpViewState extends State<SignUpView> {
                 SizedBox(
                   width: 300,
                   child: TextFormField(
-                    controller: _password2Controller,
+                    controller: _viewModel.password2Controller,
                     obscureText: !_isPasswordVisible, // 비밀번호 마스킹 처리.
                     decoration: InputDecoration(
                       hintText: "다시 한번 더 입력해 주세요 :)",
                       hintFadeDuration: const Duration(milliseconds: 500),
                       suffixIcon: _showPassword2ClearButton
                           ? GestureDetector(
-                              onTap: () =>
-                                  _password2Controller.clear(), // Field 초기화
+                              onTap: () => _viewModel.password2Controller
+                                  .clear(), // Field 초기화
                               child: Icon(
                                 Icons.clear,
                                 color: Colors.grey.shade400,
@@ -368,8 +395,8 @@ class _SignUpViewState extends State<SignUpView> {
                       if (!_passwordRegExp.hasMatch(value)) {
                         return '유효한 비밀번호를 입력해주세요!';
                       }
-                      if (_password1Controller.text !=
-                          _password2Controller.text) {
+                      if (_viewModel.password1Controller.text.trim() !=
+                          _viewModel.password2Controller.text.trim()) {
                         return "비밀번호가 일치하지 않습니다!";
                       }
                       return null;
@@ -379,7 +406,7 @@ class _SignUpViewState extends State<SignUpView> {
                     onChanged: (value) {
                       setState(() {
                         _showPassword2ClearButton =
-                            _password2Controller.text.isNotEmpty;
+                            _viewModel.password2Controller.text.isNotEmpty;
                       });
                     },
                   ),
@@ -421,14 +448,14 @@ class _SignUpViewState extends State<SignUpView> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
-                      controller: _nameController,
+                      controller: _viewModel.nameController,
                       decoration: InputDecoration(
                         hintText: "사용자 이름을 입력해 주세요 :)",
                         hintFadeDuration: const Duration(milliseconds: 500),
                         suffixIcon: _showNameClearButton
                             ? GestureDetector(
-                                onTap: () =>
-                                    _nameController.clear(), // Field 초기화
+                                onTap: () => _viewModel.nameController
+                                    .clear(), // Field 초기화
                                 child: Icon(
                                   Icons.clear,
                                   color: Colors.grey.shade400,
@@ -469,7 +496,7 @@ class _SignUpViewState extends State<SignUpView> {
                       onChanged: (value) {
                         setState(() {
                           _showNameClearButton =
-                              _nameController.text.isNotEmpty;
+                              _viewModel.nameController.text.isNotEmpty;
                         });
                       },
                     ),
@@ -500,19 +527,19 @@ class _SignUpViewState extends State<SignUpView> {
                             SizedBox(
                               width: 160,
                               child: TextFormField(
-                                controller: _birthdayController,
+                                controller: _viewModel.birthdayController,
                                 readOnly: true,
                                 decoration: InputDecoration(
                                   hintText: "선택하기 :)",
                                   hintFadeDuration:
                                       const Duration(milliseconds: 500),
                                   suffixIcon: GestureDetector(
-                                    onTap: () => {},
-                                    //     CustomDialog.showCalendarDialog(
-                                    //   context,
-                                    //   _birthdayController,
-                                    //   _selectedDay,
-                                    // ),
+                                    onTap: () =>
+                                        CustomDialog.showCalendarDialog(
+                                      context,
+                                      _viewModel.birthdayController,
+                                      _selectedDay,
+                                    ),
                                     child: const Icon(
                                       Icons.calendar_today,
                                     ),
@@ -557,7 +584,7 @@ class _SignUpViewState extends State<SignUpView> {
                                     onPressed: () => _setSelectedGender(
                                       "male",
                                     ),
-                                    style: _selectedGender == "male"
+                                    style: _viewModel.gender == "male"
                                         ? ElevatedButton.styleFrom(
                                             elevation: 8,
                                             backgroundColor: Theme.of(context)
@@ -584,7 +611,7 @@ class _SignUpViewState extends State<SignUpView> {
                                   onPressed: () => _setSelectedGender(
                                     "female",
                                   ),
-                                  style: _selectedGender == "female"
+                                  style: _viewModel.gender == "female"
                                       ? ElevatedButton.styleFrom(
                                           elevation: 8,
                                           backgroundColor: Theme.of(context)
@@ -628,14 +655,14 @@ class _SignUpViewState extends State<SignUpView> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
-                      controller: _phoneController,
+                      controller: _viewModel.phoneController,
                       decoration: InputDecoration(
                         hintText: "휴대폰 번호를 입력해 주세요 :)",
                         hintFadeDuration: const Duration(milliseconds: 500),
                         suffixIcon: _showPhoneClearButton
                             ? GestureDetector(
-                                onTap: () =>
-                                    _phoneController.clear(), // Field 초기화
+                                onTap: () => _viewModel.phoneController
+                                    .clear(), // Field 초기화
                                 child: Icon(
                                   Icons.clear,
                                   color: Colors.grey.shade400,
@@ -685,7 +712,7 @@ class _SignUpViewState extends State<SignUpView> {
                       onChanged: (value) {
                         setState(() {
                           _showPhoneClearButton =
-                              _phoneController.text.isNotEmpty;
+                              _viewModel.phoneController.text.isNotEmpty;
                         });
                       },
                     ),
@@ -746,10 +773,8 @@ class _SignUpViewState extends State<SignUpView> {
                           if (_formKeys[currentStep].currentState!.validate()) {
                             // 마지막 단계인 경우 회원가입 완료 로직 실행
                             if (isLastStep) {
-                              Get.offAll(
-                                () => const LoginView(),
-                                transition: Transition.fadeIn,
-                              );
+                              _viewModel.signUpAction();
+                              CustomDialog.signUpResultDialog(context);
                             } else {
                               setState(() => currentStep += 1);
                             }
