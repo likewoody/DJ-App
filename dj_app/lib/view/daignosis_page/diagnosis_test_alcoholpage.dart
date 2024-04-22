@@ -26,9 +26,17 @@ class DiagnosisTestAlcoholPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const Text(
-                '음주를 하십니까?',
+              const Column(
+                children: [
+                  Text(
+                    '일주일에 음주를 하시나요?',
+                    style: TextStyle(fontSize: 20),
+                  ),
+              Text(
+                '(맥주 기준 남성 14잔 이상, 여성 7잔 이상)',
                 style: TextStyle(fontSize: 20),
+              ),
+                ],
               ),
               Container(
                 width: 300,

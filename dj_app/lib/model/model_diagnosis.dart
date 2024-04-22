@@ -1,5 +1,6 @@
 class Diagnosis{
   int? seq;
+  String email;
   int? alcohol;
   int? consent;
   int? fruit;
@@ -12,6 +13,7 @@ class Diagnosis{
 Diagnosis ({
   this.seq,
   this.result,
+  required this.email,
   required this.alcohol,
   required this.consent,
   required this.fruit,
@@ -24,6 +26,7 @@ Diagnosis ({
 
 Diagnosis.fromMap(Map<String, dynamic> res)
   : seq = res['seq'],
+    email = res['email'],
     alcohol = res['alcohol'],
     consent = res['consent'],
     fruit = res['fruit'],

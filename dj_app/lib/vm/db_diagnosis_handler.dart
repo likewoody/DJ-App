@@ -9,15 +9,16 @@ class DatabaseHandler {
       join(path, 'dangjin.db'),
       onCreate: (db, version) async{
         await db.execute(
-          'CREAT TABLE dangjin '
+          'CREATE TABLE dangjin '
           '(seq integer primary key autoincrement,'
+          'email TEXT(30),'
           'alcohol numeric(10),'
           'consent numeric(10),'
           'fruit numeric(10),'
           'genhlth numeric(10),'
           'heart numeric(10),'
           'highBp numeric(10),'
-          'initdate date'
+          'initdate date)'
         );
       },
       version: 1,
@@ -29,9 +30,9 @@ class DatabaseHandler {
     int result;
     result = await db.rawInsert(
       'INSERT INTO dangjin '
-      '(alcohol,consent,fruit,genhlth,heart,highBp,initdate) '
-      'VALUES (?,?,?,?,?,?,?)',
-      [diagnosis.alcohol, diagnosis.consent, diagnosis.fruit, diagnosis.genhlth, diagnosis.heart, diagnosis.highBp, diagnosis.initdate]
+      '(email, alcohol, consent, fruit, genhlth, heart, highBp, initdate) '
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [diagnosis.email, diagnosis.alcohol, diagnosis.consent, diagnosis.fruit, diagnosis.genhlth, diagnosis.heart, diagnosis.highBp, diagnosis.initdate]
     );
     return result;
   }
