@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/component/setting_appbar.dart';
+import 'package:dj_app/view/login_view.dart';
 import 'package:dj_app/view/setting_page/enquire.dart';
 import 'package:dj_app/view/setting_page/enquire_list.dart';
 import 'package:dj_app/view/setting_page/personal_info.dart';
@@ -17,7 +18,6 @@ class SettingPage extends StatelessWidget {
   SettingPage({super.key});
 
   // Property
-  String joinDate = '';
   String id = '';
   var provider;
   String userEmail = '';
@@ -31,17 +31,12 @@ class SettingPage extends StatelessWidget {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
               .collection('user')
-              .where('email', isEqualTo: userEmail)
+              // .where('email', isEqualTo: userEmail)
               .snapshots(),
       builder: (context, snapshot) {
-        if (! snapshot.hasData){
-          return const Center(child: CircularProgressIndicator(),);
-        }
-
-        snapshot.data!.docs.forEach((doc) {
-          joinDate = doc.get('dateofjoin');
-        });
-        print('joinDate : $joinDate');
+        if (! snapshot.hasData){return const Center(child: CircularProgressIndicator(),);}
+        // fruit@hanmail.net
+        // bubble123@@
 
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -95,7 +90,7 @@ class SettingPage extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                '내 가입정보',
+                '로그인 정보',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey
@@ -107,27 +102,20 @@ class SettingPage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // 고객이 SNS를 이용하여 가입했다면 그 SNS 로고 넣기
-            // Padding(
-            //   padding: const EdgeInsets.all(20.0),
-            //   child: Image.asset(
-            //     'images/Kakao_logo.jpg',
-            //     width: 30,
-            //     height: 30,
-            //     fit: BoxFit.fill,
-            //   ),
-            // ),
 
             Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.fromLTRB(20,0,0,0),
               child: Text(userEmail),
             ),
 
-            // 가입일자, 무슨 방법으로 가입했는지
             Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(joinDate),
-            )
+              padding: const EdgeInsets.fromLTRB(0,0,20,0),
+              child: TextButton(
+                onPressed: () => _executeSignout(), 
+                child: const Text('로그아웃')
+              ),
+            ),
+
           ],
         ),
       ],
@@ -401,6 +389,22 @@ class SettingPage extends StatelessWidget {
     print(userEmail);
     print('Successful Delete User Info');
     provider.disposeStorage();
+  }
+
+  _executeSignout() {
+    Get.defaultDialog(
+      title: '알림',
+      middleText: '로그아웃 되었습니다.',
+      actions: [
+        TextButton(
+          onPressed: (){
+            // provider.disposeStorage();
+            Get.off(const LoginView());
+          }, 
+          child: const Text('종료')
+        ),
+      ]
+    );
   }
 
   @override
