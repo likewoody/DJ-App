@@ -91,6 +91,7 @@ dependencies:
 
   # multi_masked_formatter
   multi_masked_formatter: ^1.0.0
+  
   # Sqlite
   sqflite: ^2.3.3
 
