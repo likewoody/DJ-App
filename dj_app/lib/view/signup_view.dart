@@ -3,7 +3,7 @@ import 'package:dj_app/component/custom_dialog.dart';
 import 'package:dj_app/vm/signup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:multi_masked_formatter/multi_masked_formatter.dart';
+// import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -688,13 +688,13 @@ class _SignUpViewState extends State<SignUpView> {
                       autocorrect:
                           true, // 사용자가 텍스트를 입력할 때 오타나 잘못된 단어를 자동으로 수정하는 기능
                       inputFormatters: [
-                        MultiMaskedTextInputFormatter(
-                          masks: [
-                            'xxx-xxx-xxxx',
-                            'xxx-xxxx-xxxx',
-                          ],
-                          separator: '-',
-                        ),
+                        // MultiMaskedTextInputFormatter(
+                        //   masks: [
+                        //     'xxx-xxx-xxxx',
+                        //     'xxx-xxxx-xxxx',
+                        //   ],
+                        //   separator: '-',
+                        // ),
                       ],
                       // *******************************************************
                       // Phone 유효성 검사(정규식 패턴)

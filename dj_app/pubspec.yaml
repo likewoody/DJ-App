@@ -91,12 +91,15 @@ dependencies:
 
   # multi_masked_formatter
   multi_masked_formatter: ^1.0.0
-
+  
   # Sqlite
   sqflite: ^2.3.3
 
   # Path (경로 설정을 쉽게)
   path: ^1.9.0
+
+  # Diagnosis View Page Chart
+  syncfusion_flutter_charts: ^25.1.40
 
 dev_dependencies:
   flutter_test:

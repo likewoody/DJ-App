@@ -4,7 +4,6 @@ import 'package:dj_app/view/setting_page/enquire.dart';
 import 'package:dj_app/view/setting_page/enquire_list.dart';
 import 'package:dj_app/view/setting_page/personal_info.dart';
 import 'package:dj_app/view/setting_page/service_info.dart';
-import 'package:dj_app/view/setting_page/set_alarm.dart';
 import 'package:dj_app/view/setting_page/set_email.dart';
 import 'package:dj_app/view/setting_page/set_height_weight.dart';
 import 'package:dj_app/view/setting_page/set_password.dart';
@@ -206,24 +205,6 @@ class SettingPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
               child: IconButton(
                 onPressed: () => Get.to(SetPassword()), 
-                icon:const  Icon(Icons.arrow_forward_ios)
-              ),
-            ),
-          ],
-        ),
-
-        // 알림 설정 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20,5,0,5),
-              child: Text('알림 설정'),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0,5,15,5),
-              child: IconButton(
-                onPressed: () =>  Get.to(SetAlarm()), 
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
             ),

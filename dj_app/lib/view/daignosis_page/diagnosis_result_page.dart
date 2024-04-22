@@ -1,4 +1,3 @@
-import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/view/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -79,7 +78,7 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Get.to(Tabbar());
+                Get.to(const Tabbar());
               },
               child: const Text('처음으로')
               ),

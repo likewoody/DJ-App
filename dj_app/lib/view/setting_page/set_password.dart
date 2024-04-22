@@ -20,7 +20,7 @@ class SetPassword extends StatelessWidget {
   // 이메일 받아야함
   // 이메일 받아야함
   // 이메일 받아야함
-  String email = 'sdakfdslkf@naver.com';
+  String email = '1231@naver.com';
   // 이메일 받아야함
   // 이메일 받아야함
   // 이메일 받아야함
@@ -37,7 +37,7 @@ class SetPassword extends StatelessWidget {
           builder: (context, child) {
             provider = Provider.of<VMProviderCommon>(context);
             provider.whichOne = '비밀번호';
-            provider.email = email;
+            provider.userEmail = email;
             return _bodyView(provider);
           },
         ),
