@@ -6,70 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SetEmail extends StatelessWidget {
-  // final id;
   SetEmail({super.key});
-  // SetEmail({super.key, required this.id});
 
   // Property
   final TextEditingController textCon = TextEditingController();
   var provider;
-  String id = '';
+  String userEmail = '';
   bool emailCheck = false;
-  // 이메일 받아야 함
-  //// 이메일 받아야 함
-  ///// 이메일 받아야 함 
-  ///// 이메일 받아야 함
-  ///// 이메일 받아야 함
-  ///// 이메일 받아야 함
-  ///// 이메일 받아야 함
-  // String userEmail = '';
-  // 이메일 받아야 함
-  // 이메일 받아야 함
-  // 이메일 받아야 함
-  // 이메일 받아야 함
-  // 이메일 받아야 함
-
-  
-
-
-  // ---- Functions ----
-  // _emailCheck() async{
-  //   var checkEmail = FirebaseFirestore.instance
-  //     .collection('user')
-  //     .where('email', isEqualTo: textCon.text)
-  //     .snapshots();
-
-  //   print('check1');
-  //   checkEmail.listen((QuerySnapshot snapshot) { 
-  //     emailCheck = false;
-  //     // 쿼리 처리 결과
-  //     snapshot.docs.forEach((DocumentSnapshot document) { 
-  //       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-  //       // data['email'] == userEmail
-  //       emailCheck = true;
-  //       // : emailCheck = true;
-        
-  //       print('Email : ${data['email']}');
-  //     });
-  //     print(emailCheck);
-  //     print('successful accessed');
-  //   });
-  // }
-
-
-  // _showSuccessfulAlert() {
-  //   Get.defaultDialog(
-  //       title: '변경 완료',
-  //       middleText: '비밀번호 변경이 완료 되었습니다.',
-  //       actions: [
-  //         TextButton(
-  //             onPressed: () {
-  //               Get.back();
-  //               Get.back();
-  //             },
-  //             child: const Text('종료')),
-  //       ]);
-  // }
 
   // ---- View 1 ----
   Widget _streamBuidler(context) {
@@ -81,6 +24,7 @@ class SetEmail extends StatelessWidget {
           builder: (context, child) {
             provider = Provider.of<VMProviderCommon>(context);
             provider.whichOne = '이메일';
+            userEmail = provider.getStorageUserEmail();
             return _bodyView(provider);
           },
         ),
@@ -129,7 +73,6 @@ class SetEmail extends StatelessWidget {
         }
         final documents = snapshot.data!.docs;
         // email 설정
-        provider.userEmail = documents[0].get('email');
         print('cehck user Email from Firebase : ${provider.userEmail}}');
         // 실제 View
         return Padding(

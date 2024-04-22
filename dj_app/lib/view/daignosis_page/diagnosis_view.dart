@@ -4,13 +4,15 @@ import 'package:dj_app/model/model_dignosis_result.dart';
 import 'package:dj_app/view/daignosis_page/diagnosis_result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DiagnosisView extends StatelessWidget {
   DiagnosisView({super.key});
 
   // Property
-  String email = "1231@naver.com";
+  final box = GetStorage();
+  String userEmail = "";
   String result = '';
   String initdate = '';
   List snapshotList = [];
@@ -77,6 +79,7 @@ class DiagnosisView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    userEmail = box.read('email');
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -93,7 +96,7 @@ class DiagnosisView extends StatelessWidget {
             // 조건을 넣기 위해 for문 돌리면서 조건 찾기
             snapshot.data!.docs.forEach((doc) {
               print(doc.get('email'));
-              if(doc.get('email') == email) {
+              if(doc.get('email') == userEmail) {
                 snapshotList.add(doc.data());
                 data.add(ChartModel(date: doc.get('initdate'), result: int.parse(doc.get('result'))));
               }

@@ -8,24 +8,20 @@ import 'package:dj_app/view/setting_page/set_email.dart';
 import 'package:dj_app/view/setting_page/set_height_weight.dart';
 import 'package:dj_app/view/setting_page/set_password.dart';
 import 'package:dj_app/view/tabbar.dart';
+import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class SettingPage extends StatelessWidget {
   SettingPage({super.key});
 
-  // 이메일 받아야 함
-  // 이메일 받아야 함
-  // 이메일 받아야 함
-  // 이메일 받아야 함
-  // 이메일 받아야 함
-  // 이메일 받아야 함
   // Property
-  final String email = '123@naver.com';
-  final String height = '170';
-  final String weight = '70';
   String joinDate = '';
   String id = '';
+  var provider;
+  String userEmail = '';
+  
 
 
   // ***************************************
@@ -35,48 +31,55 @@ class SettingPage extends StatelessWidget {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
               .collection('user')
-              .where('email', isEqualTo: email)
+              .where('email', isEqualTo: userEmail)
               .snapshots(),
       builder: (context, snapshot) {
         if (! snapshot.hasData){
           return const Center(child: CircularProgressIndicator(),);
         }
-        var documents = snapshot.data!.docs;
-        if(documents.isNotEmpty) {
-          joinDate = documents[0].get('date');
-          id = documents[0].id;  
-        }
-        print(email);
-        print(id);
+
+        snapshot.data!.docs.forEach((doc) {
+          joinDate = doc.get('dateofjoin');
+        });
+        print('joinDate : $joinDate');
+
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-          
-              userInfoSetPage(),
-          
-              // Divider
-              const Divider(
-                thickness: 1,
-              ),
-          
-          
-              updateInfoPage(),
-          
-              // Divider
-              const Divider(
-                thickness: 1,
-              ),
-          
-              appInfoPage(),
-        
-              // Divider
-              const Divider(
-                thickness: 1,
-              ),
-        
-              deletePage(),
-            ],
+          child: ChangeNotifierProvider<VMProviderCommon>(
+            create: (context) => VMProviderCommon(),
+            builder: (context, child) {
+              final provider = Provider.of<VMProviderCommon>(context);
+              // storage로 전달 받는 email 불러오기
+              userEmail = provider.getStorageUserEmail();
+              return Column(
+              children: [
+            
+                userInfoSetPage(),
+            
+                // Divider
+                const Divider(
+                  thickness: 1,
+                ),
+            
+            
+                updateInfoPage(),
+            
+                // Divider
+                const Divider(
+                  thickness: 1,
+                ),
+            
+                appInfoPage(),
+                    
+                // Divider
+                const Divider(
+                  thickness: 1,
+                ),
+                    
+                deletePage(),
+              ],
+            );
+            },
           ),
         );
       },
@@ -117,13 +120,13 @@ class SettingPage extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Text(email),
+              child: Text(userEmail),
             ),
 
             // 가입일자, 무슨 방법으로 가입했는지
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Text('$joinDate 카카오 간편가입'),
+              child: Text(joinDate),
             )
           ],
         ),
@@ -395,8 +398,9 @@ class SettingPage extends StatelessWidget {
       .delete();
 
     print(id);
-    print(email);
+    print(userEmail);
     print('Successful Delete User Info');
+    provider.disposeStorage();
   }
 
   @override
