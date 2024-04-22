@@ -71,7 +71,7 @@ class DiagnosisTestAlcoholPage extends StatelessWidget {
                   },
                   child: const Text('다음 질문')),
             ],
-          ),
+          )
         );
         },
       ),

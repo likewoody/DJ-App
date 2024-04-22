@@ -61,22 +61,22 @@ class _LoginViewState extends State<LoginView> {
     } else {
       if (_emailController.text.trim() == 'admin' &&
           _passwordController.text.trim() == 'qwer1234') {
-        CustomDialog.buttonDialog(
-          [
-            TextButton(
-              onPressed: () {
-                // TODO: 로그인 처리
-              },
-              child: const Text(
-                '확인',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        );
+          // CustomDialog.buttonDialog(
+          //   [
+          //     TextButton(
+          //       onPressed: () {
+          //         // TODO: 로그인 처리
+          //       },
+          //       child: const Text(
+          //         '확인',
+          //         style: TextStyle(
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // );
       } else {
         CustomSnackbar.warnSnackBar(context);
       }
