@@ -18,6 +18,7 @@ class DatabaseHandler {
           'genhlth numeric(10),'
           'heart numeric(10),'
           'highBp numeric(10),'
+          'result numeric(100),'
           'initdate date)'
         );
       },
@@ -30,9 +31,9 @@ class DatabaseHandler {
     int result;
     result = await db.rawInsert(
       'INSERT INTO dangjin '
-      '(email, alcohol, consent, fruit, genhlth, heart, highBp, initdate) '
-      'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [diagnosis.email, diagnosis.alcohol, diagnosis.consent, diagnosis.fruit, diagnosis.genhlth, diagnosis.heart, diagnosis.highBp, diagnosis.initdate]
+      '(email, alcohol, consent, fruit, genhlth, heart, highBp, result, initdate) '
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [diagnosis.email, diagnosis.alcohol, diagnosis.consent, diagnosis.fruit, diagnosis.genhlth, diagnosis.heart, diagnosis.highBp, diagnosis.result, diagnosis.initdate]
     );
     return result;
   }

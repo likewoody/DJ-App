@@ -93,10 +93,10 @@ class DaignosisHighBPPage extends StatelessWidget {
                           .where("email", isEqualTo: box.read('email'))
                           .get();
 
-                          dangjinRConnect.gender = querySnapshot.docs[0]['gender'];
-                          dangjinRConnect.age = querySnapshot.docs[0]['birthday'];
-                          dangjinRConnect.height = querySnapshot.docs[0]['height'];
-                          dangjinRConnect.weight = querySnapshot.docs[0]['weight'];
+                          dangjinRConnect.gender = querySnapshot.docs[0]['gender'].toString();
+                          dangjinRConnect.age = querySnapshot.docs[0]['birthday'].toString();
+                          dangjinRConnect.height = querySnapshot.docs[0]['height'].toString();
+                          dangjinRConnect.weight = querySnapshot.docs[0]['weight'].toString();
                           await dangjinRConnect.getDangjinRConnect();
                       if (box.read('consent') == 1) {
                         vmInsert.insertAction(
@@ -106,8 +106,11 @@ class DaignosisHighBPPage extends StatelessWidget {
                             box.read('heart'),
                             box.read('genHlth'),
                             box.read('highBp'),
-                            box.read('email'));
+                            box.read('email'),
+                            dangjinRConnect.result
+                            );
                       } else {
+                        print(dangjinRConnect.result.toString());
                         vmInsert.insertSQLite(
                             box.read('consent'),
                             box.read('fruit'),
@@ -115,7 +118,9 @@ class DaignosisHighBPPage extends StatelessWidget {
                             box.read('heart'),
                             box.read('genHlth'),
                             box.read('highBp'),
-                            box.read('email'));
+                            box.read('email'),
+                            dangjinRConnect.result,
+                            );
                       }
                       box.remove('consent');
                       box.remove('fruit');

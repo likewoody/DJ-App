@@ -49,9 +49,20 @@ public class Rcontroller {
 	public ResponseEntity<String> dangjinR(HttpServletRequest request) throws Exception {
 
 		request.setCharacterEncoding("utf-8");
-		request.getParameter(null);
+		String age = request.getParameter("age");
+		String gender = request.getParameter("gender");
+		String weight = request.getParameter("weight");
+		String height = request.getParameter("height");
+		String alcohol = request.getParameter("alcohol");
+		String fruit = request.getParameter("fruit");
+		String heart = request.getParameter("heart");
+		String highBp = request.getParameter("highBp");
+		String genHlth = request.getParameter("genHlth");
 		
-		String result = service.DangjinRconnect();
+		String result = service.DangjinRconnect(age, gender, weight
+				, height, alcohol, fruit, heart, highBp, genHlth);
+		
+		System.out.println(age + gender + weight + height + alcohol + fruit + heart + highBp);
 
 		return ResponseEntity.ok(result);
 		

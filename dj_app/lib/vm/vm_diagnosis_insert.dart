@@ -8,7 +8,7 @@ class VMDiagnosisInsert extends ChangeNotifier {
   late DatabaseHandler dbhandler = DatabaseHandler();
 
   
-  insertAction(consent, alcohol, fruit, genhlth, heart, highBp,email) async {
+  insertAction(consent, alcohol, fruit, genhlth, heart, highBp, email, result) async {
     FirebaseFirestore.instance.collection('dangjin').add({
       'consent': consent,
       'alcohol': alcohol,
@@ -17,13 +17,14 @@ class VMDiagnosisInsert extends ChangeNotifier {
       'heart': heart,
       'highBp': highBp,
       'email': email,
+      'result': result,
       'initdate': DateTime.now().toString(),
     });
     notifyListeners();
     Get.back();
   }
 
-  insertSQLite(consent, alcohol, fruit, genhlth, heart, highBp,email) async{
+  insertSQLite(consent, alcohol, fruit, genhlth, heart, highBp, email, result) async{
     await dbhandler.insertDiagnosis(
       Diagnosis(
         alcohol: alcohol,
@@ -33,6 +34,7 @@ class VMDiagnosisInsert extends ChangeNotifier {
         heart: heart,
         highBp: highBp,
         email: email,
+        result: result,
         initdate: DateTime.now().toString()
         )
     );
