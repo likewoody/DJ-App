@@ -27,7 +27,7 @@ class _LoginViewState extends State<LoginView> {
     super.initState();
     _viewModel.emailController.addListener(_updateEmailClearButton);
     _viewModel.passwordController.addListener(_updatePasswordClearButton);
-  }
+  } // initState
 
   // * 텍스트 리스너, 스크롤 컨트롤러, 포커스 노드 등의 리소스 사용으로 인한 메모리 누수 방지!
   @override
@@ -37,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
     _viewModel.emailController.dispose();
     _viewModel.passwordController.dispose();
     super.dispose();
-  }
+  } // dispose
 
   // *** Functions **** //
 
@@ -45,13 +45,13 @@ class _LoginViewState extends State<LoginView> {
     setState(() {
       _showEmailClearButton = _viewModel.emailController.text.isNotEmpty;
     });
-  }
+  } // _updateEmailClearButton
 
   void _updatePasswordClearButton() {
     setState(() {
       _showPasswordClearButton = _viewModel.passwordController.text.isNotEmpty;
     });
-  }
+  } // _updatePasswordClearButton
 
   void _checkIdPassword(context) {
     if (_viewModel.emailController.text.trim().isEmpty ||
@@ -60,7 +60,7 @@ class _LoginViewState extends State<LoginView> {
     } else {
       _viewModel.loginAction(context);
     }
-  }
+  } // _checkIdPassword
 
   // ---------------------------------------------------------------------------
 
