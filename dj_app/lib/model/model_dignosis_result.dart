@@ -1,6 +1,6 @@
 class DiagnosisResult{
-  String result;
-  String initdate;
+  final String result;
+  final String initdate;
 
   DiagnosisResult({
     required this.result,

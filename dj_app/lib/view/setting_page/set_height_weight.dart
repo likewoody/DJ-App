@@ -6,27 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SetHeightWeight extends StatelessWidget {
-  // final id;
   SetHeightWeight({super.key});
-  // SetHeightWeight({super.key, id});
-
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
+  
   // Property
-  // String userEmail = '';
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
+  String userEmail = '';
   var provider; 
 
   // ---- View 1 -----
-  Widget _streamBuilder(context) {
+  Widget _scaffold(context) {
   return Scaffold(
     body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -35,6 +22,7 @@ class SetHeightWeight extends StatelessWidget {
         builder: (context, child) {
           provider = Provider.of<VMProviderCommon>(context);
           provider.whichOne = '키/몸무게';
+          userEmail = provider.getStorageUserEmail();
           return _bodyView(provider);
         },
       ),
@@ -47,9 +35,9 @@ class SetHeightWeight extends StatelessWidget {
         height: 100,
         child: TextButton(
           onPressed: () {
-            print(provider.userEmail);
-            print(provider.selectedHeight);
-            print(provider.selectedWeight);
+            print("provider.userEmail check : ${provider.userEmail}");
+            print("provider.userEmail check : ${provider.selectedHeight}");
+            print("provider.userEmail check : ${provider.selectedWeight}");
             provider.updateHeight();
             provider.showSuccessfulAlert();
           }, 
@@ -80,21 +68,6 @@ class SetHeightWeight extends StatelessWidget {
               child: CircularProgressIndicator(),);
           }
           final documents = snapshot.data!.docs; // data 가져오기
-          provider.userEmail = documents[0].get('email');
-          // print(documents[0].data());
-          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
-          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
-          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
-          // id = documents[0].id;
-          // provider.selectedHeight = documents[0].get('height');
-          // provider.selectedWeight = documents[0].get('weight');
-          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
-          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
-          // 추후에 로그인 시 user ID를 통해 몇번째인지 확인할 수 있어야한다.
-          
-          //   print(doc.id); // 문서의 ID 출력
-          //   print(doc.get('height')); // 특정 필드의 값 출력
-          //   print(doc.get('weight')); // 특정 필드의 값 출력
           return _bodySecondView(documents);
         }
       )
@@ -103,7 +76,6 @@ class SetHeightWeight extends StatelessWidget {
 
   // ---- View 3 ----
   Widget _bodySecondView(document){
-    // print(document[0]['height']);
     return Padding(
       padding: const EdgeInsets.fromLTRB(0,180,0,0),
       child: Column(
@@ -206,6 +178,6 @@ class SetHeightWeight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingAppbar(titleName: '키/몸무게 설정', builder: _streamBuilder(context));
+    return SettingAppbar(titleName: '키/몸무게 설정', builder: _scaffold(context));
   }
 }

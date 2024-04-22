@@ -16,13 +16,7 @@ class Enquire extends StatelessWidget {
   final TextEditingController contextCon = TextEditingController();
   final TextEditingController dateCon = TextEditingController();
   var provider;
-  String userEmail = 'sdakfdslkf@naver.com';
-  // 이메일 넘겨 받아야함
-// 이메일 넘겨 받아야함
-// 이메일 넘겨 받아야함
-// 이메일 넘겨 받아야함
-// 이메일 넘겨 받아야함
-// 이메일 넘겨 받아야함
+  String userEmail = '';
 
   // ---- View 1 ----
   Widget _builder(context){
@@ -41,6 +35,7 @@ class Enquire extends StatelessWidget {
             create: (context) => VMProviderEnquire(),
             builder: (context, child) {
               provider = Provider.of<VMProviderEnquire>(context);
+              userEmail = provider.getStorageUserEmail();
               return _bodyView(provider, context);
             },
           );
