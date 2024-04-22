@@ -3,7 +3,7 @@ import 'package:dj_app/component/custom_dialog.dart';
 import 'package:dj_app/vm/signup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:multi_masked_formatter/multi_masked_formatter.dart';
+import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -54,7 +54,7 @@ class _SignUpViewState extends State<SignUpView> {
     _viewModel.password2Controller.addListener(_updatePassword2ClearButton);
     _viewModel.nameController.addListener(_updateNameClearButton);
     _viewModel.phoneController.addListener(_updatePhoneClearButton);
-  }
+  } // initState
 
   // * 텍스트 리스너, 스크롤 컨트롤러, 포커스 노드 등의 리소스 사용으로 인한 메모리 누수 방지!
   @override
@@ -71,7 +71,7 @@ class _SignUpViewState extends State<SignUpView> {
     _viewModel.birthdayController.dispose();
     _viewModel.phoneController.dispose();
     super.dispose();
-  }
+  } // dispose
 
   // ---------------------------------------------------------------------------
 
@@ -80,39 +80,39 @@ class _SignUpViewState extends State<SignUpView> {
     setState(() {
       _showEmailClearButton = _viewModel.emailController.text.isNotEmpty;
     });
-  }
+  } // _updateEmailClearButton
 
   void _updatePassword1ClearButton() {
     setState(() {
       _showPassword1ClearButton =
           _viewModel.password1Controller.text.isNotEmpty;
     });
-  }
+  } // _updatePassword1ClearButton
 
   void _updatePassword2ClearButton() {
     setState(() {
       _showPassword2ClearButton =
           _viewModel.password2Controller.text.isNotEmpty;
     });
-  }
+  } // _updatePassword2ClearButton
 
   void _updateNameClearButton() {
     setState(() {
       _showNameClearButton = _viewModel.nameController.text.isNotEmpty;
     });
-  }
+  } // _updateNameClearButton
 
   void _updatePhoneClearButton() {
     setState(() {
       _showPhoneClearButton = _viewModel.phoneController.text.isNotEmpty;
     });
-  }
+  } // _updatePhoneClearButton
 
   void _setSelectedGender(String gender) {
     setState(() {
       _viewModel.gender = gender;
     });
-  }
+  } // _setSelectedGender
 
   // ---------------------------------------------------------------------------
 
@@ -688,13 +688,13 @@ class _SignUpViewState extends State<SignUpView> {
                       autocorrect:
                           true, // 사용자가 텍스트를 입력할 때 오타나 잘못된 단어를 자동으로 수정하는 기능
                       inputFormatters: [
-                        // MultiMaskedTextInputFormatter(
-                        //   masks: [
-                        //     'xxx-xxx-xxxx',
-                        //     'xxx-xxxx-xxxx',
-                        //   ],
-                        //   separator: '-',
-                        // ),
+                        MultiMaskedTextInputFormatter(
+                          masks: [
+                            'xxx-xxx-xxxx',
+                            'xxx-xxxx-xxxx',
+                          ],
+                          separator: '-',
+                        ),
                       ],
                       // *******************************************************
                       // Phone 유효성 검사(정규식 패턴)
