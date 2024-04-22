@@ -1,3 +1,4 @@
+import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/view/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBarComponent(titleName: ""),
       body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
