@@ -7,9 +7,11 @@ class Diagnosis{
   int? heart;
   int? highBp;
   String initdate;
+  String? result;
 
 Diagnosis ({
   this.seq,
+  this.result,
   required this.alcohol,
   required this.consent,
   required this.fruit,
@@ -28,6 +30,7 @@ Diagnosis.fromMap(Map<String, dynamic> res)
     genhlth = res['genhlth'],
     heart = res['heart'],
     highBp = res['highBp'],
+    result = res['result'],
     initdate = res['initdate'];
 
 }
