@@ -1,5 +1,5 @@
 import 'package:dj_app/firebase_options.dart';
-import 'package:dj_app/view/tabbar.dart';
+import 'package:dj_app/view/login_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
               seedColor: const Color.fromARGB(255, 239, 74, 63)),
           useMaterial3: true,
         ),
-        home: const Tabbar()
+        home: const LoginView()
       );
   }
 }
