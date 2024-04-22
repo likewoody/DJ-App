@@ -2,6 +2,8 @@ import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/component/custom_dialog.dart';
 import 'package:dj_app/component/custom_snackbar.dart';
 import 'package:dj_app/view/signup_view.dart';
+import 'package:dj_app/view/tabbar.dart';
+import 'package:dj_app/vm/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,8 +16,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   // * Property
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final LoginViewModel _viewModel = Get.put(LoginViewModel());
 
   bool _isPasswordVisible = false; // password 표시 여부
 
@@ -26,17 +27,17 @@ class _LoginViewState extends State<LoginView> {
   @override
   void initState() {
     super.initState();
-    _emailController.addListener(_updateEmailClearButton);
-    _passwordController.addListener(_updatePasswordClearButton);
+    _viewModel.emailController.addListener(_updateEmailClearButton);
+    _viewModel.passwordController.addListener(_updatePasswordClearButton);
   }
 
   // * 텍스트 리스너, 스크롤 컨트롤러, 포커스 노드 등의 리소스 사용으로 인한 메모리 누수 방지!
   @override
   void dispose() {
-    _emailController.removeListener(_updateEmailClearButton);
-    _passwordController.removeListener(_updatePasswordClearButton);
-    _emailController.dispose();
-    _passwordController.dispose();
+    _viewModel.emailController.removeListener(_updateEmailClearButton);
+    _viewModel.passwordController.removeListener(_updatePasswordClearButton);
+    _viewModel.emailController.dispose();
+    _viewModel.passwordController.dispose();
     super.dispose();
   }
 
@@ -44,28 +45,35 @@ class _LoginViewState extends State<LoginView> {
 
   void _updateEmailClearButton() {
     setState(() {
-      _showEmailClearButton = _emailController.text.isNotEmpty;
+      _showEmailClearButton = _viewModel.emailController.text.isNotEmpty;
     });
   }
 
   void _updatePasswordClearButton() {
     setState(() {
-      _showPasswordClearButton = _passwordController.text.isNotEmpty;
+      _showPasswordClearButton = _viewModel.passwordController.text.isNotEmpty;
     });
   }
 
   void _checkIdPassword() {
-    if (_emailController.text.trim().isEmpty ||
-        _passwordController.text.trim().isEmpty) {
+    _viewModel.loginAction(_viewModel.emailController.text.trim(),
+        _viewModel.passwordController.text.trim());
+
+    if (_viewModel.emailController.text.trim().isEmpty ||
+        _viewModel.passwordController.text.trim().isEmpty) {
       CustomSnackbar.errorSnackbar(context);
     } else {
-      if (_emailController.text.trim() == 'admin' &&
-          _passwordController.text.trim() == 'qwer1234') {
+      if (_viewModel.emailController.text.trim() == 'admin' &&
+          _viewModel.passwordController.text.trim() == 'qwer1234') {
         CustomDialog.buttonDialog(
+          "환영합니다.",
+          "신분이 확인되었습니다.",
           [
             TextButton(
               onPressed: () {
-                // TODO: 로그인 처리
+                Get.offAll(
+                  () => const Tabbar(),
+                );
               },
               child: const Text(
                 '확인',
@@ -126,7 +134,7 @@ class _LoginViewState extends State<LoginView> {
                       child: SizedBox(
                         width: 390,
                         child: TextField(
-                          controller: _emailController,
+                          controller: _viewModel.emailController,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(
                               Icons.mail,
@@ -136,8 +144,8 @@ class _LoginViewState extends State<LoginView> {
                             hintFadeDuration: const Duration(milliseconds: 500),
                             suffixIcon: _showEmailClearButton
                                 ? GestureDetector(
-                                    onTap: () =>
-                                        _emailController.clear(), // Field 초기화
+                                    onTap: () => _viewModel.emailController
+                                        .clear(), // Field 초기화
                                     child: Icon(
                                       Icons.clear,
                                       color: Colors.grey.shade400,
@@ -161,7 +169,7 @@ class _LoginViewState extends State<LoginView> {
                           onChanged: (value) {
                             setState(() {
                               _showEmailClearButton =
-                                  _emailController.text.isNotEmpty;
+                                  _viewModel.emailController.text.isNotEmpty;
                             });
                           },
                         ),
@@ -177,7 +185,7 @@ class _LoginViewState extends State<LoginView> {
                           SizedBox(
                             width: 335,
                             child: TextField(
-                              controller: _passwordController,
+                              controller: _viewModel.passwordController,
                               obscureText: !_isPasswordVisible, // 비밀번호 마스킹 처리.
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
@@ -189,7 +197,8 @@ class _LoginViewState extends State<LoginView> {
                                     const Duration(milliseconds: 500),
                                 suffixIcon: _showPasswordClearButton
                                     ? GestureDetector(
-                                        onTap: () => _passwordController
+                                        onTap: () => _viewModel
+                                            .passwordController
                                             .clear(), // Field 초기화
                                         child: Icon(
                                           Icons.clear,
@@ -216,8 +225,8 @@ class _LoginViewState extends State<LoginView> {
                               // clear button 구현!
                               onChanged: (value) {
                                 setState(() {
-                                  _showPasswordClearButton =
-                                      _passwordController.text.isNotEmpty;
+                                  _showPasswordClearButton = _viewModel
+                                      .passwordController.text.isNotEmpty;
                                 });
                               },
                             ),
