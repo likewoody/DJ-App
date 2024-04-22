@@ -1,5 +1,6 @@
 import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/view/tabbar.dart';
+import 'package:dj_app/vm/vm_dangjin_r.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -12,24 +13,23 @@ class DiagnosisResultPage extends StatefulWidget {
 }
 
 class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
+  final DangjinRConnect dangjinRConnect = Get.put(DangjinRConnect());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(titleName: ""),
       body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                '당신의 결과는 ??? 입니다.',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-                ),
-                ),
-              SfRadialGauge(
-                      axes: <RadialAxis>[
-              RadialAxis(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '당신의 당뇨병 확률은 ${dangjinRConnect.result.toString().substring(2, 4)}% 입니다.',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SfRadialGauge(
+              axes: <RadialAxis>[
+                RadialAxis(
                   showLabels: false,
                   showAxisLine: false,
                   showTicks: false,
@@ -53,7 +53,8 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
                       endValue: 66,
                       color: Color(0xFFFFBA00),
                       label: 'Moderate',
-                      labelStyle: GaugeTextStyle(fontFamily: 'Times', fontSize: 20),
+                      labelStyle:
+                          GaugeTextStyle(fontFamily: 'Times', fontSize: 20),
                       startWidth: 0.65,
                       endWidth: 0.65,
                       sizeUnit: GaugeSizeUnit.factor,
@@ -63,7 +64,8 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
                       endValue: 99,
                       color: Color(0xFF00AB47),
                       label: 'Fast',
-                      labelStyle: GaugeTextStyle(fontFamily: 'Times', fontSize: 20),
+                      labelStyle:
+                          GaugeTextStyle(fontFamily: 'Times', fontSize: 20),
                       sizeUnit: GaugeSizeUnit.factor,
                       startWidth: 0.65,
                       endWidth: 0.65,
@@ -71,7 +73,7 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
                   ],
                   pointers: <GaugePointer>[
                     NeedlePointer(
-                      value: 90,
+                      value: dangjinRConnect.result*100,
                       enableAnimation: true,
                     ),
                   ],
@@ -79,15 +81,13 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
               ],
             ),
             ElevatedButton(
-              onPressed: () {
-                Get.to(const Tabbar());
-              },
-              child: const Text('처음으로')
-              ),
+                onPressed: () {
+                  Get.to(const Tabbar());
+                },
+                child: const Text('처음으로')),
           ],
         ),
       ),
     );
   }
 }
-
