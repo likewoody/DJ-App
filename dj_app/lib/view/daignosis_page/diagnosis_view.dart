@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dj_app/model/model_chart.dart';
 import 'package:dj_app/model/model_dignosis_result.dart';
 import 'package:dj_app/view/daignosis_page/diagnosis_result_page.dart';
+import 'package:dj_app/vm/db_diagnosis_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,7 +16,8 @@ class DiagnosisView extends StatelessWidget {
   String result = '';
   String initdate = '';
   List snapshotList = [];
-  List<ChartModel> data = [];
+  List<DiagnosisResult> data = [];
+  DatabaseHandler handler = DatabaseHandler();
 
 
   // Function
@@ -28,7 +29,7 @@ class DiagnosisView extends StatelessWidget {
   // View
   Widget _buildItemWidget(doc, context){
     dateFormat(doc['initdate']);
-    final diagnosis = DiagnosisResult(result: doc['result'], initdate: dateFormat(doc['initdate']));
+    final diagnosis = DiagnosisResult(result: doc['result'].toString().substring(2,4), initdate: dateFormat(doc['initdate']));
 
     return Dismissible(
       direction: DismissDirection.endToStart,
@@ -98,12 +99,21 @@ class DiagnosisView extends StatelessWidget {
               print(doc.get('email'));
               if(doc.get('email') == userEmail) {
                 snapshotList.add(doc.data());
-                data.add(ChartModel(date: doc.get('initdate'), result: int.parse(doc.get('result'))));
+                data.add(DiagnosisResult(initdate: doc.get('initdate'), result: (doc.get('result')* 100).toString().substring(0,2)));
               }
             });
             // 조건을 넣기 위해 for문 돌리면서 조건 찾기
+
             return Column(
               children: [
+                
+                // for SQLite Search
+                FutureBuilder(
+                  future: handler.queryDiagnosis(userEmail), 
+                  builder: (context, snapshot) {
+                    
+                  },
+                ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 400,
@@ -120,11 +130,11 @@ class DiagnosisView extends StatelessWidget {
                     // LineSeries : 선 그래프
                     // ScatterSeries : 산점도
                     // DeveloperData의 format이 2개라서 2개를 잡아줬는데 1나 밖에 사용하지 않을 때 '_'을 사용한다.
-                    LineSeries<ChartModel, dynamic>(
+                    LineSeries<DiagnosisResult, dynamic>(
                       color: Colors.red,
                       dataSource: data, // show data
-                      xValueMapper: (ChartModel chartModel, _) => chartModel.date.toString().substring(0,10), // x 
-                      yValueMapper: (ChartModel chartModel, _) => chartModel.result, // y
+                      xValueMapper: (DiagnosisResult chartModel, _) => chartModel.initdate.toString().substring(0,10), // x 
+                      yValueMapper: (DiagnosisResult chartModel, _) => int.parse(chartModel.result), // y
                       dataLabelSettings: const DataLabelSettings(isVisible: true), // y축 값 표시
                       enableTooltip: true, // default true
                       markerSettings: const MarkerSettings(

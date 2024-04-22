@@ -28,6 +28,7 @@ class SettingPage extends StatelessWidget {
   // *****************View******************
   // ***************************************
   Widget _streamBuidler(){
+    print(userEmail);
     return StreamBuilder(
       stream: FirebaseFirestore.instance
               .collection('user')
