@@ -17,6 +17,7 @@ class DiagnosisView extends StatelessWidget {
   List<ChartModel> data = [];
 
 
+  // Function
   String dateFormat(data) {
     // "2024-04-22 11:36:57.522965"
     return data.toString().substring(0, 10);
