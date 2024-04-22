@@ -1,13 +1,57 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class VMProviderCommon extends ChangeNotifier{
+
+  // Get Storage 받기
+  final box = GetStorage();
+  String userEmail = '';
+
+
+  // =====================================
+  // ===============Common================
+  // Common component
+  String getStorageUserEmail(){
+    return userEmail = box.read('email');
+  }
+
+  disposeStorage(){
+    box.erase();
+  }
+
+  InputDecoration textFormDecoration(hintText, helperText){
+    return InputDecoration(
+      contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+      hintText: hintText,
+      helperText: helperText,
+      border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
+    );
+  }
+
+
+  showSuccessfulAlert() {
+    Get.defaultDialog(
+      title: '변경 완료',
+      middleText: '$whichOne 변경이 완료 되었습니다.',
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+            Get.back();
+          }, 
+          child: const Text('종료')
+        ),
+      ]
+    );
+  }
+  // =============Common==================
+  // =====================================
   
   // ======================================
   // ================Email==============
   // Property
-  String userEmail = '';
   String inputEmail = '';
   // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   // // 6 자릿수 이상을 비밀번호로 설정
@@ -219,48 +263,4 @@ class VMProviderCommon extends ChangeNotifier{
   }
   // ==========Height/Wegght==============
   // =====================================
-
-
-  
-  // =====================================
-  // ===============Common================
-  // Common component
-  InputDecoration textFormDecoration(hintText, helperText){
-    return InputDecoration(
-      contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-      hintText: hintText,
-      helperText: helperText,
-      border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
-    );
-  }
-
-
-  showSuccessfulAlert() {
-    Get.defaultDialog(
-      title: '변경 완료',
-      middleText: '$whichOne 변경이 완료 되었습니다.',
-      actions: [
-        TextButton(
-          onPressed: () {
-            Get.back();
-            Get.back();
-          }, 
-          child: const Text('종료')
-        ),
-      ]
-    );
-  }
-  // =============Common==================
-  // =====================================
-
-
-  // Future<void> signInEmailChange(userEmail) async {
-  //   User? _user = _firebaseAuth.currentUser;
-  //   if (_user != null) {
-  //     print('get in ');
-  //     await _user.verifyBeforeUpdateEmail(userEmail).then((_) {
-  //       print('successful');
-  //     });
-  //   }
-  // }
 }

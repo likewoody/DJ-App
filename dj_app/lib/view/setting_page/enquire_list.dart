@@ -2,19 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/model/model_enquire.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 
 class EnquireList extends StatelessWidget {
   EnquireList({super.key});
 
   // Property
-  var provider;
-  String userEmail = 'sdakfdslkf@naver.com';
-  // 이메일 넘겨 받아야 한다
-// 이메일 넘겨 받아야 한다
-// 이메일 넘겨 받아야 한다
-// 이메일 넘겨 받아야 한다
-// 이메일 넘겨 받아야 한다
+  final box = GetStorage();
+  String userEmail = '';
 
 
   // ---- View 1 ----
@@ -100,6 +96,7 @@ class EnquireList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    userEmail = box.read('email');
     return SettingAppbar(titleName: '문의내역', builder: _builder(context));
   }
 }

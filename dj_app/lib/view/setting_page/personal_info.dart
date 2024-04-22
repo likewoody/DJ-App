@@ -4,15 +4,6 @@ import 'package:flutter/material.dart';
 class PersonalInfo extends StatelessWidget {
   const PersonalInfo({super.key});
 
-  // openSite() async{
-  //   var uri = Uri.parse('http://m.www.naver.com');
-  //   if (await canLaunchUrl(uri)){
-  //     await launchUrl(uri);
-  //   }else {
-  //     throw 'Could not launch...';
-  //   }
-  // }
-
   Widget _bodyView() {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,

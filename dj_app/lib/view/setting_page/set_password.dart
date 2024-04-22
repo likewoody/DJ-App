@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SetPassword extends StatelessWidget {
-  // final provider = VMPRoviderPassword();
   SetPassword({super.key});
 
   // ---- Property ----
@@ -14,18 +13,7 @@ class SetPassword extends StatelessWidget {
   final TextEditingController pwCon2 = TextEditingController();
   final TextEditingController pwCon3 = TextEditingController();
   var provider;
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함// 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
-  String email = '1231@naver.com';
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함
-  // 이메일 받아야함// 이메일 받아야함
+  String userEmail = '';
 
   // ---- View 1 ----
   _streamBuidler(context){
@@ -37,7 +25,7 @@ class SetPassword extends StatelessWidget {
           builder: (context, child) {
             provider = Provider.of<VMProviderCommon>(context);
             provider.whichOne = '비밀번호';
-            provider.userEmail = email;
+            userEmail = provider.getStorageUserEmail();
             return _bodyView(provider);
           },
         ),
@@ -71,7 +59,7 @@ class SetPassword extends StatelessWidget {
       stream: FirebaseFirestore.instance
               .collection('user')
               // .orderBy(field),
-              .where('email', isEqualTo: email)
+              .where('email', isEqualTo: userEmail)
               .snapshots(),
       builder: (context, snapshot) {
         if (! snapshot.hasData) {
