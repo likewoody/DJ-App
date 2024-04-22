@@ -34,43 +34,24 @@ class VMProviderCommon extends ChangeNotifier{
   updateEmail() async{
     final querySnapshot = await FirebaseFirestore.instance
     .collection('user')
+    .where('email', isEqualTo: userEmail)
+    .where('email', isNotEqualTo: inputEmail)
     .get();
 
-    QueryDocumentSnapshot? targetDoc;
+    print(querySnapshot.docs);
+    querySnapshot.docs.forEach((doc) {
+      print(doc.data());
+      duplicatedCheck2 = true;
 
-    for (var doc in querySnapshot.docs){
-      if (doc.get('email') == userEmail) {
-        if (doc.get('email') == inputEmail) {
-          duplicatedCheck2 = false;
-          failedErrorSnack('중복된 이메일입니다.');
-          break;
-        }else{
-          targetDoc = doc;
-          duplicatedCheck2 = true;
-        }
-        print('check duplicatedCheck2 : $duplicatedCheck2');
-      } 
-    }
+      // 문서 업데이트
+      doc.reference.update({
+      'email': inputEmail, // 업데이트할 필드와 값
+      });
+    });
 
-    print('inputEmail check : $inputEmail');
-    print('userEmail check : $userEmail');
-    print(duplicatedCheck2);
-    if(duplicatedCheck2) {
-      print('get in duplicatedCheck!');
-      print('targetDoc check! $targetDoc');
-      if (targetDoc != null) {
-        // 문서 업데이트
-        await targetDoc.reference.update({
-          'email': inputEmail
-        }).then((value) => {
-          print('update successful'),
-          duplicatedCheck2 = true,
-        });
-      }
-    }else{
-      print('update failed...');
-    }
-    
+
+    print("check ! $duplicatedCheck2");
+    if (!duplicatedCheck2){failedErrorSnack('중복된 이메일입니다.');}
   }
 
   // ================Email=================
@@ -109,25 +90,17 @@ class VMProviderCommon extends ChangeNotifier{
   updatePassword() async{
     final querySnapshot = await FirebaseFirestore.instance
     .collection('user')
+    .where('email', isEqualTo: userEmail)
     .get();
 
-    QueryDocumentSnapshot? targetDoc;
-
-    for (var doc in querySnapshot.docs){
-      if (doc.get('email') == userEmail) {
-        targetDoc = doc;
-        break;
-      }
-    }
-
-    if (targetDoc != null) {
-    // 문서 업데이트
-    await targetDoc.reference.update({
-      'password': sNewPassword
+    print('test inside update passwor : $querySnapshot.docs');
+    querySnapshot.docs.forEach((doc) {
+      print(doc.data());
+      doc.reference.update({
+        'password': sNewPassword
+      });
+      print('check2');
     });
-    } else {
-      print('해당 이메일의 문서를 찾을 수 없습니다.');
-    }
   }
 
   
