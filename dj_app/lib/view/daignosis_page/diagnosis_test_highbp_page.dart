@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/view/daignosis_page/diagnosis_result_page.dart';
+import 'package:dj_app/vm/login_view_model.dart';
+import 'package:dj_app/vm/vm_dangjin_r.dart';
 import 'package:dj_app/vm/vm_diagnosis.dart';
 import 'package:dj_app/vm/vm_diagnosis_insert.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +13,8 @@ import 'package:provider/provider.dart';
 class DaignosisHighBPPage extends StatelessWidget {
   final vmInsert = VMDiagnosisInsert();
   final box = GetStorage();
+  final DangjinRConnect dangjinRConnect = Get.put(DangjinRConnect());
+  final LoginViewModel login = Get.put(LoginViewModel());
 
   DaignosisHighBPPage({super.key});
 
@@ -75,8 +80,24 @@ class DaignosisHighBPPage extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       box.write('highBp', vmSelectedValue.highBpradioValue);
+                      dangjinRConnect.alcohol = box.read('alcohol').toString();
+                      dangjinRConnect.fruit = box.read('fruit').toString();
+                      dangjinRConnect.genHlth = box.read('genHlth').toString();
+                      dangjinRConnect.heart = box.read('heart').toString();
+                      dangjinRConnect.highBp = box.read('highBp').toString();
+                      QuerySnapshot querySnapshot = await FirebaseFirestore
+                          .instance
+                          .collection("user")
+                          .where("email", isEqualTo: box.read('email'))
+                          .get();
+
+                          dangjinRConnect.gender = querySnapshot.docs[0]['gender'];
+                          dangjinRConnect.age = querySnapshot.docs[0]['birthday'];
+                          dangjinRConnect.height = querySnapshot.docs[0]['height'];
+                          dangjinRConnect.weight = querySnapshot.docs[0]['weight'];
+                          await dangjinRConnect.getDangjinRConnect();
                       if (box.read('consent') == 1) {
                         vmInsert.insertAction(
                             box.read('consent'),
@@ -84,7 +105,8 @@ class DaignosisHighBPPage extends StatelessWidget {
                             box.read('alcohol'),
                             box.read('heart'),
                             box.read('genHlth'),
-                            box.read('highBp'));
+                            box.read('highBp'),
+                            box.read('email'));
                       } else {
                         vmInsert.insertSQLite(
                             box.read('consent'),
@@ -92,10 +114,15 @@ class DaignosisHighBPPage extends StatelessWidget {
                             box.read('alcohol'),
                             box.read('heart'),
                             box.read('genHlth'),
-                            box.read('highBp'));
+                            box.read('highBp'),
+                            box.read('email'));
                       }
-                      
-                      box.erase();
+                      box.remove('consent');
+                      box.remove('fruit');
+                      box.remove('alcohol');
+                      box.remove('heart');
+                      box.remove('genHlth');
+                      box.remove('highBp');
                       Get.to(DiagnosisResultPage());
                     },
                     child: const Text('결과 보기')),
@@ -106,5 +133,4 @@ class DaignosisHighBPPage extends StatelessWidget {
       ),
     );
   }
-  
 }
