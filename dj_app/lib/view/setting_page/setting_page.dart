@@ -8,19 +8,19 @@ import 'package:dj_app/view/setting_page/service_info.dart';
 import 'package:dj_app/view/setting_page/set_email.dart';
 import 'package:dj_app/view/setting_page/set_height_weight.dart';
 import 'package:dj_app/view/setting_page/set_password.dart';
-import 'package:dj_app/view/tabbar.dart';
 import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
 class SettingPage extends StatelessWidget {
   SettingPage({super.key});
 
   // Property
-  String id = '';
   var provider;
   String userEmail = '';
+  final box = GetStorage();
   
 
 
@@ -35,10 +35,9 @@ class SettingPage extends StatelessWidget {
               // .where('email', isEqualTo: userEmail)
               .snapshots(),
       builder: (context, snapshot) {
+        
         if (! snapshot.hasData){return const Center(child: CircularProgressIndicator(),);}
-        // fruit@hanmail.net
-        // bubble123@@
-
+        final documents = snapshot.data!.docs; 
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: ChangeNotifierProvider<VMProviderCommon>(
@@ -47,6 +46,7 @@ class SettingPage extends StatelessWidget {
               final provider = Provider.of<VMProviderCommon>(context);
               // storage로 전달 받는 email 불러오기
               userEmail = provider.getStorageUserEmail();
+
               return Column(
               children: [
             
@@ -177,8 +177,22 @@ class SettingPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
-              child: IconButton(
-                onPressed: () => Get.to(SetEmail()), 
+              child : IconButton (
+                onPressed: () async { 
+                  await Get.to(SetEmail())!.then((value) {
+                    print(box.read('successfulChanged'));
+                    if (box.read('successfulChanged')) {
+                      String newEmail = box.read('changedEmail');
+                      box.remove('successfulChanged');
+                      box.remove('email');
+                      box.write('email', newEmail);
+                      print("${box.read('email')} 제발 제발 제발 제발 좀 ");
+                      _streamBuidler();
+                    }
+                    print("sibae daera : ${box.read('email')}");
+                    print(userEmail);
+                  });
+                },
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
             ),
@@ -370,9 +384,9 @@ class SettingPage extends StatelessWidget {
           child: const Text('아니요')
         ),
         TextButton(
-          onPressed: () {
-            _executeDelete();
-            Get.off(const Tabbar());
+          onPressed: () async{
+            await _executeDelete();
+            Get.offAll(const LoginView());
           },
           child: const Text('예')
         ),
@@ -383,13 +397,11 @@ class SettingPage extends StatelessWidget {
   _executeDelete() async{
     await FirebaseFirestore.instance
       .collection('user')
-      .doc(id)
+      .doc(box.read('id'))
       .delete();
 
-    print(id);
     print(userEmail);
     print('Successful Delete User Info');
-    provider.disposeStorage();
   }
 
   _executeSignout() {
