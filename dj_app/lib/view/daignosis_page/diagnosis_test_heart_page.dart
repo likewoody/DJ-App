@@ -31,67 +31,75 @@ class DiagnosisHeartPage extends StatelessWidget {
                 ],
               ),
             ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child:  Text(
+            child: Stack(
+              children: [
+                Image.asset('images/diagnosis_page.png'),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
                       '심장 질환이 있습니까?',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.brown.shade800
                         ),
                     ),
-                  ),
-                  const SizedBox(height: 24,),
-                  RadioListTile(
-                    title: const Text(
-                      'Yes',
-                      style: TextStyle(fontSize: 18),
+                    const SizedBox(height: 24,),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: RadioListTile(
+                        title: const Text(
+                          'Yes',
+                          style: TextStyle(fontSize: 18),
+                          ),
+                        value: 1,
+                        groupValue: vmSelectedValue.heartradioValue,
+                        onChanged: (heartValue) {
+                          vmSelectedValue.heartRadioChange(heartValue);
+                        },
+                        activeColor: Colors.brown.shade800,
                       ),
-                    value: 1,
-                    groupValue: vmSelectedValue.heartradioValue,
-                    onChanged: (heartValue) {
-                      vmSelectedValue.heartRadioChange(heartValue);
-                    },
-                    activeColor: Colors.brown.shade800,
-                  ),
-                  RadioListTile(
-                    title: const Text(
-                      'No',
-                      style: TextStyle(fontSize: 18),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: RadioListTile(
+                        title: const Text(
+                          'No',
+                          style: TextStyle(fontSize: 18),
+                          ),
+                        value: 0,
+                        groupValue: vmSelectedValue.heartradioValue,
+                        onChanged: (heartValue) {
+                          vmSelectedValue.heartRadioChange(heartValue);
+                        },
+                        activeColor: Colors.brown.shade800,
                       ),
-                    value: 0,
-                    groupValue: vmSelectedValue.heartradioValue,
-                    onChanged: (heartValue) {
-                      vmSelectedValue.heartRadioChange(heartValue);
-                    },
-                    activeColor: Colors.brown.shade800,
-                  ),
-                  const SizedBox(height: 32),
-                  ElevatedButton(
-                      onPressed: () {
-                        box.write("heart", vmSelectedValue.heartradioValue);
-                        Get.to(DiagnosisGenHlthPage());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.brown.shade800,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                    ),
+                    const SizedBox(height: 32),
+                    ElevatedButton(
+                        onPressed: () {
+                          box.write("heart", vmSelectedValue.heartradioValue);
+                          Get.to(DiagnosisGenHlthPage());
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.brown.shade800,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 16,
+                          ),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 16,
-                        ),
-                      ),
-                      child: const Text('다음 질문')),
-                ],
+                        child: const Text('다음 질문')),
+                  ],
+                ),
               ),
+              ],
             ),
           );
         },

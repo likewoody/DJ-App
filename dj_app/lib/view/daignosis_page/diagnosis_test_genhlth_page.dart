@@ -32,103 +32,122 @@ class DiagnosisGenHlthPage extends StatelessWidget {
                 ],
               ),
             ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child:  Text(
+            child: Stack(
+              children: [
+                Image.asset('images/diagnosis_page.png'),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
                       '내가 생각하는 나의 건강 상태는?',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.brown.shade800
                         ),
                     ),
-                  ),
-                  const SizedBox(height: 24,),
-                  RadioListTile(
-                    title: const Text(
-                      '매우 좋음',
-                      style: TextStyle(fontSize: 18),
+                    const SizedBox(height: 24,),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: RadioListTile(
+                        title: const Text(
+                          '매우 좋음',
+                          style: TextStyle(fontSize: 18),
+                          ),
+                        value: 1,
+                        groupValue: vmSelectedValue.genhlthradioValue,
+                        onChanged: (genHlthValue) {
+                          vmSelectedValue.genHlthRadioChange(genHlthValue);
+                        },
+                        activeColor: Colors.brown.shade800,
                       ),
-                    value: 1,
-                    groupValue: vmSelectedValue.genhlthradioValue,
-                    onChanged: (genHlthValue) {
-                      vmSelectedValue.genHlthRadioChange(genHlthValue);
-                    },
-                    activeColor: Colors.brown.shade800,
-                  ),
-                  RadioListTile(
-                    title: const Text(
-                      '좋음',
-                      style: TextStyle(fontSize: 18),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: RadioListTile(
+                        title: const Text(
+                          '좋음',
+                          style: TextStyle(fontSize: 18),
+                          ),
+                        value: 2,
+                        groupValue: vmSelectedValue.genhlthradioValue,
+                        onChanged: (genHlthValue) {
+                          vmSelectedValue.genHlthRadioChange(genHlthValue);
+                        },
+                        activeColor: Colors.brown.shade800,
                       ),
-                    value: 2,
-                    groupValue: vmSelectedValue.genhlthradioValue,
-                    onChanged: (genHlthValue) {
-                      vmSelectedValue.genHlthRadioChange(genHlthValue);
-                    },
-                    activeColor: Colors.brown.shade800,
-                  ),
-                  RadioListTile(
-                    title: const Text(
-                      '보통',
-                      style: TextStyle(fontSize: 18),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: RadioListTile(
+                        title: const Text(
+                          '보통',
+                          style: TextStyle(fontSize: 18),
+                          ),
+                        value: 3,
+                        groupValue: vmSelectedValue.genhlthradioValue,
+                        onChanged: (genHlthValue) {
+                          vmSelectedValue.genHlthRadioChange(genHlthValue);
+                        },
+                        activeColor: Colors.brown.shade800,
                       ),
-                    value: 3,
-                    groupValue: vmSelectedValue.genhlthradioValue,
-                    onChanged: (genHlthValue) {
-                      vmSelectedValue.genHlthRadioChange(genHlthValue);
-                    },
-                    activeColor: Colors.brown.shade800,
-                  ),
-                  RadioListTile(
-                    title: const Text(
-                      '나쁨',
-                      style: TextStyle(fontSize: 18),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: RadioListTile(
+                        title: const Text(
+                          '나쁨',
+                          style: TextStyle(fontSize: 18),
+                          ),
+                        value: 4,
+                        groupValue: vmSelectedValue.genhlthradioValue,
+                        onChanged: (genHlthValue) {
+                          vmSelectedValue.genHlthRadioChange(genHlthValue);
+                        },
+                        activeColor: Colors.brown.shade800,
                       ),
-                    value: 4,
-                    groupValue: vmSelectedValue.genhlthradioValue,
-                    onChanged: (genHlthValue) {
-                      vmSelectedValue.genHlthRadioChange(genHlthValue);
-                    },
-                    activeColor: Colors.brown.shade800,
-                  ),
-                  RadioListTile(
-                    title: const Text(
-                      '매우 나쁨',
-                      style: TextStyle(fontSize: 18),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: RadioListTile(
+                        title: const Text(
+                          '매우 나쁨',
+                          style: TextStyle(fontSize: 18),
+                          ),
+                        value: 5,
+                        groupValue: vmSelectedValue.genhlthradioValue,
+                        onChanged: (genHlthValue) {
+                          vmSelectedValue.genHlthRadioChange(genHlthValue);
+                        },
+                        activeColor: Colors.brown.shade800,
                       ),
-                    value: 5,
-                    groupValue: vmSelectedValue.genhlthradioValue,
-                    onChanged: (genHlthValue) {
-                      vmSelectedValue.genHlthRadioChange(genHlthValue);
-                    },
-                    activeColor: Colors.brown.shade800,
-                  ),
-                  SizedBox(height: 32,),
-                  ElevatedButton(
-                      onPressed: () {
-                        box.write('genHlth', vmSelectedValue.genhlthradioValue);
-                        Get.to(DaignosisHighBPPage());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.brown.shade800,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 16,
-                        ),
-                      ),
-                      child: const Text('다음 질문')),
-                ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            box.write('genHlth', vmSelectedValue.genhlthradioValue);
+                            Get.to(DaignosisHighBPPage());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.brown.shade800,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 32,
+                              vertical: 16,
+                            ),
+                          ),
+                          child: const Text('다음 질문')),
+                    ),
+                  ],
+                ),
               ),
+              ],
             ),
           );
         },
