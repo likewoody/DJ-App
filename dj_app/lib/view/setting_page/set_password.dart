@@ -3,6 +3,7 @@ import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/vm/checkValidate.dart';
 import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -39,7 +40,7 @@ class SetPassword extends StatelessWidget {
       ),
       height: 100,
       child: TextButton(
-        onPressed: () => clickButton(), 
+        onPressed: () => _clickButton(), 
         child: Text(
           '비밀번호 설정',
           style: TextStyle(
@@ -68,8 +69,12 @@ class SetPassword extends StatelessWidget {
         }
         final documents = snapshot.data!.docs;
         // 현재 비밀번호 확인
-        provider.currentPassword = documents[0].get('password');
-
+        if(documents[0].get('password').isEmpty) {
+          Get.back();
+          _showWarnSanckBar();
+        } else {
+          provider.currentPassword = documents[0].get('password');
+        }
 
         return Padding(
           padding: const EdgeInsets.fromLTRB(0,110,0,0),
@@ -87,7 +92,7 @@ class SetPassword extends StatelessWidget {
                         child: const Text('비밀번호 변경하기'),
                         onPressed: (){
                           provider.formKey.currentState!.validate();
-                          clickButton();
+                          _clickButton();
                         },
                       ),
                     ],
@@ -178,7 +183,7 @@ class SetPassword extends StatelessWidget {
   }
 
   // ---- View 4 ----
-  clickButton(){
+  _clickButton(){
     provider.inputCurrentPassword = pwCon1.text;
     provider.fNewPassword = pwCon2.text;
     provider.sNewPassword =  pwCon3.text;
@@ -190,6 +195,16 @@ class SetPassword extends StatelessWidget {
     if(provider.changePassword()){
       provider.showSuccessfulAlert();
     };
+  }
+
+  _showWarnSanckBar() {
+    Get.snackbar(
+      '경고', 
+      '구글 로그인은 비밀번호를 수정할 수 없습니다.',
+      duration: const Duration(seconds: 2),
+      backgroundColor: Colors.red,
+      colorText: Colors.white
+    );
   }
 
   @override

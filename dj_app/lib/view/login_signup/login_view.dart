@@ -2,9 +2,11 @@ import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/component/custom_snackbar.dart';
 import 'package:dj_app/view/login_signup/signup_view.dart';
 import 'package:dj_app/vm/login_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -66,6 +68,53 @@ class _LoginViewState extends State<LoginView> {
       _viewModel.loginAction(context);
     }
   } // _checkIdPassword
+
+
+  Future<void> _signInGoogle() async {
+    List<String> scope = <String>[
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly', //문제의 부분
+    ];
+
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      // Optional clientId
+      // clientId: 'your-client_id.apps.googleusercontent.com',
+      scopes: scope,
+    );
+    try {
+      await _googleSignIn.signIn();
+
+      // 로그인 성공 후 사용자 정보 가져오기
+      GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signInSilently();
+
+      // 사용자 이메일 정보 출력
+      if (googleSignInAccount != null) {
+        _viewModel.googleSignInEmail = googleSignInAccount.email; 
+        print('Email1: ${googleSignInAccount.email}');
+        print('Email2: ${_viewModel.googleSignInEmail}');
+      }
+
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   // ---------------------------------------------------------------------------
 
@@ -278,8 +327,8 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {
-                        //
+                      onPressed: () async {
+                        await _signInGoogle().then((value) => _viewModel.googleSinginAction(context));
                       },
                       icon: Image.asset(
                         "images/googleButton.png",
