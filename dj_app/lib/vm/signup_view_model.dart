@@ -28,6 +28,8 @@ class SignUpViewModel extends GetxController {
         "birthday": birthdayController.text.trim().toString(),
         "gender": gender,
         "phone": phoneController.text.trim().toString(),
+        "weight": 0,
+        "height": 0,
         "dateofjoin": dateofjoin,
       },
     );
