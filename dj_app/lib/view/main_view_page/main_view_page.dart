@@ -18,20 +18,34 @@ class MainViewPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              '뭐하고 있었뇨?',
-              style: TextStyle(fontSize: 30),
-            ),
-            const Text(
-              '당뇨',
-              style: TextStyle(
-                  fontSize: 30, fontWeight: FontWeight.bold, color: Colors.red),
-            ),
-            const Text(
-              '안녕~하세요!',
-              style: TextStyle(
-                fontSize: 30,
+            Text.rich(
+              TextSpan(
+                text: '21세기 버킷리스트 중 하나\n',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.brown.shade800,
+                ),
+                children: [
+                  TextSpan(
+                    text: '건강한 삶 사는 거 아니었어?\n',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.brown.shade600,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '지금 당장 테스트 해봐',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.brown.shade700,
+                    ),
+                  ),
+                ],
               ),
+              textAlign: TextAlign.center,
             ),
             ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
