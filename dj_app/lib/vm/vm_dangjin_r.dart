@@ -11,7 +11,7 @@ class DangjinRConnect extends GetxController {
   String consent = '';
   String alcohol = '';
   String fruit = '';
-  String heart = '';
+  String heart = '';  
   String genHlth = '';
   String highBp = '';
   double result = 0;
