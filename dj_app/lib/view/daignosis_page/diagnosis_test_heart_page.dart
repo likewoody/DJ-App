@@ -12,64 +12,86 @@ class DiagnosisHeartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('=======');
-    print(box.read("consent"));
-    print('=======');
-    print(box.read("fruit"));
-    print('=======');
-    print(box.read("alcohol"));
     return Scaffold(
-      appBar: const AppBarComponent(titleName: '',),
+      appBar: const AppBarComponent(
+        titleName: '',
+      ),
       body: ChangeNotifierProvider(
         create: (context) => VMDiagnosisTest(),
         builder: (context, child) {
           final vmSelectedValue = Provider.of<VMDiagnosisTest>(context);
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const Text(
-                  '심장 질환이 있습니까?',
-                  style: TextStyle(fontSize: 20),
-                ),
-                Container(
-                  width: 300,
-                  height: 70,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(35),
-                      border: Border.all(color: Colors.black)),
-                  child: RadioListTile(
-                    title: const Text('Yes'),
+          return Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.brown.shade100,
+                  Colors.brown.shade50,
+                ],
+              ),
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child:  Text(
+                      '심장 질환이 있습니까?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.brown.shade800
+                        ),
+                    ),
+                  ),
+                  const SizedBox(height: 24,),
+                  RadioListTile(
+                    title: const Text(
+                      'Yes',
+                      style: TextStyle(fontSize: 18),
+                      ),
                     value: 1,
                     groupValue: vmSelectedValue.heartradioValue,
                     onChanged: (heartValue) {
                       vmSelectedValue.heartRadioChange(heartValue);
                     },
+                    activeColor: Colors.brown.shade800,
                   ),
-                ),
-                Container(
-                  width: 300,
-                  height: 70,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(35),
-                      border: Border.all(color: Colors.black)),
-                  child: RadioListTile(
-                    title: const Text('No'),
+                  RadioListTile(
+                    title: const Text(
+                      'No',
+                      style: TextStyle(fontSize: 18),
+                      ),
                     value: 0,
                     groupValue: vmSelectedValue.heartradioValue,
                     onChanged: (heartValue) {
                       vmSelectedValue.heartRadioChange(heartValue);
                     },
+                    activeColor: Colors.brown.shade800,
                   ),
-                ),
-                ElevatedButton(onPressed: () {
-                    box.write("heart", vmSelectedValue.heartradioValue);
-                    Get.to(DiagnosisGenHlthPage());
-                },
-                child: const Text('다음 질문')),
-              ],
+                  const SizedBox(height: 32),
+                  ElevatedButton(
+                      onPressed: () {
+                        box.write("heart", vmSelectedValue.heartradioValue);
+                        Get.to(DiagnosisGenHlthPage());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.brown.shade800,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
+                      ),
+                      child: const Text('다음 질문')),
+                ],
+              ),
             ),
           );
         },

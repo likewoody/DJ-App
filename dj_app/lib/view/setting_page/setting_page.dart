@@ -400,7 +400,7 @@ class SettingPage extends StatelessWidget {
         TextButton(
           onPressed: (){
             // provider.disposeStorage();
-            Get.off(const LoginView());
+            Get.offAll(const LoginView());
           }, 
           child: const Text('종료')
         ),
