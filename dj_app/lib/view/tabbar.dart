@@ -39,7 +39,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(titleName: ''),
-      drawer: const DrawerComponent(),
+      drawer: DrawerComponent(),
       body: Center(
         child: TabBarView(
           physics: const NeverScrollableScrollPhysics(),

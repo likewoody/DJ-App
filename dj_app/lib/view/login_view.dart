@@ -93,19 +93,6 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 Column(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        top: 30,
-                        bottom: 30,
-                      ),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: SizedBox(

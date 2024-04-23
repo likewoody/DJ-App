@@ -108,12 +108,12 @@ class DiagnosisView extends StatelessWidget {
               children: [
                 
                 // for SQLite Search
-                FutureBuilder(
-                  future: handler.queryDiagnosis(userEmail), 
-                  builder: (context, snapshot) {
+                // FutureBuilder(
+                //   future: handler.queryDiagnosis(userEmail), 
+                //   builder: (context, snapshot) {
                     
-                  },
-                ),
+                //   },
+                // ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 400,
