@@ -138,7 +138,7 @@ class DaignosisHighBPPage extends StatelessWidget {
                         box.remove('heart');
                         box.remove('genHlth');
                         box.remove('highBp');
-                        Get.to(const DiagnosisResultPage());
+                        Get.to(DiagnosisResultPage());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.brown.shade800,

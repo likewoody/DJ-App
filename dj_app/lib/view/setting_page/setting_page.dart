@@ -14,21 +14,21 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
-class SettingPage extends StatelessWidget {
-  SettingPage({super.key});
+class SettingPage extends StatefulWidget {
+  const SettingPage({super.key});
 
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
   // Property
   var provider;
   String userEmail = '';
   final box = GetStorage();
-  
 
-
-  // ***************************************
-  // *****************View******************
   // ***************************************
   Widget _streamBuidler(){
-    print(userEmail);
     return StreamBuilder(
       stream: FirebaseFirestore.instance
               .collection('user')
@@ -37,7 +37,6 @@ class SettingPage extends StatelessWidget {
       builder: (context, snapshot) {
         
         if (! snapshot.hasData){return const Center(child: CircularProgressIndicator(),);}
-        final documents = snapshot.data!.docs; 
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: ChangeNotifierProvider<VMProviderCommon>(
@@ -122,12 +121,8 @@ class SettingPage extends StatelessWidget {
       ],
     );
   }
-  // ***************************************
-
-
 
   // ***************************************
-  // 고객 정보 수정하기
   Widget updateInfoPage(){
     return Column(
       children: [
@@ -180,17 +175,14 @@ class SettingPage extends StatelessWidget {
               child : IconButton (
                 onPressed: () async { 
                   await Get.to(SetEmail())!.then((value) {
-                    print(box.read('successfulChanged'));
                     if (box.read('successfulChanged')) {
                       String newEmail = box.read('changedEmail');
                       box.remove('successfulChanged');
                       box.remove('email');
                       box.write('email', newEmail);
-                      print("${box.read('email')} 제발 제발 제발 제발 좀 ");
                       _streamBuidler();
+                      setState(() {});
                     }
-                    print("sibae daera : ${box.read('email')}");
-                    print(userEmail);
                   });
                 },
                 icon:const  Icon(Icons.arrow_forward_ios)
@@ -219,11 +211,8 @@ class SettingPage extends StatelessWidget {
       ],
     );
   }
-  // ***************************************
-
 
   // ***************************************
-  // 앱 정보
   Widget appInfoPage(){
     return Column(
       children: [
@@ -345,13 +334,8 @@ class SettingPage extends StatelessWidget {
       ],
     );
   }
+
   // ***************************************
-  // *****************View******************
-  // ***************************************
-
-
-
-  // ---- Function ----
   Widget deletePage(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -399,9 +383,6 @@ class SettingPage extends StatelessWidget {
       .collection('user')
       .doc(box.read('id'))
       .delete();
-
-    print(userEmail);
-    print('Successful Delete User Info');
   }
 
   _executeSignout() {
@@ -411,7 +392,6 @@ class SettingPage extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: (){
-            // provider.disposeStorage();
             Get.offAll(const LoginView());
           }, 
           child: const Text('종료')

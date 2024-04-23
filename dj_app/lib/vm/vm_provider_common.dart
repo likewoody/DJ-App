@@ -8,6 +8,8 @@ class VMProviderCommon extends ChangeNotifier{
   // Get Storage 받기
   final box = GetStorage();
   String userEmail = '';
+  // Common
+  String whichOne = '';
 
 
   // =====================================
@@ -16,6 +18,7 @@ class VMProviderCommon extends ChangeNotifier{
   String getStorageUserEmail(){
     return userEmail = box.read('email');
   }
+  
 
   // disposeStorage(){
   //   box.erase();
@@ -62,8 +65,7 @@ class VMProviderCommon extends ChangeNotifier{
   bool duplicatedCheck = false;
   bool duplicatedCheck2 = false;
 
-  // Common
-  String whichOne = '';
+  
 
   // Function
   duplicatedEmailFirst() async{
@@ -75,34 +77,47 @@ class VMProviderCommon extends ChangeNotifier{
       if(!regExp.hasMatch(inputEmail)){
         return '잘못된 이메일 형식입니다.';
       }else{
-        await updateEmail();
+        await duplicatedEmailSecond();
+        if (duplicatedCheck2){
+          await updateEmail();
+          print('succesfully updated');
+        }
       }
     }else {
       print('empty input email');
     }
   }
 
-  updateEmail() async{
+  duplicatedEmailSecond() async{
     final querySnapshot = await FirebaseFirestore.instance
     .collection('user')
-    .where('email', isEqualTo: userEmail)
-    .where('email', isNotEqualTo: inputEmail)
+    // .where('email', isNotEqualTo: inputEmail)
+    // .where('email', isEqualTo: userEmail)
     .get();
 
-    print(querySnapshot.docs);
-    querySnapshot.docs.forEach((doc) {
-      print(doc.data());
-      duplicatedCheck2 = true;
+    for(int i=0;i<querySnapshot.docs.length;i++) {
+      print(querySnapshot.docs[i]['email']);
 
-      // 문서 업데이트
-      doc.reference.update({
-      'email': inputEmail, // 업데이트할 필드와 값
-      });
+      if(inputEmail == querySnapshot.docs[i]['email']) {
+        failedErrorSnack('중복된 이메일입니다.');
+        duplicatedCheck2 = false;
+        break;
+      } else{
+        duplicatedCheck2 = true;
+      }
+    }
+  }
+
+  updateEmail() async{
+    await FirebaseFirestore.instance
+    .collection('user')
+    .doc(box.read('id'))
+    // .where('email', isNotEqualTo: inputEmail)
+    // .where('email', isEqualTo: userEmail)
+    .update({
+      'email': inputEmail
     });
 
-
-    print("check ! $duplicatedCheck2");
-    if (!duplicatedCheck2){failedErrorSnack('중복된 이메일입니다.');}
   }
 
   // ================Email=================
