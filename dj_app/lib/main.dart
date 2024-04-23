@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-void main() async {
+Future<void> main() async {
+  bool data = await fetchData();
+  print(data);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // * 날짜 형식화를 위해 initializeDateFormatting() 메서드 호출
@@ -13,7 +15,7 @@ void main() async {
   // * import는 package:intl/date_symbol_data_local.dart
   await initializeDateFormatting("ko_KR");
   runApp(const MyApp());
-}
+} // end of main()
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,13 +23,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
               seedColor: const Color.fromARGB(255, 239, 74, 63)),
           useMaterial3: true,
         ),
-        home: const LoginView()
-      );
+        home: const LoginView());
   }
-}
+} // end of class MyApp
+
+// * Splash Screen Settings //
+Future<bool> fetchData() async {
+  bool data = false;
+
+  // Change to API call
+  await Future.delayed(const Duration(seconds: 3), () {
+    data = true;
+  });
+
+  return data;
+} // async function to get data from API
