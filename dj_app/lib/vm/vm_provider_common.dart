@@ -8,6 +8,8 @@ class VMProviderCommon extends ChangeNotifier{
   // Get Storage 받기
   final box = GetStorage();
   String userEmail = '';
+  // Common
+  String whichOne = '';
 
 
   // =====================================
@@ -16,10 +18,11 @@ class VMProviderCommon extends ChangeNotifier{
   String getStorageUserEmail(){
     return userEmail = box.read('email');
   }
+  
 
-  disposeStorage(){
-    box.erase();
-  }
+  // disposeStorage(){
+  //   box.erase();
+  // }
 
   InputDecoration textFormDecoration(hintText, helperText){
     return InputDecoration(
@@ -33,6 +36,7 @@ class VMProviderCommon extends ChangeNotifier{
 
   showSuccessfulAlert() {
     Get.defaultDialog(
+      barrierDismissible: false,
       title: '변경 완료',
       middleText: '$whichOne 변경이 완료 되었습니다.',
       actions: [
@@ -61,41 +65,59 @@ class VMProviderCommon extends ChangeNotifier{
   bool duplicatedCheck = false;
   bool duplicatedCheck2 = false;
 
-  // Common
-  String whichOne = '';
+  
 
   // Function
   duplicatedEmailFirst() async{
     print('check get in duplicated function');
     if(inputEmail.isNotEmpty){
       print("not empty input email}");
-      await updateEmail();
+      Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regExp = RegExp(pattern.toString());
+      if(!regExp.hasMatch(inputEmail)){
+        return '잘못된 이메일 형식입니다.';
+      }else{
+        await duplicatedEmailSecond();
+        if (duplicatedCheck2){
+          await updateEmail();
+          print('succesfully updated');
+        }
+      }
     }else {
       print('empty input email');
     }
   }
 
-  updateEmail() async{
+  duplicatedEmailSecond() async{
     final querySnapshot = await FirebaseFirestore.instance
     .collection('user')
-    .where('email', isEqualTo: userEmail)
-    .where('email', isNotEqualTo: inputEmail)
+    // .where('email', isNotEqualTo: inputEmail)
+    // .where('email', isEqualTo: userEmail)
     .get();
 
-    print(querySnapshot.docs);
-    querySnapshot.docs.forEach((doc) {
-      print(doc.data());
-      duplicatedCheck2 = true;
+    for(int i=0;i<querySnapshot.docs.length;i++) {
+      print(querySnapshot.docs[i]['email']);
 
-      // 문서 업데이트
-      doc.reference.update({
-      'email': inputEmail, // 업데이트할 필드와 값
-      });
+      if(inputEmail == querySnapshot.docs[i]['email']) {
+        failedErrorSnack('중복된 이메일입니다.');
+        duplicatedCheck2 = false;
+        break;
+      } else{
+        duplicatedCheck2 = true;
+      }
+    }
+  }
+
+  updateEmail() async{
+    await FirebaseFirestore.instance
+    .collection('user')
+    .doc(box.read('id'))
+    // .where('email', isNotEqualTo: inputEmail)
+    // .where('email', isEqualTo: userEmail)
+    .update({
+      'email': inputEmail
     });
 
-
-    print("check ! $duplicatedCheck2");
-    if (!duplicatedCheck2){failedErrorSnack('중복된 이메일입니다.');}
   }
 
   // ================Email=================
@@ -158,6 +180,7 @@ class VMProviderCommon extends ChangeNotifier{
     } else{
       if(currentPassword != inputCurrentPassword) {
         _successfulChanged1 = false;
+        failedErrorSnack('현재 비밀번호를 정확히 입력하세요.');
       }else {
         _successfulChanged1 = true;
       }

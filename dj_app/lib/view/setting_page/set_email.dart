@@ -3,8 +3,10 @@ import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/vm/checkValidate.dart';
 import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class SetEmail extends StatelessWidget {
   SetEmail({super.key});
 
@@ -12,7 +14,9 @@ class SetEmail extends StatelessWidget {
   final TextEditingController textCon = TextEditingController();
   var provider;
   String userEmail = '';
-  bool emailCheck = false;
+  bool successfulChanged = false;
+  final box = GetStorage();
+
 
   // ---- View 1 ----
   Widget _streamBuidler(context) {
@@ -42,9 +46,12 @@ class SetEmail extends StatelessWidget {
             provider.formKey.currentState!.validate();
             await provider.duplicatedEmailFirst();
 
-            provider.duplicatedCheck2
-            ? provider.showSuccessfulAlert()
-            : print('failed from duplicated function...');
+            if(provider.duplicatedCheck2) {
+              successfulChanged = true;
+              box.write('successfulChanged', successfulChanged);
+              box.write('changedEmail', textCon.text);
+              provider.showSuccessfulAlert();
+            }
           },
           child: Text(
             '이메일 설정',
@@ -71,7 +78,6 @@ class SetEmail extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-        final documents = snapshot.data!.docs;
         // email 설정
         print('cehck user Email from Firebase : ${provider.userEmail}}');
         // 실제 View
@@ -98,9 +104,12 @@ class SetEmail extends StatelessWidget {
                         provider.formKey.currentState!.validate();
                         await provider.duplicatedEmailFirst();
                         
-                        provider.duplicatedCheck2
-                        ? provider.showSuccessfulAlert()
-                        : print('failed from duplicated function...');
+                        if(provider.duplicatedCheck2) {
+                          successfulChanged = true;
+                          box.write('successfulChanged', successfulChanged);
+                          box.write('changedEmail', textCon.text);
+                          provider.showSuccessfulAlert();
+                        }
                       },
                       child: const Text('이메일 설정'),
                     )
@@ -136,7 +145,7 @@ class SetEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final provider = Provider.of<VMProviderEmail>(context);
+    box.write('successfulChanged', successfulChanged);
     return SettingAppbar(titleName: '이메일 설정', builder: _streamBuidler(context));
   }
 }

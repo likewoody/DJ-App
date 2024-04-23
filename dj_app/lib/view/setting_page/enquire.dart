@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/component/setting_appbar.dart';
 import 'package:dj_app/vm/vm_provider_enquire.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 
+// ignore: must_be_immutable
 class Enquire extends StatelessWidget {
   Enquire({super.key});
 
@@ -17,6 +19,7 @@ class Enquire extends StatelessWidget {
   final TextEditingController dateCon = TextEditingController();
   var provider;
   String userEmail = '';
+  final box = GetStorage();
 
   // ---- View 1 ----
   Widget _builder(context){
@@ -30,12 +33,11 @@ class Enquire extends StatelessWidget {
           if (! snapshot.hasData){
             return const Center(child: CircularProgressIndicator());
           }
-          final documents = snapshot.data!.docs;
           return ChangeNotifierProvider(
             create: (context) => VMProviderEnquire(),
             builder: (context, child) {
               provider = Provider.of<VMProviderEnquire>(context);
-              userEmail = provider.getStorageUserEmail();
+              userEmail = box.read('email');
               return _bodyView(provider, context);
             },
           );

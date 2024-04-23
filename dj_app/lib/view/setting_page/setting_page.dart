@@ -8,37 +8,35 @@ import 'package:dj_app/view/setting_page/service_info.dart';
 import 'package:dj_app/view/setting_page/set_email.dart';
 import 'package:dj_app/view/setting_page/set_height_weight.dart';
 import 'package:dj_app/view/setting_page/set_password.dart';
-import 'package:dj_app/view/tabbar.dart';
 import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
-class SettingPage extends StatelessWidget {
-  SettingPage({super.key});
+class SettingPage extends StatefulWidget {
+  const SettingPage({super.key});
 
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
   // Property
-  String id = '';
   var provider;
   String userEmail = '';
-  
+  final box = GetStorage();
 
-
-  // ***************************************
-  // *****************View******************
   // ***************************************
   Widget _streamBuidler(){
-    print(userEmail);
     return StreamBuilder(
       stream: FirebaseFirestore.instance
               .collection('user')
               // .where('email', isEqualTo: userEmail)
               .snapshots(),
       builder: (context, snapshot) {
+        
         if (! snapshot.hasData){return const Center(child: CircularProgressIndicator(),);}
-        // fruit@hanmail.net
-        // bubble123@@
-
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: ChangeNotifierProvider<VMProviderCommon>(
@@ -47,6 +45,7 @@ class SettingPage extends StatelessWidget {
               final provider = Provider.of<VMProviderCommon>(context);
               // storage로 전달 받는 email 불러오기
               userEmail = provider.getStorageUserEmail();
+
               return Column(
               children: [
             
@@ -122,12 +121,8 @@ class SettingPage extends StatelessWidget {
       ],
     );
   }
-  // ***************************************
-
-
 
   // ***************************************
-  // 고객 정보 수정하기
   Widget updateInfoPage(){
     return Column(
       children: [
@@ -177,8 +172,19 @@ class SettingPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
-              child: IconButton(
-                onPressed: () => Get.to(SetEmail()), 
+              child : IconButton (
+                onPressed: () async { 
+                  await Get.to(SetEmail())!.then((value) {
+                    if (box.read('successfulChanged')) {
+                      String newEmail = box.read('changedEmail');
+                      box.remove('successfulChanged');
+                      box.remove('email');
+                      box.write('email', newEmail);
+                      _streamBuidler();
+                      setState(() {});
+                    }
+                  });
+                },
                 icon:const  Icon(Icons.arrow_forward_ios)
               ),
             ),
@@ -205,11 +211,8 @@ class SettingPage extends StatelessWidget {
       ],
     );
   }
-  // ***************************************
-
 
   // ***************************************
-  // 앱 정보
   Widget appInfoPage(){
     return Column(
       children: [
@@ -331,13 +334,8 @@ class SettingPage extends StatelessWidget {
       ],
     );
   }
+
   // ***************************************
-  // *****************View******************
-  // ***************************************
-
-
-
-  // ---- Function ----
   Widget deletePage(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -370,9 +368,9 @@ class SettingPage extends StatelessWidget {
           child: const Text('아니요')
         ),
         TextButton(
-          onPressed: () {
-            _executeDelete();
-            Get.off(const Tabbar());
+          onPressed: () async{
+            await _executeDelete();
+            Get.offAll(const LoginView());
           },
           child: const Text('예')
         ),
@@ -383,13 +381,8 @@ class SettingPage extends StatelessWidget {
   _executeDelete() async{
     await FirebaseFirestore.instance
       .collection('user')
-      .doc(id)
+      .doc(box.read('id'))
       .delete();
-
-    print(id);
-    print(userEmail);
-    print('Successful Delete User Info');
-    provider.disposeStorage();
   }
 
   _executeSignout() {
@@ -399,7 +392,6 @@ class SettingPage extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: (){
-            // provider.disposeStorage();
             Get.offAll(const LoginView());
           }, 
           child: const Text('종료')

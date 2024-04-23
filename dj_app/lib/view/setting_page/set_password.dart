@@ -5,6 +5,7 @@ import 'package:dj_app/vm/vm_provider_common.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class SetPassword extends StatelessWidget {
   SetPassword({super.key});
 
