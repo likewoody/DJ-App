@@ -30,71 +30,83 @@ class DiagnosisConsentPage extends StatelessWidget {
                 ],
               ),
             ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      '개인정보 수집 및 이용에 동의해 주세요',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.brown.shade800,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  RadioListTile(
-                    title: const Text(
-                      '동의',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    value: 1,
-                    groupValue: vmSelectedValue.consentradioValue,
-                    onChanged: (consentValue) {
-                      vmSelectedValue.consentRadioChange(consentValue);
-                    },
-                    activeColor: Colors.brown.shade800,
-                  ),
-                  RadioListTile(
-                    title: const Text(
-                      '동의 안함',
-                      style: TextStyle(fontSize: 18),
-                      ),
-                    value: 0,
-                    groupValue: vmSelectedValue.consentradioValue,
-                    onChanged: (consentValue) {
-                      vmSelectedValue.consentRadioChange(consentValue);
-                    },
-                    activeColor: Colors.brown.shade800,
-                  ),
-                  const SizedBox(height: 32),
-                  ElevatedButton(
-                      onPressed: () {
-                        box.write('consent', vmSelectedValue.consentradioValue);
-                        Get.to(DiagnosisTestFruitPage());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.brown.shade800,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 16,
+            child: Stack(
+              children: [
+                Image.asset('images/diagnosis_page.png'),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          '개인정보 수집 및 이용에 동의해 주세요',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.brown.shade800,
+                          ),
                         ),
                       ),
-                      child: const Text(
-                        '테스트 시작하기',
-                        style: TextStyle(fontSize: 18),
+                      const SizedBox(height: 24),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: RadioListTile(
+                          title: const Text(
+                            '동의',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          value: 1,
+                          groupValue: vmSelectedValue.consentradioValue,
+                          onChanged: (consentValue) {
+                            vmSelectedValue.consentRadioChange(consentValue);
+                          },
+                          activeColor: Colors.brown.shade800,
                         ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: RadioListTile(
+                          title: const Text(
+                            '동의 안함',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          value: 0,
+                          groupValue: vmSelectedValue.consentradioValue,
+                          onChanged: (consentValue) {
+                            vmSelectedValue.consentRadioChange(consentValue);
+                          },
+                          activeColor: Colors.brown.shade800,
                         ),
-                ],
-              ),
+                      ),
+                      const SizedBox(height: 32),
+                      ElevatedButton(
+                        onPressed: () {
+                          box.write(
+                              'consent', vmSelectedValue.consentradioValue);
+                          Get.to(DiagnosisTestFruitPage());
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.brown.shade800,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 16,
+                          ),
+                        ),
+                        child: const Text(
+                          '테스트 시작하기',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         },
