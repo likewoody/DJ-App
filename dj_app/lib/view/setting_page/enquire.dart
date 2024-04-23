@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 
+// ignore: must_be_immutable
 class Enquire extends StatelessWidget {
   Enquire({super.key});
 
@@ -32,7 +33,6 @@ class Enquire extends StatelessWidget {
           if (! snapshot.hasData){
             return const Center(child: CircularProgressIndicator());
           }
-          final documents = snapshot.data!.docs;
           return ChangeNotifierProvider(
             create: (context) => VMProviderEnquire(),
             builder: (context, child) {

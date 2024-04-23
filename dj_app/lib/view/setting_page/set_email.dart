@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class SetEmail extends StatelessWidget {
   SetEmail({super.key});
 
@@ -77,7 +78,6 @@ class SetEmail extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-        final documents = snapshot.data!.docs;
         // email 설정
         print('cehck user Email from Firebase : ${provider.userEmail}}');
         // 실제 View
