@@ -3,9 +3,12 @@ import 'package:dj_app/view/drawer_view/prevent_diabetes.dart';
 import 'package:dj_app/view/drawer_view/symptom_diabetes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DrawerComponent extends StatelessWidget {
-  const DrawerComponent({super.key});
+  DrawerComponent({super.key});
+
+  final box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +17,13 @@ class DrawerComponent extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-              'Pikachu',
+              '${box.read('name')}',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
             accountEmail: Text(
-              'Pikachu@naver.com',
+              '${box.read('email')}',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
