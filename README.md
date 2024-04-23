@@ -1,17 +1,18 @@
 # 당진(당신을 진단합니다) 앱 개발 
 
 
-### 맛집 리스트 앱 만들기 
+### 당뇨병 진단 앱 만들기 프로젝트 
 
 📆 2024.04.09 ~ 2024.04.23
 
 <br><br>
 
 
-
-![Simulator Screenshot - iPhone 15 Pro Max - 2024-04-20 at 08 06 00](https://github.com/likewoody/DJ-App/assets/151493474/81b93a14-608f-431b-b236-1d38ee4a3efa)
-![Simulator Screenshot - iPhone 15 Pro Max - 2024-04-20 at 08 06 04](https://github.com/likewoody/DJ-App/assets/151493474/e18d4a79-4afc-4b84-ad8c-6bb5f36373f5)
-
+![Group 24](https://github.com/likewoody/DJ-App/assets/151493474/4f36ccff-9f13-4242-b64a-ecbb67d98700)<br>
+![Group 25](https://github.com/likewoody/DJ-App/assets/151493474/03df5b48-1168-4030-9c08-074952b93cad)<br>
+![Group 28](https://github.com/likewoody/DJ-App/assets/151493474/5fc7b495-90c5-4c23-9531-649dbb86fa38)<br>
+![Group 26](https://github.com/likewoody/DJ-App/assets/151493474/fd6e0fad-2bf4-492d-8354-a28c05b9a369)<br>
+![Group 27](https://github.com/likewoody/DJ-App/assets/151493474/371522fd-a5d3-4f31-b97a-99534191a0e3)<br>
 
 <br>
 
@@ -41,66 +42,7 @@
 <br><br>
 
 
+
 📦
-<br>
-### State 관리
-provider: ^6.1.2
-get: ^4.6.6
-<br><br>
-
-
-#### Image
-image_picker: ^1.0.7
-<br><br>
-
-#### GPS
-geocoding: ^3.0.0
-
-geolocator: ^11.0.0
-
-flutter_map: ^6.1.0
-
-latlong2: ^0.9.1
-<br><br>
-
-
-#### SQLite
-sqflite: ^2.3.3
-<br><br>
-
-#### Firebase 
-firebase_storage: ^11.7.0
-
-cloud_firestore: ^4.16.0
-
-firebase_core: ^2.28.0
-
-firebase_analytics: ^10.10.0
-
-firebase_database: ^10.5.0
-<br><br>
-
-### Google
-#### map
-google_maps_flutter: ^2.6.0
-#### location
-location: ^6.0.1
-#### sign in
-google_sign_in: ^6.2.1
-<br><br>
-
-### PolyLine Points
-flutter_polyline_points: ^2.0.0
-<br><br>
-
-### Gauge
-syncfusion_flutter_gauges: ^25.1.40
-<br><br>
-
-### API Key 관리
-flutter_config: ^2.0.2
-<br><br>
-
-### Shared_preferences
-shared_preferences: ^2.2.2
-<br><br>
+<img width="462" alt="KakaoTalk_Photo_2024-04-23-23-03-22" src="https://github.com/likewoody/DJ-App/assets/151493474/b1a4a5f1-f3b1-4e18-a2e0-a7654a05ebc1"><br>
+<img width="327" alt="KakaoTalk_Photo_2024-04-23-23-03-11" src="https://github.com/likewoody/DJ-App/assets/151493474/bcbc8dbe-cceb-4080-9d59-571b52fd772c">
