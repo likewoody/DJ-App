@@ -30,7 +30,7 @@ class LoginViewModel extends GetxController {
         [
           TextButton(
             onPressed: () {
-              saveStorage();
+              saveStorage(querySnapshot);
               Get.offAll(
                 () => const Tabbar(),
               );
@@ -50,7 +50,8 @@ class LoginViewModel extends GetxController {
     }
   } // end of loginAction method
 
-  void saveStorage() {
+  void saveStorage(QuerySnapshot querySnapshot) {
     box.write("email", emailController.text.trim().toString());
+    box.write("name", querySnapshot.docs[0]['name'].toString());
   } // end of saveStorage method
 } // end of LoginViewModel class
