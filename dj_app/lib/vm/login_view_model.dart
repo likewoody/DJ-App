@@ -10,6 +10,7 @@ class LoginViewModel extends GetxController {
   // * Property //
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  String googleSignInEmail = '';
   final box = GetStorage();
 
   // * Method //
@@ -30,7 +31,7 @@ class LoginViewModel extends GetxController {
         [
           TextButton(
             onPressed: () {
-              saveStorage(querySnapshot);
+              saveStorage(querySnapshot, emailController.text.trim().toString());
               Get.offAll(
                 () => const Tabbar(),
               );
@@ -50,8 +51,43 @@ class LoginViewModel extends GetxController {
     }
   } // end of loginAction method
 
-  void saveStorage(QuerySnapshot querySnapshot) {
-    box.write("email", emailController.text.trim().toString());
+
+  Future<void> googleSinginAction(context) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("user")
+        .where("email", isEqualTo: googleSignInEmail.trim().toString())
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      CustomDialog.buttonDialog(
+        "환영합니다.",
+        "신분이 확인되었습니다.",
+        [
+          TextButton(
+            onPressed: () {
+              saveStorage(querySnapshot, googleSignInEmail.trim().toString());
+              Get.offAll(
+                () => const Tabbar(),
+              );
+            },
+            child: const Text(
+              "확인",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      CustomSnackbar.warnSnackBar(context);
+    }
+  } // end of loginAction method
+
+  void saveStorage(QuerySnapshot querySnapshot, saveEmail) {
+    print(saveEmail);
+    box.write("email", saveEmail);
     box.write("id", querySnapshot.docs[0].id.toString());
     box.write("name", querySnapshot.docs[0]['name'].toString());
   } // end of saveStorage method

@@ -48,3 +48,4 @@ app.*.map.json
 # Google Login & Firebase API Key Ignore
 *key.dart
 /ios/Runner/GoogleService-Info.plist
+/ios/Runner/Info.plist

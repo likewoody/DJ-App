@@ -64,6 +64,8 @@ dependencies:
   google_maps_flutter: ^2.6.1
   # Google Map Location
   location: ^6.0.1
+  # Google Login
+  google_sign_in: ^6.2.1
 
   # PolyLine Points
   flutter_polyline_points: ^2.0.0

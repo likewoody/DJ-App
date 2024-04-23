@@ -70,7 +70,7 @@ class VMProviderCommon extends ChangeNotifier{
   // Function
   duplicatedEmailFirst() async{
     print('check get in duplicated function');
-    if(inputEmail.isNotEmpty){
+    if(inputEmail.trim().isNotEmpty){
       print("not empty input email}");
       Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
       RegExp regExp = RegExp(pattern.toString());
@@ -175,7 +175,7 @@ class VMProviderCommon extends ChangeNotifier{
   curPasswordCheck() {
     print("현재 비밀번호는 $currentPassword");
     print("입력한 비밀번호는 $inputCurrentPassword");
-    if (inputCurrentPassword.isEmpty) {
+    if (inputCurrentPassword.trim().isEmpty) {
       _successfulChanged1 = false;
     } else{
       if(currentPassword != inputCurrentPassword) {
@@ -202,7 +202,7 @@ class VMProviderCommon extends ChangeNotifier{
   // ----------------------------
   // ----- 새로운 비밀번호 체크 ------
   newPasswordCheck() {
-    fNewPassword.isEmpty || sNewPassword.isEmpty
+    fNewPassword.trim().isEmpty || sNewPassword.trim().isEmpty
     ? failedErrorSnack('변경할 비밀번호를 정확히 입력하세요')
     : fNewPassword != sNewPassword 
       ? failedErrorSnack('변경할 비밀번호를 정확히 입력하세요')

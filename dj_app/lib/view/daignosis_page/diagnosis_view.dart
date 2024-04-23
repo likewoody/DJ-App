@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/model/model_dignosis_result.dart';
 import 'package:dj_app/view/daignosis_page/diagnosis_result_page.dart';
-import 'package:dj_app/vm/db_diagnosis_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+// ignore: must_be_immutable
 class DiagnosisView extends StatelessWidget {
   DiagnosisView({super.key});
 
@@ -18,7 +18,7 @@ class DiagnosisView extends StatelessWidget {
   List snapshotList = [];
   List querySQLite = [];
   List<DiagnosisResult> data = [];
-  DatabaseHandler handler = DatabaseHandler();
+  // DatabaseHandler handler = DatabaseHandler();
 
 
   // Function
