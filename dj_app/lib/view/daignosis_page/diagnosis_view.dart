@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dj_app/component/diagnosis_result_page_component.dart';
 import 'package:dj_app/model/model_dignosis_result.dart';
+import 'package:dj_app/view/daignosis_page/diagnosis_result_page.dart';
 import 'package:dj_app/vm/db_diagnosis_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,10 +22,6 @@ class DiagnosisView extends StatelessWidget {
 
 
   // Function
-  firebaseStorage(){
-    // Firebase
-  }
-
   String dateFormat(data) {
     // "2024-04-22 11:36:57.522965"
     return data.toString().substring(0, 10);
@@ -55,7 +51,10 @@ class DiagnosisView extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           print(doc['result']);
-          Get.to(DiagnosisResultComponent(resultValue: doc['result']));
+          Get.to(DiagnosisResultPage(), arguments: [
+            // id는 자동으로 관리되는 Property
+            doc['result'],
+          ]);
         },
         child: SizedBox(
           height: 140,

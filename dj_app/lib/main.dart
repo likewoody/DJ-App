@@ -1,7 +1,8 @@
 import 'package:dj_app/firebase_options.dart';
-import 'package:dj_app/view/login_view.dart';
+import 'package:dj_app/view/login_signup/login_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -14,6 +15,7 @@ Future<void> main() async {
   // * 한국어 Locale를 사용한다.
   // * import는 package:intl/date_symbol_data_local.dart
   await initializeDateFormatting("ko_KR");
+  FlutterNativeSplash.remove();
   runApp(const MyApp());
 } // end of main()
 

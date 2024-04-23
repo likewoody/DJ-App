@@ -1,4 +1,4 @@
-import 'package:dj_app/view/login_view.dart';
+import 'package:dj_app/view/login_signup/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

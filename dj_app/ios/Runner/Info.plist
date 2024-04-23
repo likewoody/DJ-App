@@ -81,5 +81,9 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+
+		<!-- * Flutter의 렌더링 엔진을 선택적으로 사용하기 위한 Settings -->
+		<key>FLTEnableImpeller</key>
+		<false />
 	</dict>
 </plist>
