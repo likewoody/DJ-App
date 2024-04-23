@@ -30,51 +30,24 @@ class _DiagnosisResultPageState extends State<DiagnosisResultPage> {
             SfRadialGauge(
               axes: <RadialAxis>[
                 RadialAxis(
-                  showLabels: false,
-                  showAxisLine: false,
-                  showTicks: false,
-                  minimum: 0,
-                  maximum: 100,
                   startAngle: 180,
                   endAngle: 0,
-                  ranges: <GaugeRange>[
-                    GaugeRange(
-                        startValue: 0,
-                        endValue: 33,
-                        color: Color(0xFFFE2A25),
-                        label: 'Slow',
-                        sizeUnit: GaugeSizeUnit.factor,
-                        labelStyle:
-                            GaugeTextStyle(fontFamily: 'Times', fontSize: 20),
-                        startWidth: 0.65,
-                        endWidth: 0.65),
-                    GaugeRange(
-                      startValue: 33,
-                      endValue: 66,
-                      color: Color(0xFFFFBA00),
-                      label: 'Moderate',
-                      labelStyle:
-                          GaugeTextStyle(fontFamily: 'Times', fontSize: 20),
-                      startWidth: 0.65,
-                      endWidth: 0.65,
-                      sizeUnit: GaugeSizeUnit.factor,
-                    ),
-                    GaugeRange(
-                      startValue: 66,
-                      endValue: 99,
-                      color: Color(0xFF00AB47),
-                      label: 'Fast',
-                      labelStyle:
-                          GaugeTextStyle(fontFamily: 'Times', fontSize: 20),
-                      sizeUnit: GaugeSizeUnit.factor,
-                      startWidth: 0.65,
-                      endWidth: 0.65,
-                    ),
-                  ],
+                  minimum: 0,
+                  maximum: 100.1,
+                  axisLineStyle: AxisLineStyle(
+                    thickness: 0.25,
+                    thicknessUnit: GaugeSizeUnit.factor,
+                  ),
                   pointers: <GaugePointer>[
-                    NeedlePointer(
-                      value: dangjinRConnect.result*100,
+                    RangePointer(
                       enableAnimation: true,
+                      value: dangjinRConnect.result*100,
+                      width: 0.25,
+                      sizeUnit: GaugeSizeUnit.factor,
+                      gradient: const SweepGradient(
+                        colors: <Color>[Color(0xFFCC2B5E), Color(0xFF753A88)],
+                        stops: <double>[0.25, 0.75],
+                      ),
                     ),
                   ],
                 ),
