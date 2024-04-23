@@ -34,8 +34,12 @@ class _SignUpViewState extends State<SignUpView> {
 
   // 정규식
   final _emailRegExp = RegExp(r'^[a-z0-9\.\-_]+@([a-z0-9\-]+\.)+[a-z]{2,4}$');
-  final _passwordRegExp =
-      RegExp(r'^(?=.[a-zA-Z])(?=.\d)(?=.[$@$!%#?&])[a-zA-Z\d$@$!%*#?&]{8,}$');
+  final _minMaxLength = RegExp(r'[a-zA-Z\d$@$!%*#?&]{8,100}');
+  final _hasAlphabets = RegExp(r'(?=.*[a-zA-Z])');
+  final _hasDigit = RegExp(r'(?=.*\d)');
+  final _hasSpecialChar = RegExp(r'(?=.*[$@$!%*#?&])');
+  final _noConsecutiveCharsDigits =
+      RegExp(r'^(?!.*(.)\1{2,})(?!.*(\d)\2{2,}).*$');
   final _nameRegExp = RegExp(r'^[가-힣]{2,4}$');
   final _phoneRegExp = RegExp(r'(^\d{3})-\d{3,4}-\d{4}$');
 
@@ -306,12 +310,25 @@ class _SignUpViewState extends State<SignUpView> {
                             true, // 사용자가 텍스트를 입력할 때 오타나 잘못된 단어를 자동으로 수정하는 기능
                         // *****************************************************
                         // Password 유효성 검사(정규식 패턴)
+// Password 유효성 검사(정규식 패턴)
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "비밀번호는 반드시 입력 해야 합니다!";
                           }
-                          if (!_passwordRegExp.hasMatch(value)) {
-                            return '유효한 비밀번호를 입력해주세요!';
+                          if (!_minMaxLength.hasMatch(value)) {
+                            return "8자 이상 100자 이하로 입력해주세요!";
+                          }
+                          if (!_hasAlphabets.hasMatch(value)) {
+                            return "영문자 1개 이상 입력해주세요!";
+                          }
+                          if (!_hasDigit.hasMatch(value)) {
+                            return "숫자 1개 이상 입력해주세요!";
+                          }
+                          if (!_hasSpecialChar.hasMatch(value)) {
+                            return "특수문자 1개 이상 입력해주세요!";
+                          }
+                          if (!_noConsecutiveCharsDigits.hasMatch(value)) {
+                            return "연속된 동일한 문자 및 숫자 3자리 이상 금지!";
                           }
                           return null;
                         },
@@ -391,9 +408,6 @@ class _SignUpViewState extends State<SignUpView> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "비밀번호는 반드시 입력 해야 합니다!";
-                      }
-                      if (!_passwordRegExp.hasMatch(value)) {
-                        return '유효한 비밀번호를 입력해주세요!';
                       }
                       if (_viewModel.password1Controller.text.trim() !=
                           _viewModel.password2Controller.text.trim()) {

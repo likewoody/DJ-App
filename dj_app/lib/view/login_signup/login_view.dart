@@ -1,6 +1,6 @@
 import 'package:dj_app/component/appbar.dart';
 import 'package:dj_app/component/custom_snackbar.dart';
-import 'package:dj_app/view/signup_view.dart';
+import 'package:dj_app/view/login_signup/signup_view.dart';
 import 'package:dj_app/vm/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

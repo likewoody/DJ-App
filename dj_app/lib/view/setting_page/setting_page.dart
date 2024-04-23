@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dj_app/component/setting_appbar.dart';
-import 'package:dj_app/view/login_view.dart';
+import 'package:dj_app/view/login_signup/login_view.dart';
 import 'package:dj_app/view/setting_page/enquire.dart';
 import 'package:dj_app/view/setting_page/enquire_list.dart';
 import 'package:dj_app/view/setting_page/personal_info.dart';
