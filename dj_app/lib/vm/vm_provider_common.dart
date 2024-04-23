@@ -17,9 +17,9 @@ class VMProviderCommon extends ChangeNotifier{
     return userEmail = box.read('email');
   }
 
-  disposeStorage(){
-    box.erase();
-  }
+  // disposeStorage(){
+  //   box.erase();
+  // }
 
   InputDecoration textFormDecoration(hintText, helperText){
     return InputDecoration(
@@ -33,6 +33,7 @@ class VMProviderCommon extends ChangeNotifier{
 
   showSuccessfulAlert() {
     Get.defaultDialog(
+      barrierDismissible: false,
       title: '변경 완료',
       middleText: '$whichOne 변경이 완료 되었습니다.',
       actions: [
@@ -69,7 +70,13 @@ class VMProviderCommon extends ChangeNotifier{
     print('check get in duplicated function');
     if(inputEmail.isNotEmpty){
       print("not empty input email}");
-      await updateEmail();
+      Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regExp = RegExp(pattern.toString());
+      if(!regExp.hasMatch(inputEmail)){
+        return '잘못된 이메일 형식입니다.';
+      }else{
+        await updateEmail();
+      }
     }else {
       print('empty input email');
     }
@@ -158,6 +165,7 @@ class VMProviderCommon extends ChangeNotifier{
     } else{
       if(currentPassword != inputCurrentPassword) {
         _successfulChanged1 = false;
+        failedErrorSnack('현재 비밀번호를 정확히 입력하세요.');
       }else {
         _successfulChanged1 = true;
       }

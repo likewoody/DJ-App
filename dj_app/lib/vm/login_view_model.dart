@@ -52,6 +52,7 @@ class LoginViewModel extends GetxController {
 
   void saveStorage(QuerySnapshot querySnapshot) {
     box.write("email", emailController.text.trim().toString());
+    box.write("id", querySnapshot.docs[0].id.toString());
     box.write("name", querySnapshot.docs[0]['name'].toString());
   } // end of saveStorage method
 } // end of LoginViewModel class
