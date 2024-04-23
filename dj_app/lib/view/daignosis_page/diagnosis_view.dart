@@ -51,7 +51,7 @@ class DiagnosisView extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           print(doc['result']);
-          Get.to(const DiagnosisResultPage(), arguments: [
+          Get.to(DiagnosisResultPage(), arguments: [
             // id는 자동으로 관리되는 Property
             doc['result'],
           ]);
