@@ -101,6 +101,9 @@ dependencies:
   # Diagnosis View Page Chart
   syncfusion_flutter_charts: ^25.1.40
 
+  # * flutter_native_splash (Application Splash Screen Settings)
+  flutter_native_splash: ^2.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
