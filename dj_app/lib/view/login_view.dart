@@ -28,8 +28,8 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     super.initState();
     box.erase();
-    _viewModel.emailController.text = '';
-    _viewModel.passwordController.text = '';
+    _viewModel.emailController.text = 'fruit@hanmail.net';
+    _viewModel.passwordController.text = 'bubble123@@';
     _viewModel.emailController.addListener(_updateEmailClearButton);
     _viewModel.passwordController.addListener(_updatePasswordClearButton);
   } // initState
@@ -71,7 +71,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    print("${box.read('email')} test test test ");
     return GestureDetector(
       onTap: () => Get.focusScope!.unfocus(),
       child: Scaffold(

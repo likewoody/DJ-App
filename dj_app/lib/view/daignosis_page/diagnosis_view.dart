@@ -49,7 +49,7 @@ class DiagnosisView extends StatelessWidget {
       // ************* data 이동 시킬 때 doc ***************
       child: GestureDetector(
         onTap: () {
-          Get.to(const DiagnosisResultPage(), arguments: [
+          Get.to(DiagnosisResultPage(), arguments: [
             // id는 자동으로 관리되는 Property
             doc['email'],
           ]);
