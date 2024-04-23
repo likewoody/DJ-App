@@ -43,6 +43,6 @@
 
 
 
-📦<br>
+📦<br><br>
 <img width="462" alt="KakaoTalk_Photo_2024-04-23-23-03-22" src="https://github.com/likewoody/DJ-App/assets/151493474/b1a4a5f1-f3b1-4e18-a2e0-a7654a05ebc1"><br>
-<img width="327" alt="KakaoTalk_Photo_2024-04-23-23-03-11" src="https://github.com/likewoody/DJ-App/assets/151493474/bcbc8dbe-cceb-4080-9d59-571b52fd772c">
+<img width="462" alt="KakaoTalk_Photo_2024-04-23-23-03-11" src="https://github.com/likewoody/DJ-App/assets/151493474/bcbc8dbe-cceb-4080-9d59-571b52fd772c">
