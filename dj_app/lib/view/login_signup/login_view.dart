@@ -1,4 +1,5 @@
 import 'package:dj_app/component/appbar.dart';
+import 'package:dj_app/component/custom_dialog.dart';
 import 'package:dj_app/component/custom_snackbar.dart';
 import 'package:dj_app/view/login_signup/signup_view.dart';
 import 'package:dj_app/vm/login_view_model.dart';
@@ -63,12 +64,11 @@ class _LoginViewState extends State<LoginView> {
   void _checkIdPassword(context) {
     if (_viewModel.emailController.text.trim().isEmpty ||
         _viewModel.passwordController.text.trim().isEmpty) {
-      CustomSnackbar.errorSnackbar(context);
+      CustomSnackbar.loginErrorSnackbar(context);
     } else {
       _viewModel.loginAction(context);
     }
   } // _checkIdPassword
-
 
   Future<void> _signInGoogle() async {
     List<String> scope = <String>[
@@ -85,15 +85,15 @@ class _LoginViewState extends State<LoginView> {
       await _googleSignIn.signIn();
 
       // 로그인 성공 후 사용자 정보 가져오기
-      GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signInSilently();
+      GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signInSilently();
 
       // 사용자 이메일 정보 출력
       if (googleSignInAccount != null) {
-        _viewModel.googleSignInEmail = googleSignInAccount.email; 
+        _viewModel.googleSignInEmail = googleSignInAccount.email;
         print('Email1: ${googleSignInAccount.email}');
         print('Email2: ${_viewModel.googleSignInEmail}');
       }
-
     } catch (error) {
       print(error);
     }
@@ -104,7 +104,8 @@ class _LoginViewState extends State<LoginView> {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -143,48 +144,52 @@ class _LoginViewState extends State<LoginView> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: SizedBox(
-                        width: 390,
-                        child: TextField(
-                          controller: _viewModel.emailController,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(
-                              Icons.mail,
-                              color: Colors.grey,
-                            ),
-                            hintText: "아이디(이메일)",
-                            hintFadeDuration: const Duration(milliseconds: 500),
-                            suffixIcon: _showEmailClearButton
-                                ? GestureDetector(
-                                    onTap: () => _viewModel.emailController
-                                        .clear(), // Field 초기화
-                                    child: Icon(
-                                      Icons.clear,
-                                      color: Colors.grey.shade400,
-                                    ),
-                                  )
-                                : null,
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(0),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 335,
+                            child: TextField(
+                              controller: _viewModel.emailController,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(
+                                  Icons.mail,
+                                  color: Colors.grey,
+                                ),
+                                hintText: "아이디(이메일)",
+                                hintFadeDuration: const Duration(milliseconds: 500),
+                                suffixIcon: _showEmailClearButton
+                                    ? GestureDetector(
+                                        onTap: () => _viewModel.emailController
+                                            .clear(), // Field 초기화
+                                        child: Icon(
+                                          Icons.clear,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                      )
+                                    : null,
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(0),
+                                  ),
+                                ),
+                                contentPadding: const EdgeInsets.all(20.0),
                               ),
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.next,
+                              enableSuggestions: true, // 자동제안 기능
+                              autocorrect:
+                                  true, // 사용자가 텍스트를 입력할 때 오타나 잘못된 단어를 자동으로 수정하는 기능
+                              // ***************************************************
+                              // clear button 구현!
+                              onChanged: (value) {
+                                setState(() {
+                                  _showEmailClearButton =
+                                      _viewModel.emailController.text.isNotEmpty;
+                                });
+                              },
                             ),
-                            contentPadding: const EdgeInsets.all(20.0),
                           ),
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.next,
-                          enableSuggestions: true, // 자동제안 기능
-                          autocorrect:
-                              true, // 사용자가 텍스트를 입력할 때 오타나 잘못된 단어를 자동으로 수정하는 기능
-                          // ***************************************************
-                          // clear button 구현!
-                          onChanged: (value) {
-                            setState(() {
-                              _showEmailClearButton =
-                                  _viewModel.emailController.text.isNotEmpty;
-                            });
-                          },
-                        ),
+                        ],
                       ),
                     ),
 
@@ -316,9 +321,24 @@ class _LoginViewState extends State<LoginView> {
                     // ---------------------------------------------------------
 
                     IconButton(
-                      onPressed: () {
-                        //
-                      },
+                      onPressed: () => CustomDialog.buttonDialog(
+                        "안내",
+                        "추후 Update 예정이오니 양해바랍니다.",
+                        [
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: const Text(
+                              "확인",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       icon: Image.asset(
                         "images/naverButton.png",
                         fit: BoxFit.fill,
@@ -328,7 +348,8 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     IconButton(
                       onPressed: () async {
-                        await _signInGoogle().then((value) => _viewModel.googleSinginAction(context));
+                        await _signInGoogle().then(
+                            (value) => _viewModel.googleSinginAction(context));
                       },
                       icon: Image.asset(
                         "images/googleButton.png",
@@ -390,9 +411,24 @@ class _LoginViewState extends State<LoginView> {
                         SizedBox(
                           width: 160,
                           child: TextButton(
-                            onPressed: () {
-                              //
-                            },
+                            onPressed: () => CustomDialog.buttonDialog(
+                              "안내",
+                              "추후 Update 예정이오니 양해바랍니다.",
+                              [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Text(
+                                    "확인",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                             child: const Text(
                               "아이디(이메일) 찾기",
                               style: TextStyle(
@@ -417,9 +453,24 @@ class _LoginViewState extends State<LoginView> {
                         SizedBox(
                           width: 160,
                           child: TextButton(
-                            onPressed: () {
-                              //
-                            },
+                            onPressed: () => CustomDialog.buttonDialog(
+                              "안내",
+                              "추후 Update 예정이오니 양해바랍니다.",
+                              [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Text(
+                                    "확인",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                             child: const Text(
                               "비밀번호 찾기",
                               style: TextStyle(
