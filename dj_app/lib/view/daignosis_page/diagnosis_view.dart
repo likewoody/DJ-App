@@ -18,7 +18,6 @@ class DiagnosisView extends StatelessWidget {
   List snapshotList = [];
   List querySQLite = [];
   List<DiagnosisResult> data = [];
-  // DatabaseHandler handler = DatabaseHandler();
 
 
   // Function

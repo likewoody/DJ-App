@@ -203,7 +203,6 @@ class SetPassword extends StatelessWidget {
       );
   }
 
-  // ---- View 4 ----
   _clickButton(){
     provider.inputCurrentPassword = pwCon1.text;
     provider.fNewPassword = pwCon2.text;
@@ -212,7 +211,6 @@ class SetPassword extends StatelessWidget {
     print('pwCon2.text : ${pwCon2.text}');
     print('pwCon3.text : ${pwCon3.text}');
     provider.curPasswordCheck();
-    provider.newPasswordCheck();
     if(provider.changePassword()){
       provider.showSuccessfulAlert();
     };
@@ -222,7 +220,6 @@ class SetPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final provider = Provider.of<VMPRoviderPassword>(context);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SettingAppbar(titleName: '비밀번호 설정', builder: _streamBuidler(context)),
