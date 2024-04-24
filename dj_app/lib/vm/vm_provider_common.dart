@@ -50,6 +50,16 @@ class VMProviderCommon extends ChangeNotifier{
       ]
     );
   }
+
+  showWarnSanckBar() {
+    Get.snackbar(
+      '경고', 
+      '구글 로그인은 비밀번호를 수정할 수 없습니다.',
+      duration: const Duration(seconds: 2),
+      backgroundColor: Colors.red,
+      colorText: Colors.white
+    );
+  }
   // =============Common==================
   // =====================================
   

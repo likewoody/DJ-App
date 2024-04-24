@@ -65,6 +65,7 @@ class LoginViewModel extends GetxController {
         [
           TextButton(
             onPressed: () {
+              box.write('apiUser', true);
               saveStorage(querySnapshot, googleSignInEmail.trim().toString());
               Get.offAll(
                 () => const Tabbar(),
