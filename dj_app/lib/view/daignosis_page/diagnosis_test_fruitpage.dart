@@ -36,74 +36,76 @@ class DiagnosisTestFruitPage extends StatelessWidget {
             child: Stack(
               children: [
                 Image.asset('images/diagnosis_page.png'),
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '하루에 한개 이상 과일을 섭취 하십니까?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.brown.shade800,
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        child: Text('${vmSelectedValue.currentPage + 2} / 6'),
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                      child: RadioListTile(
-                        title: const Text(
-                          'Yes',
-                          style: TextStyle(
-                            fontSize: 18
-                          ),
-                          ),
-                        value: 1,
-                        groupValue: vmSelectedValue.fruitradioVlaue,
-                        onChanged: (fruitValue) {
-                          vmSelectedValue.fruitRadioChange(fruitValue);
-                        },
-                                            activeColor: Colors.brown.shade800,
+                      Text(
+                        '하루에 한개 이상 과일을 섭취 하십니까?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.brown.shade800,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                      child: RadioListTile(
+                      const SizedBox(height: 24),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: RadioListTile(
+                          title: const Text(
+                            'Yes',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          value: 1,
+                          groupValue: vmSelectedValue.fruitradioVlaue,
+                          onChanged: (fruitValue) {
+                            vmSelectedValue.fruitRadioChange(fruitValue);
+                          },
+                          activeColor: Colors.brown.shade800,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: RadioListTile(
                           title: const Text(
                             'No',
                             style: TextStyle(fontSize: 18),
-                            ),
+                          ),
                           value: 0,
                           groupValue: vmSelectedValue.fruitradioVlaue,
                           onChanged: (fruitValue) {
                             vmSelectedValue.fruitRadioChange(fruitValue);
                           },
                           activeColor: Colors.brown.shade800,
-                          ),
-                    ),
-                        const SizedBox(height: 32),
-                    ElevatedButton(
-                        onPressed: () {
-                          box.write('fruit', vmSelectedValue.fruitradioVlaue);
-                          Get.to(DiagnosisTestAlcoholPage());
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.brown.shade800,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 32,
-                            vertical: 16,
-                          ),
                         ),
-                        child: const Text('다음 질문')),
-                  ],
+                      ),
+                      const SizedBox(height: 32),
+                      ElevatedButton(
+                          onPressed: () {
+                            box.write('fruit', vmSelectedValue.fruitradioVlaue);
+                            Get.to(DiagnosisTestAlcoholPage());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.brown.shade800,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 32,
+                              vertical: 16,
+                            ),
+                          ),
+                          child: const Text('다음 질문')),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
             ),
           );
         },
