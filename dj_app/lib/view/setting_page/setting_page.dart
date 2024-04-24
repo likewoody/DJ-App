@@ -383,7 +383,9 @@ class _SettingPageState extends State<SettingPage> {
     await FirebaseFirestore.instance
       .collection('user')
       .doc(box.read('id'))
-      .delete();
+      .update({
+        'status': 0
+      });
   }
 
   _executeSignout() {

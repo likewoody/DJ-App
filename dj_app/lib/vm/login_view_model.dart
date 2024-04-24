@@ -11,6 +11,7 @@ class LoginViewModel extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String googleSignInEmail = '';
+  int checkDeletedAccount = 0;
   final box = GetStorage();
 
   // * Method //
@@ -23,8 +24,16 @@ class LoginViewModel extends GetxController {
         .collection("user")
         .where("password", isEqualTo: passwordController.text.trim().toString())
         .get();
+    QuerySnapshot querySnapshot3 = await FirebaseFirestore.instance
+    .collection("user")
+    .where("email", isEqualTo: emailController.text.trim().toString())
+    .get();
 
-    if (querySnapshot.docs.isNotEmpty && querySnapshot2.docs.isNotEmpty) {
+    querySnapshot3.docs.forEach((i) {
+      checkDeletedAccount = i['status'];
+    });
+
+    if (querySnapshot.docs.isNotEmpty && querySnapshot2.docs.isNotEmpty && checkDeletedAccount != 0) {
       CustomDialog.buttonDialog(
         "환영합니다.",
         "신분이 확인되었습니다.",
