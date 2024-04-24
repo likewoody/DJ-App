@@ -19,38 +19,41 @@ class LoginViewModel extends GetxController {
         .collection("user")
         .where("email", isEqualTo: emailController.text.trim().toString())
         .get();
-    QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
-        .collection("user")
-        .where("password", isEqualTo: passwordController.text.trim().toString())
-        .get();
 
-    if (querySnapshot.docs.isNotEmpty && querySnapshot2.docs.isNotEmpty) {
-      CustomDialog.buttonDialog(
-        "환영합니다.",
-        "신분이 확인되었습니다.",
-        [
-          TextButton(
-            onPressed: () {
-              saveStorage(querySnapshot, emailController.text.trim().toString());
-              Get.offAll(
-                () => const Tabbar(),
-              );
-            },
-            child: const Text(
-              "확인",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+    if (querySnapshot.docs.isNotEmpty) {
+      if (querySnapshot.docs[0]["email"].toString() ==
+              emailController.text.trim().toString() &&
+          querySnapshot.docs[0]["password"].toString() ==
+              passwordController.text.trim().toString()) {
+        CustomDialog.buttonDialog(
+          "환영합니다.",
+          "신분이 확인되었습니다.",
+          [
+            TextButton(
+              onPressed: () {
+                saveStorage(
+                    querySnapshot, emailController.text.trim().toString());
+                Get.offAll(
+                  () => const Tabbar(),
+                );
+              },
+              child: const Text(
+                "확인",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-        ],
-      );
+          ],
+        );
+      } else {
+        CustomSnackbar.loginWarnSnackBar(context);
+      }
     } else {
-      CustomSnackbar.warnSnackBar(context);
+      CustomSnackbar.loginWarnSnackBar(context);
     }
   } // end of loginAction method
-
 
   Future<void> googleSinginAction(context) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -82,12 +85,11 @@ class LoginViewModel extends GetxController {
         ],
       );
     } else {
-      CustomSnackbar.warnSnackBar(context);
+      CustomSnackbar.loginWarnSnackBar(context);
     }
   } // end of loginAction method
 
   void saveStorage(QuerySnapshot querySnapshot, saveEmail) {
-    print(saveEmail);
     box.write("email", saveEmail);
     box.write("id", querySnapshot.docs[0].id.toString());
     box.write("name", querySnapshot.docs[0]['name'].toString());

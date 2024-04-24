@@ -310,7 +310,6 @@ class _SignUpViewState extends State<SignUpView> {
                             true, // 사용자가 텍스트를 입력할 때 오타나 잘못된 단어를 자동으로 수정하는 기능
                         // *****************************************************
                         // Password 유효성 검사(정규식 패턴)
-// Password 유효성 검사(정규식 패턴)
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "비밀번호는 반드시 입력 해야 합니다!";
