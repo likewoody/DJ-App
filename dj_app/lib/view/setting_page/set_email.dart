@@ -42,15 +42,19 @@ class SetEmail extends StatelessWidget {
         height: 100,
         child: TextButton(
           onPressed: () async {
-            provider.inputEmail = textCon.text;
-            provider.formKey.currentState!.validate();
-            await provider.duplicatedEmailFirst();
-
-            if(provider.duplicatedCheck2) {
-              successfulChanged = true;
-              box.write('successfulChanged', successfulChanged);
-              box.write('changedEmail', textCon.text);
-              provider.showSuccessfulAlert();
+            if (box.read('apiUser')) {
+              provider.showWarnSanckBar();
+            } else{
+              provider.inputEmail = textCon.text;
+              provider.formKey.currentState!.validate();
+              await provider.duplicatedEmailFirst();
+              
+              if(provider.duplicatedCheck2) {
+                successfulChanged = true;
+                box.write('successfulChanged', successfulChanged);
+                box.write('changedEmail', textCon.text);
+                provider.showSuccessfulAlert();
+              }
             }
           },
           child: Text(
@@ -100,15 +104,19 @@ class SetEmail extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: ()async{
-                        provider.inputEmail = textCon.text;
-                        provider.formKey.currentState!.validate();
-                        await provider.duplicatedEmailFirst();
-                        
-                        if(provider.duplicatedCheck2) {
-                          successfulChanged = true;
-                          box.write('successfulChanged', successfulChanged);
-                          box.write('changedEmail', textCon.text);
-                          provider.showSuccessfulAlert();
+                        if (box.read('apiUser')) {
+                          provider.showWarnSanckBar();
+                        } else{
+                          provider.inputEmail = textCon.text;
+                          provider.formKey.currentState!.validate();
+                          await provider.duplicatedEmailFirst();
+                          
+                          if(provider.duplicatedCheck2) {
+                            successfulChanged = true;
+                            box.write('successfulChanged', successfulChanged);
+                            box.write('changedEmail', textCon.text);
+                            provider.showSuccessfulAlert();
+                          }
                         }
                       },
                       child: const Text('이메일 설정'),
@@ -125,11 +133,13 @@ class SetEmail extends StatelessWidget {
 
   // ---- View 3 ----
   Widget _showEmailInput(){
+    
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(30, 80, 30, 15),
           child: TextFormField(
+            readOnly: box.read('apiUser') ? box.read('apiUser') : false,
             controller: textCon,
             keyboardType: TextInputType.emailAddress,
             focusNode: provider.emailFocus,
