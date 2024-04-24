@@ -16,6 +16,7 @@ class SetPassword extends StatelessWidget {
   final TextEditingController pwCon3 = TextEditingController();
   var provider;
   String userEmail = '';
+  bool apiUser = false;
 
   // ---- View 1 ----
   _streamBuidler(context){
@@ -40,7 +41,14 @@ class SetPassword extends StatelessWidget {
       ),
       height: 100,
       child: TextButton(
-        onPressed: () => _clickButton(), 
+        onPressed: () {
+            if(apiUser ) {
+              provider.showWarnSanckBar();
+            } else{
+              provider.formKey.currentState!.validate();
+              _clickButton();
+            }
+        }, 
         child: Text(
           '비밀번호 설정',
           style: TextStyle(
@@ -69,12 +77,18 @@ class SetPassword extends StatelessWidget {
         }
         final documents = snapshot.data!.docs;
         // 현재 비밀번호 확인
-        if(documents[0].get('password').isEmpty) {
-          Get.back();
-          _showWarnSanckBar();
-        } else {
-          provider.currentPassword = documents[0].get('password');
+        try {
+          if(documents[0].get('password').isEmpty) {
+            Get.back();
+            provider.showWarnSanckBar();
+          } else {
+            provider.currentPassword = documents[0].get('password');
+          }
+        } catch (e) {
+          apiUser = true;
+          e.printError();
         }
+        print(apiUser);
 
         return Padding(
           padding: const EdgeInsets.fromLTRB(0,110,0,0),
@@ -91,8 +105,12 @@ class SetPassword extends StatelessWidget {
                       ElevatedButton(
                         child: const Text('비밀번호 변경하기'),
                         onPressed: (){
-                          provider.formKey.currentState!.validate();
-                          _clickButton();
+                          if(apiUser ) {
+                            provider.showWarnSanckBar();
+                          } else{
+                            provider.formKey.currentState!.validate();
+                            _clickButton();
+                          }
                         },
                       ),
                     ],
@@ -132,8 +150,9 @@ class SetPassword extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.black)
                     ),
                     hintText: ' 현재 비밀번호 확인',
-                    hintFadeDuration: Duration(milliseconds: 100)
+                    hintFadeDuration: Duration(milliseconds: 100),
                   ),
+                  readOnly: apiUser,
                 ),
               )
           ),
@@ -153,6 +172,7 @@ class SetPassword extends StatelessWidget {
                 focusNode: provider.passwordFocus,
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
+                readOnly: apiUser,
                 decoration: provider.textFormDecoration('새로운 비밀번호', '특수문자, 대소문자, 숫자 포함 8자 이상 15자 이내로 입력하세요.')
                 .copyWith(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -168,6 +188,7 @@ class SetPassword extends StatelessWidget {
                   controller: pwCon3,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
+                  readOnly: apiUser,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)
@@ -197,15 +218,7 @@ class SetPassword extends StatelessWidget {
     };
   }
 
-  _showWarnSanckBar() {
-    Get.snackbar(
-      '경고', 
-      '구글 로그인은 비밀번호를 수정할 수 없습니다.',
-      duration: const Duration(seconds: 2),
-      backgroundColor: Colors.red,
-      colorText: Colors.white
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
