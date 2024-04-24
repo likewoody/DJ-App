@@ -212,7 +212,6 @@ class SetPassword extends StatelessWidget {
     print('pwCon2.text : ${pwCon2.text}');
     print('pwCon3.text : ${pwCon3.text}');
     provider.curPasswordCheck();
-    provider.newPasswordCheck();
     if(provider.changePassword()){
       provider.showSuccessfulAlert();
     };

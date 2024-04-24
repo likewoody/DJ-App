@@ -25,6 +25,7 @@ class _SettingPageState extends State<SettingPage> {
   // Property
   var provider;
   String userEmail = '';
+  bool apiUser = false;
   final box = GetStorage();
 
   // ***************************************
@@ -174,7 +175,7 @@ class _SettingPageState extends State<SettingPage> {
               padding: const EdgeInsets.fromLTRB(0,5,15,5),
               child : IconButton (
                 onPressed: () async { 
-                  await Get.to(SetEmail())!.then((value) {
+                  await Get.to(SetEmail(apiUser: apiUser,))!.then((value) {
                     if (box.read('successfulChanged')) {
                       String newEmail = box.read('changedEmail');
                       box.remove('successfulChanged');
@@ -402,6 +403,7 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    box.read('apiUser') != null ? apiUser = true : apiUser = false;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SettingAppbar(titleName: '설정', builder: _streamBuidler())
