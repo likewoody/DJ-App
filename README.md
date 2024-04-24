@@ -7,6 +7,37 @@
 
 <br><br>
 
+팀장: 원도현<br>
+역할:Google Map Api<br>
+당뇨병 발병확률 머신러닝 데이터 분석<br>
+팀 기여도 : 25 %
+
+<br><br>
+
+팀원: 조성진<br>
+역할: 세팅 페이지<br>
+회원 정보 설정 및 변경<br>
+문의 <br>
+당뇨병 발병확률 머신러닝 데이터 분석<br>
+팀 기여도 : 25 %
+
+<br><br>
+
+팀원: 김광영<br>
+역할: Sign Up & Login<br>
+당뇨병 발병확률 머신러닝 데이터 분석<br>
+팀 기여도 : 25 %
+
+<br><br>
+
+팀원: 박정민<br>
+역할: 당뇨병 진단페이지<br>
+당뇨병 발병확률 머신러닝 데이터 분석 <br>
+팀 기여도 : 25 %
+
+
+<br><br>
+
 
 ![Group 24](https://github.com/likewoody/DJ-App/assets/151493474/4f36ccff-9f13-4242-b64a-ecbb67d98700)<br>
 ![Group 25](https://github.com/likewoody/DJ-App/assets/151493474/03df5b48-1168-4030-9c08-074952b93cad)<br>
