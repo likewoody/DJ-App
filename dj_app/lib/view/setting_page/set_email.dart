@@ -8,7 +8,8 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class SetEmail extends StatelessWidget {
-  SetEmail({super.key});
+  final bool apiUser;
+  SetEmail({super.key, required this.apiUser});
 
   // Property
   final TextEditingController textCon = TextEditingController();
@@ -42,7 +43,7 @@ class SetEmail extends StatelessWidget {
         height: 100,
         child: TextButton(
           onPressed: () async {
-            if (box.read('apiUser')) {
+            if (apiUser) {
               provider.showWarnSanckBar();
             } else{
               provider.inputEmail = textCon.text;
@@ -104,7 +105,7 @@ class SetEmail extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: ()async{
-                        if (box.read('apiUser')) {
+                        if (apiUser) {
                           provider.showWarnSanckBar();
                         } else{
                           provider.inputEmail = textCon.text;
@@ -139,7 +140,7 @@ class SetEmail extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(30, 80, 30, 15),
           child: TextFormField(
-            readOnly: box.read('apiUser') ? box.read('apiUser') : false,
+            readOnly: apiUser,
             controller: textCon,
             keyboardType: TextInputType.emailAddress,
             focusNode: provider.emailFocus,

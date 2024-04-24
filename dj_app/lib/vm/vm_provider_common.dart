@@ -185,21 +185,25 @@ class VMProviderCommon extends ChangeNotifier{
   curPasswordCheck() {
     print("현재 비밀번호는 $currentPassword");
     print("입력한 비밀번호는 $inputCurrentPassword");
-    if (inputCurrentPassword.trim().isEmpty) {
-      _successfulChanged1 = false;
-    } else{
-      if(currentPassword != inputCurrentPassword) {
-        _successfulChanged1 = false;
-        failedErrorSnack('현재 비밀번호를 정확히 입력하세요.');
-      }else {
-        _successfulChanged1 = true;
-      }
-    }
 
-    Future.microtask(() {
-      // 여기에서는 상태가 업데이트된 상황
-      print("finished curPasswordCheck : $_successfulChanged1"); 
-    });
+    inputCurrentPassword.trim().isEmpty
+    ? _successfulChanged1 = false
+    :  currentPassword != inputCurrentPassword 
+      ? _successfulChanged1 = false
+      : _successfulChanged1 = true;
+
+    fNewPassword.trim().isEmpty || sNewPassword.trim().isEmpty
+    ? _successfulChanged2 = false
+    : fNewPassword != sNewPassword 
+      ? _successfulChanged2 = false
+      : _successfulChanged2 = true;
+
+  if (! _successfulChanged1) {
+    failedErrorSnack('현재 비밀번호를 정확히 입력하세요');
+  } else if (! _successfulChanged2) {
+    failedErrorSnack('새로운 비밀번호를 정확히 입력하세요');
+  }
+
 
   }
 
@@ -211,14 +215,14 @@ class VMProviderCommon extends ChangeNotifier{
 
   // ----------------------------
   // ----- 새로운 비밀번호 체크 ------
-  newPasswordCheck() {
-    fNewPassword.trim().isEmpty || sNewPassword.trim().isEmpty
-    ? failedErrorSnack('변경할 비밀번호를 정확히 입력하세요')
-    : fNewPassword != sNewPassword 
-      ? failedErrorSnack('변경할 비밀번호를 정확히 입력하세요')
-      : _successfulChanged2 = true;
+  // newPasswordCheck() {
+  //   fNewPassword.trim().isEmpty || sNewPassword.trim().isEmpty
+  //   ? failedErrorSnack('변경할 비밀번호를 정확히 입력하세요')
+  //   : fNewPassword != sNewPassword 
+  //     ? failedErrorSnack('변경할 비밀번호를 정확히 입력하세요')
+  //     : _successfulChanged2 = true;
     
-  }
+  // }
 
   // 새로운 비밀번호들이 틀렸을 때 비밀번호 틀렸을 때 error SnackBar
   failedErrorSnack(txt) {
