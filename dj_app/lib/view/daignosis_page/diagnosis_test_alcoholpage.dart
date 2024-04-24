@@ -36,6 +36,9 @@ class DiagnosisTestAlcoholPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text(
+                        '${vmSelectedValue.currentPage + 3} / 6'
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(

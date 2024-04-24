@@ -37,6 +37,9 @@ class DiagnosisConsentPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text(
+                        '${vmSelectedValue.currentPage + 1} / 6'
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
@@ -86,6 +89,7 @@ class DiagnosisConsentPage extends StatelessWidget {
                           box.write(
                               'consent', vmSelectedValue.consentradioValue);
                           Get.to(DiagnosisTestFruitPage());
+                          vmSelectedValue.setCurrentPage();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.brown.shade800,
