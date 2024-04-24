@@ -32,6 +32,7 @@ Spring server 구축 및 MySQL & R 연동<br>
 팀원: 김광영<br>
 역할: Sign Up & Login<br>
 당뇨병 발병확률 머신러닝 데이터 분석<br>
+Flutter Stepper 위젯으로 단계별 Sign Up Page 구현<br>
 팀 기여도 : 25 %
 
 <br><br>
