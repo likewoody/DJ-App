@@ -743,8 +743,6 @@ class _SignUpViewState extends State<SignUpView> {
   Widget build(BuildContext context) => GestureDetector(
         onTap: () => Get.focusScope!.unfocus(),
         child: Scaffold(
-          resizeToAvoidBottomInset:
-              false, // 키보드와 컨텐츠 사이에 과도한 공간이 표시되는 경우를 예방하기 위함!
           appBar: const AppBarComponent(
             titleName: "",
           ),
