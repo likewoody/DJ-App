@@ -7,7 +7,8 @@
 
 <img width="902" alt="스크린샷 2024-04-24 오후 2 46 36" src="https://github.com/likewoody/DJ-App/assets/151493474/e53cc0d4-058d-4762-a267-0c50484557da">
 
-<br><br>
+<br>
+<hr>
 
 ### 팀원 소개
 
